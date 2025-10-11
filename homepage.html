@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Requestaurant</title>
+</head>
+<body id="body" class="theme-light">
+    <header id="header" class="site-header">
+        <h1 id="brand" class="brand">Homepage</h1>
+    </header>
+    
+    <nav id="settings" class="settings-bar">
+        <a id="settingsLink" class="btn settings-link" href="settings.html" aria-label="Open Settings page">Settings</a>
+    </nav>
+
+    <main id="main" class="page">
+        <section id="head" class="head">
+            <h2 id="prompt" class="prompt">What are you looking for today?</h2>
+            <form id="searchForm" class="search-form">
+                <label for="q" id="label-q" class="label">Query</label>
+                <input id="q" class="input" type="text">
+                <div id="filters" class="filters">
+                    <div id="filter-price" class="filter">Price-range</div>
+                    <div id="filter-rating" class="filter">Rating</div>
+                    <div id="filter-distance" class="filter">Distance/location</div>
+                    <div id="filter-dietary" class="filter">Dietary needs</div>
+                    <div id="filter-atmosphere" class="filter-atmosphere">Atmosphere</div>
+                </div>
+                <button id="searchBtn" class="btn primary" type="button">Search</button>
+
+            </form>
+        </section>
+
+        <section id="results" class="results">
+            <h3 id="results-title" class="section-title">Results</h3>
+            <ul id="resultList" class="result-list"></ul>
+        </section>
+    </main>
+    
+    <footer id="footer" class="site-footer">
+        <div id="foot-note" class="note">Footer</div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User registration page</title>
+</head>
+
+<body>
+
+    <button name="back-button">Go back to Homepage</button>
+    
+    <h1>User registration</h1>
+
+    <!-- Front End: Users must be able to create an account by generating a username, password, and email -->
+    <!-- user registration menu -->
+    <form class="user-registration">
+
+        <!-- Create username -->
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username">
+        </div>
+        
+        <!-- Create password -->
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password">
+        </div>
+        
+        <!-- Confirm password -->
+        <div>
+            <label for="passwordConfirm">Confirm:</label>
+            <input type="password" id="passwordConfirm" name="passwordConfirm">
+        </div>
+        
+        <!-- Create email -->
+        <div>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email">
+        </div>
+        
+        <!-- Submit user account information -->
+        <button type="submit" id="submit-user" name="submit-user">Create Account</button>
+
+    </form>
+</body>
+
+</html>

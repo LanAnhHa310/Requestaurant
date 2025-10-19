@@ -142,3 +142,26 @@ footer {
   color: white;
   font-size: 0.9rem;
 }
+
+.nav-btn {
+    background-color: white;
+    color: #ff5a5f;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+    background-color: white;
+    color: #ff5a5f;
+}
+
+.nav-btn {
+    background-color: transparent;
+    border: 2px solid white;
+    color: white;
+}

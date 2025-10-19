@@ -1,4 +1,3 @@
-
 const searchForm = document.getElementById('searchForm');
 const resultList = document.getElementById('resultList');
     

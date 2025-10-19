@@ -18,18 +18,17 @@ searchForm.addEventListener('submit', function(event) {
         return;
     }
     
-    // Fake search results example, used for testing
-        const results = [
-            `${query} in ${location || "your area"} (${price || "$$"} • ${rating || "Any"}★ • ${atmosphere || "Any atmosphere"})`,
-            `Best ${dietary || ""} ${query} near ${location || "you"}`,
-            `${query} with ${atmosphere || "cozy"} vibes`,
-            `${query} restaurants in ${location || "nearby"}`
-            ];
-        
-        results.forEach(item => {
-            const li = document.createElement('li');
-            li.textContent = item;
-            li.className = 'result-item';
-            resultList.appendChild(li);
-        });
+    // Generate 50 fake results for scrolling test
+    const results = [];
+    for (let i = 1; i <= 50; i++) {
+        results.push(
+        `${i}. ${query} restaurant in ${location || "your area"} (${price || "$$"} • ${rating || "Any"}★ • ${atmosphere || "Any atmosphere"})`
+        );
+    }
+    results.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        li.className = 'result-item';
+        resultList.appendChild(li);
     });
+});

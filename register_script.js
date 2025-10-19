@@ -15,13 +15,22 @@ function validateRegistration() {
 
     // Implement later: Check if the username already exists in the database:
 
-    console.log("Does any of this get displayed?");
-
     let userPassword = document.getElementById("password").value;
-
     let userPassConfirm = document.getElementById("passwordConfirm").value;
-    
+
+    // Check if password entries match:
+    if ( userPassword != userPassConfirm ) {
+        alert("ERROR: Passwords do not match.");
+    }
+
     let userEmail = document.getElementById("email").value;
+
+    // Check that email meets the required pattern:
+    let re = /^(.+)@(.+)\.(\D){2-3}/;
+    let emailCheck = re.test( userEmail );
+    if ( emailCheck == false ) {
+        alert("ERROR: Email invalid."); // <---- BROKEN.
+    }
 }
 
 // ==============================================================

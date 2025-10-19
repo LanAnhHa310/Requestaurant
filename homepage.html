@@ -4,42 +4,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Requestaurant</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body id="body" class="theme-light">
-    <header id="header" class="site-header">
-        <h1 id="brand" class="brand">Homepage</h1>
+<body>
+    <header>
+        <h1>Requestaurant</h1>
+        <nav class="nav-links">
+            <a href="register.html" class="nav-btn">Log in</a>
+            <a href="settings.html" class="nav-btn">Settings</a>
+        </nav>
     </header>
-    
-    <nav id="settings" class="settings-bar">
-        <a id="settingsLink" class="btn settings-link" href="settings.html" aria-label="Open Settings page">Settings</a>
-    </nav>
+    <main>
+        <!-- search form section -->
+        <section class="search-section">
+            <h2>
+                What are you looking for today?
+            </h2>
+        <form id="searchForm" class="searchForm">
+            <!-- search query -->
+            <label for="q">Find your meal</label>
+            <input id="q" type="text" placeholder="Type restaurant, dish..." required>
+            <br>
+            <!-- Price Range -->
+            <label for="price">Price Range</label>
+                <select id="price">
+                <option value="">Any</option>
+                <option value="$">$ (Budget)</option>
+                <option value="$$">$$ (Mid-range)</option>
+                <option value="$$$">$$$ (Fine dining)</option>
+                </select>
+                <br>
+             <!-- Rating -->
+            <label for="rating">Rating</label>
+                <select id="rating">
+                <option value="">Any</option>
+                <option value="4">4★ and above</option>
+                <option value="3">3★ and above</option>
+                <option value="2">2★ and above</option>
+                </select>
+                <br>
 
-    <main id="main" class="page">
-        <section id="head" class="head">
-            <h2 id="prompt" class="prompt">What are you looking for today?</h2>
-            <form id="searchForm" class="search-form">
-                <label for="q" id="label-q" class="label">Query</label>
-                <input id="q" class="input" type="text">
-                <div id="filters" class="filters">
-                    <div id="filter-price" class="filter">Price-range</div>
-                    <div id="filter-rating" class="filter">Rating</div>
-                    <div id="filter-distance" class="filter">Distance/location</div>
-                    <div id="filter-dietary" class="filter">Dietary needs</div>
-                    <div id="filter-atmosphere" class="filter-atmosphere">Atmosphere</div>
-                </div>
-                <button id="searchBtn" class="btn primary" type="button">Search</button>
+            <!-- Location -->
+            <label for="location">Location</label>
+            <input id="location" type="text" placeholder="City or ZIP code">
+            <br>
 
-            </form>
-        </section>
+            <!-- Dietary Needs -->
+            <label for="dietary">Dietary Needs</label>
+                <select id="dietary">
+                <option value="">No preference</option>
+                <option value="vegan">Vegan</option>
+                <option value="vegetarian">Vegetarian</option>
+                <option value="gluten-free">Gluten-Free</option>
+                <option value="halal">Halal</option>
+                <option value="kosher">Kosher</option>
+                </select>
+                <br>
 
+            <!-- Atmosphere -->
+            <label for="atmosphere">Atmosphere</label>
+                <select id="atmosphere">
+                <option value="">Any</option>
+                <option value="casual">Casual</option>
+                <option value="romantic">Romantic</option>
+                <option value="family">Family-Friendly</option>
+                <option value="luxury">Luxury</option>
+                </select>
+                <br>
+
+            <button id="submit" type="submit">Search</button>
+        </form>
+    </section>
         <section id="results" class="results">
-            <h3 id="results-title" class="section-title">Results</h3>
-            <ul id="resultList" class="result-list"></ul>
-        </section>
+            <h3>Results</h3>
+            <ul id="resultList"></ul>
+          </section>
+        <footer>
+            <p>2025 Requestaurant</p>
+        </footer>
     </main>
-    
-    <footer id="footer" class="site-footer">
-        <div id="foot-note" class="note">Footer</div>
-    </footer>
+    <script src="script.js"></script>
 </body>
 </html>

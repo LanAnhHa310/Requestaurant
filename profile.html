@@ -1,0 +1,147 @@
+<!-- This page displays the registered user profile information and options exclusive to singed-in users -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile Page</title>
+    <!-- Temporary embedded stylesheet until we decide if we want to have one unified website stylesheet or seperate ones -->
+    <style>
+        p {
+            font-size: large;
+        }
+        h2 {
+            text-align: center;
+        }
+        header {
+            background: linear-gradient(90deg, #ff5a5f, #ff9068);
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+        }
+        section {
+            display: flex;
+            flex-direction: column;
+        }
+        .display-block {
+            display: flex;
+            margin: 5px;
+            border: 3px solid lightgray;
+            padding: 10px;
+            flex-wrap: wrap;
+
+        }
+        #top-display div {
+            padding: 5px;
+        }
+        .pref-div {
+            margin: 3px;
+            border: 3px solid lightgray;
+            padding: 10px;
+        }
+        .bookmark {
+            margin: 3px;
+            border: 3px solid lightgray;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Navigation to other pages: homepage, settings -->
+    <header>
+
+        <nav class="nav-links"></nav>
+            <button class="nav=btn" onClick="window.location.href='homepage.html'">Back To Homepage</button>
+            <button class="nav=btn" onClick="window.location.href='settings.html'">Settings</button>
+        </nav>
+        
+        <h1>( User )'s Profile Page</h1>
+
+    </header>
+
+    <!-- Display personal user / preference data  -->
+    <section id="user-information">
+        
+        <div id="top-display" class="display-block">
+
+            <div id="user-img">
+
+                <!-- Profile picture -->
+                <img src="https://placehold.co/400" alt="User profile picture">
+            </div>
+
+            <div id="user-info">
+                <!-- Username -->
+                <p>Username:</p>
+                <!-- Email -->
+                <p>Email:</p>
+            </div>
+
+        </div>
+        <!-- End of top display -->
+
+        <!-- Personal preferences stores set dietary restrictions, favorite restaurant themes, etc. ( basically same as search fields ) -->
+        <h2>Preferences:</h2>
+        <div id="user-preferences" class="display-block">
+
+            <div id="add-preference" class="pref-div">
+                
+                <h3>Add Preference:</h3>
+                <form>
+                    <!-- Add some form of drop-down selection system to select preference type -->
+                    <button>Add Preference</button>
+                </form>
+                
+            </div>
+            
+            <div id="preference-list" class="pref-div">
+
+                <h3>Current Preferences:</h3>
+                <ul>
+                    <li>Dietary restrictions:</li>
+                    <li>Favorite foods:</li>
+                    <li>etc.</li>
+                </ul>
+
+            </div>
+
+        </div>
+
+        <!-- Display bookmarked restaurants -->
+        <h2>Favorite Restaurants:</h2>
+        <div id="user-bookmarks" class="display-block">
+
+            <!-- Preferably, make this section scroll -->
+
+            <div class="bookmark">
+                <img src="https://placehold.co/200" alt="restaurant image">
+                <h3>Beneditto's</h3>
+                <p>Restaurant summary</p>
+            </div>
+
+            <div class="bookmark">
+                <img src="https://placehold.co/200" alt="restaurant image">
+                <h3>Donut Masters</h3>
+                <p>Restaurant summary</p>
+            </div>
+
+            <div class="bookmark">
+                <img src="https://placehold.co/200" alt="restaurant image">
+                <h3>Irish Pub</h3>
+                <p>Restaurant summary</p>
+            </div>
+        </div>
+        
+        <!-- Display restaurant reviews -->
+        <h2>Personal Reviews:</h2>
+        <div id="user-reviews" class="display-block">
+
+        </div>
+        
+    </section>
+</body>
+</html>

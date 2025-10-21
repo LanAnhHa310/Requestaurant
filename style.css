@@ -144,7 +144,7 @@ footer {
 }
 
 .nav-btn {
-    background-color: white;
+    background-color: #f9f9f9;
     color: #ff5a5f;
     border: none;
     border-radius: 25px;
@@ -158,12 +158,6 @@ footer {
 .nav-btn:hover {
     background-color: white;
     color: #ff5a5f;
-}
-
-.nav-btn {
-    background-color: transparent;
-    border: 2px solid white;
-    color: white;
 }
 
 /* Dark mode */

@@ -32,7 +32,6 @@
             border: 3px solid lightgray;
             padding: 10px;
             flex-wrap: wrap;
-
         }
         #top-display div {
             padding: 5px;
@@ -42,7 +41,17 @@
             border: 3px solid lightgray;
             padding: 10px;
         }
+        .bookmark-header p {
+            display: inline;
+        }
         .bookmark {
+            display: flex;
+            flex-direction: column;
+            margin: 3px;
+            border: 3px solid lightgray;
+            padding: 10px;
+        }
+        .review {
             margin: 3px;
             border: 3px solid lightgray;
             padding: 10px;
@@ -118,28 +127,45 @@
             <!-- Preferably, make this section scroll -->
 
             <div class="bookmark">
-                <img src="https://placehold.co/200" alt="restaurant image">
-                <h3>Beneditto's</h3>
-                <p>Restaurant summary</p>
+
+                <div class="bookmark-settings">
+                    <button id="remove-bookmark">Remove</button>
+                </div>
+                <div class="bookmark-info">
+                    <img src="https://placehold.co/200" alt="restaurant image">
+                    <h3>Beneditto's</h3>
+                    <p>Restaurant summary</p>
+                </div>
+               
             </div>
 
-            <div class="bookmark">
-                <img src="https://placehold.co/200" alt="restaurant image">
-                <h3>Donut Masters</h3>
-                <p>Restaurant summary</p>
-            </div>
-
-            <div class="bookmark">
-                <img src="https://placehold.co/200" alt="restaurant image">
-                <h3>Irish Pub</h3>
-                <p>Restaurant summary</p>
-            </div>
         </div>
         
         <!-- Display restaurant reviews -->
         <h2>Personal Reviews:</h2>
         <div id="user-reviews" class="display-block">
 
+
+            <div class="review">
+                <img src="https://placehold.co/200" alt="restaurant image">
+                <h3>Irish Pub</h3>
+                <!-- Add a star rank. -->
+                <p>Review: etc. etc. etc.</p>
+            </div>
+
+             <div class="review">
+                <img src="https://placehold.co/200" alt="restaurant image">
+                <h3>Arbys</h3>
+                <!-- Add a star rank. -->
+                <p>Review: etc. etc. etc.</p>
+            </div>
+
+             <div class="review">
+                <img src="https://placehold.co/200" alt="restaurant image">
+                <h3>McDonalds</h3>
+                <!-- Add a star rank. -->
+                <p>Review: etc. etc. etc.</p>
+            </div>
         </div>
         
     </section>

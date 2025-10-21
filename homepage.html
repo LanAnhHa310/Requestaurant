@@ -1,85 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Requestaurant</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Requestaurant</title>
+  <link rel="stylesheet" href="style.css">
+  
 </head>
+
 <body>
-    <header>
-        <nav class="nav-links">
-            <button class="nav=btn" onClick="window.location.href='settings.html'">Settings</button>
-            <button class="nav_btn" onClick="window.location.href='register.html'">Log in</button>
-        </nav>
-        <h1>Requestaurant</h1>
-    </header>
-    <main>
-        <!-- search form section -->
-        <section class="search-section">
-            <h2>
-                What are you looking for today?
-            </h2>
-        <form id="searchForm" class="searchForm">
-            <!-- search query -->
-            <label for="q">Find your meal</label>
-            <input id="q" type="text" placeholder="Type restaurant, dish..." required>
-            <br>
-            <!-- Price Range -->
-            <label for="price">Price Range</label>
-                <select id="price">
-                <option value="">Any</option>
-                <option value="$">$ (Budget)</option>
-                <option value="$$">$$ (Mid-range)</option>
-                <option value="$$$">$$$ (Fine dining)</option>
-                </select>
-                <br>
-             <!-- Rating -->
-            <label for="rating">Rating</label>
-                <select id="rating">
-                <option value="">Any</option>
-                <option value="4">4★ and above</option>
-                <option value="3">3★ and above</option>
-                <option value="2">2★ and above</option>
-                </select>
-                <br>
+  <header>
+    <nav class="nav-links">
+      <button class="nav-btn" onClick="window.location.href='settings.html'">Settings</button>
+      <button class="nav-btn" onClick="window.location.href='register.html'">Log in</button>
+    </nav>
+    <h1>Requestaurant</h1>
+  </header>
 
-            <!-- Location -->
-            <label for="location">Location</label>
-            <input id="location" type="text" placeholder="City or ZIP code">
-            <br>
+  <main>
+    <!-- Search form -->
+    <section class="search-section">
+      <h2>What are you looking for today?</h2>
+      <form id="searchForm" class="searchForm">
+        <label for="q">Find your meal</label>
+        <input id="q" type="text" placeholder="Type restaurant, dish..." required />
+        <br />
 
-            <!-- Dietary Needs -->
-            <label for="dietary">Dietary Needs</label>
-                <select id="dietary">
-                <option value="">No preference</option>
-                <option value="vegan">Vegan</option>
-                <option value="vegetarian">Vegetarian</option>
-                <option value="gluten-free">Gluten-Free</option>
-                <option value="halal">Halal</option>
-                <option value="kosher">Kosher</option>
-                </select>
-                <br>
+        <label for="price">Price Range</label>
+        <select id="price">
+          <option value="">Any</option>
+          <option value="$">$ (Budget)</option>
+          <option value="$$">$$ (Mid-range)</option>
+          <option value="$$$">$$$ (Fine dining)</option>
+        </select>
+        <br />
 
-            <!-- Atmosphere -->
-            <label for="atmosphere">Atmosphere</label>
-                <select id="atmosphere">
-                <option value="">Any</option>
-                <option value="casual">Casual</option>
-                <option value="romantic">Romantic</option>
-                <option value="family">Family-Friendly</option>
-                <option value="luxury">Luxury</option>
-                </select>
-                <br>
+        <label for="rating">Rating</label>
+        <select id="rating">
+          <option value="">Any</option>
+          <option value="4">4★ and above</option>
+          <option value="3">3★ and above</option>
+          <option value="2">2★ and above</option>
+        </select>
+        <br />
 
-            <button id="submit" type="submit">Search</button>
-        </form>
+        <label for="location">Location</label>
+        <input id="location" type="text" placeholder="City or ZIP code" />
+        <br />
+
+        <label for="dietary">Dietary Needs</label>
+        <select id="dietary">
+          <option value="">No preference</option>
+          <option value="vegan">Vegan</option>
+          <option value="vegetarian">Vegetarian</option>
+          <option value="gluten-free">Gluten-Free</option>
+          <option value="halal">Halal</option>
+          <option value="kosher">Kosher</option>
+        </select>
+        <br />
+
+        <label for="atmosphere">Atmosphere</label>
+        <select id="atmosphere">
+          <option value="">Any</option>
+          <option value="casual">Casual</option>
+          <option value="romantic">Romantic</option>
+          <option value="family">Family-Friendly</option>
+          <option value="luxury">Luxury</option>
+        </select>
+        <br />
+
+        <button id="submit" type="submit">Search</button>
+      </form>
     </section>
-        <section id="results" class="results">
-            <h3>Results</h3>
-            <ul id="resultList"></ul>
-          </section>
-    </main>
-    <script src="script.js"></script>
+
+    <!-- Results section -->
+    <section id="results" class="results">
+      <h3>Results</h3>
+      <div id="result-grid" class="result-grid"></div>
+    </section>
+
+    <!-- Popup -->
+    <div id="restaurant-popup" class="popup hidden">
+      <div class="popup-content">
+        <span id="close-popup">&times;</span>
+        <img id="popup-image" src="" alt="Restaurant image" class="popup-image" />
+        <h2 id="restaurant-name"></h2>
+        <p id="restaurant-info"></p>
+        <p id="restaurant-rating"></p>
+
+        <h3>Leave a Review</h3>
+        <form id="review-form">
+          <label for="review-rating">Rating</label>
+          <select id="review-rating" required>
+            <option value="">Select</option>
+            <option value="5">5★</option>
+            <option value="4">4★</option>
+            <option value="3">3★</option>
+            <option value="2">2★</option>
+            <option value="1">1★</option>
+          </select>
+          <br />
+          <textarea id="review-text" rows="3" cols="30" placeholder="Write your review..." required></textarea>
+          <br />
+          <button type="submit">Submit Review</button>
+        </form>
+
+        <h3>Reviews</h3>
+        <ul id="reviews-list"></ul>
+      </div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
 </body>
 </html>

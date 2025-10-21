@@ -144,7 +144,7 @@ footer {
 }
 
 .nav-btn {
-    background-color: white;
+    background-color: #f9f9f9;
     color: #ff5a5f;
     border: none;
     border-radius: 25px;
@@ -160,8 +160,264 @@ footer {
     color: #ff5a5f;
 }
 
-.nav-btn {
-    background-color: transparent;
-    border: 2px solid white;
-    color: white;
+/* Dark mode */
+body.dark-mode {
+  background-color: #121212;  /* darker background */
+  color: #f9f9f9;             /* lighter text color */
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Header in dark mode */
+body.dark-mode header {
+  background: linear-gradient(90deg, #222, #444); /* dark gradient */
+  color: #fff;
+}
+
+/* Sidebar & result panels */
+body.dark-mode .search-section,
+body.dark-mode .results {
+  background: #1e1e1e;
+  color: #f0f0f0;
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+}
+
+/* Inputs, selects, and forms */
+body.dark-mode .searchForm input,
+body.dark-mode .searchForm select {
+  background-color: #2a2a2a;
+  border: 1px solid #555;
+  color: #f0f0f0;
+}
+
+/* Buttons */
+body.dark-mode .searchForm button {
+  background: #ff9068;
+  color: #fff;
+}
+
+body.dark-mode .searchForm button:hover {
+  background: #ff5a5f;
+  transform: scale(1.03);
+}
+
+/* Result cards */
+body.dark-mode .result-card {
+  background: #2a2a2a;
+  box-shadow: 0 2px 6px rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode .result-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .result-content h4 {
+  color: #ff9068;
+}
+
+body.dark-mode .result-content p {
+  color: #ddd;
+}
+
+/* Footer */
+body.dark-mode footer {
+  background-color: #000;
+  color: #ff9068;
+}
+
+/* Navigation button */
+body.dark-mode .nav-btn {
+  border: 2px solid #ff9068;
+  color: #ff9068;
+  background-color: transparent;
+}
+
+body.dark-mode .nav-btn:hover {
+  background-color: #ff9068;
+  color: #fff;
+}
+
+/* ACCESSIBILITY MODE*/
+  body.disability-mode {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.5px;
+    line-height: 1.6;
+    background-color: #ffffff;
+    color: #000000;
+  }
+  
+  /* High contrast for key elements */
+  body.disability-mode header,
+  body.disability-mode footer {
+    background-color: #000;
+    color: #fff;
+  }
+  
+  body.disability-mode button {
+    background-color: #000;
+    color: #fff;
+    border: 3px solid yellow;
+  }
+  
+  body.disability-mode input,
+  body.disability-mode select {
+    border: 3px solid #000;
+    background-color: #fff;
+    color: #000;
+  }
+  
+  /* Keyboard focus and interactivity cues */
+  body.disability-mode :focus {
+    outline: 3px solid orange;
+    outline-offset: 2px;
+  }
+  
+  body.disability-mode button,
+  body.disability-mode select,
+  body.disability-mode input[type="checkbox"],
+  body.disability-mode input[type="radio"] {
+    cursor: pointer;
+  }
+  
+  body.disability-mode button:hover,
+  body.disability-mode button:focus {
+    background-color: yellow;
+    color: black;
+  }
+  
+  /* COMBINED DARK + ACCESSIBILITY */
+
+  body.dark-mode.disability-mode {
+    background-color: #000;            /* stay dark */
+    color: #fff;                       /* keep white text */
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.6px;
+    line-height: 1.7;
+  }
+  
+  /* Panels, cards, and forms in accessible dark mode */
+  body.dark-mode.disability-mode .search-section,
+  body.dark-mode.disability-mode .results {
+    background: #1a1a1a;
+    color: #ffffff;
+    border: 3px solid #ffcc00;         /* yellow accent for separation */
+  }
+  
+  body.dark-mode.disability-mode input,
+  body.dark-mode.disability-mode select {
+    background-color: #222;
+    color: #fff;
+    border: 3px solid #ffcc00;
+  }
+  
+  body.dark-mode.disability-mode button {
+    background-color: #222;
+    color: #fff;
+    border: 3px solid #ffcc00;
+  }
+  
+  body.dark-mode.disability-mode button:hover,
+  body.dark-mode.disability-mode button:focus {
+    background-color: #ffcc00;
+    color: #000;
+  }
+  
+  body.dark-mode.disability-mode header,
+  body.dark-mode.disability-mode footer {
+    background-color: #111;
+    color: #ffcc00;
+  }
+  
+  body.dark-mode.disability-mode :focus {
+    outline: 3px solid #ffcc00;
+    outline-offset: 2px;
+  }
+  
+/* Result Grid */
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+/* Restaurant Card */
+.restaurant-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.restaurant-card:hover {
+  transform: translateY(-5px);
+}
+
+.restaurant-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.restaurant-details {
+  padding: 15px;
+}
+
+.restaurant-details h4 {
+  margin: 0;
+  color: #ff5a5f;
+  font-size: 1.1rem;
+}
+
+.restaurant-details p {
+  margin: 4px 0;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+/* Popup styles (reuse previous popup) */
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup.hidden {
+  display: none;
+}
+
+.popup-content {
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  width: 400px;
+  max-width: 90%;
+  text-align: left;
+  position: relative;
+}
+
+.popup-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+#close-popup {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 1.5rem;
+  cursor: pointer;
 }

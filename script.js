@@ -187,7 +187,7 @@ window.addEventListener("DOMContentLoaded", () => {
     createBtn.classList.add("hidden");
     if(profileBtn) {
       profileBtn.classList.remove("hidden");
-      profileBtn.textContent = `Profile (${loggedInUser.name || "User"})`;
+      profileBtn.textContent = `Your Profile`;
     }
   } else {
     // User logged out

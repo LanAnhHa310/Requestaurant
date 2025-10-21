@@ -2,7 +2,7 @@
     This script is to be used for the registering of user acocunts.S
 */
 
-let submitUserBtn = document.getElementById("submit-user");
+let submitUserBtn = document.getElementById("userLogIn");
 
 // ==============================================================
 // User Account information validation:
@@ -47,8 +47,8 @@ function validateRegistration() {
 // ==============================================================
 // User Account registration:
 
-// Track if the user has logged in:
-let userLoggedIn = false;
+// // Track if the user has logged in:
+// let userLoggedIn = false;
 
 // Function registers a new user and logs them into the system.
 // Currently returns fake data.
@@ -56,31 +56,40 @@ function registerUser( event ) {
 
     event.preventDefault(); // Note: inline form validation stops working when this is enabled.
 
-    // Verify registration information is correct:
+    // Verify registration information is correct, stops when registration is invalid
     if ( validateRegistration() == false ) {
         console.log("User registration failed: Invalid information entered");
+        return;
     }
-    else {
-        // Get new user account registration info:
-        let userName = document.getElementById("username").value;
-        let userEmail = document.getElementById("email").value;
+    
+    // Get new user account registration info:
+    let userName = document.getElementById("username").value;
+    let userEmail = document.getElementById("email").value;
 
-        console.log(`Added new user: ${userName} at ${userEmail}`);
-        userLoggedIn = true; // Log-in the user. This will probably need to change in the future.
-    }
+    // Store user data locally (simulate database + login)
+        localStorage.setItem("loggedInUser", JSON.stringify({
+            name: userName,
+            email: userEmail
+        }));
 
-    // Check user login was successful:
-    checkLoginStatus();
+    console.log(`Added new user: ${userName} at ${userEmail}`);
+    
+    // Mark as logged in for this session
+    localStorage.setItem("isLoggedIn", "true");
+    
+    // Confirmation alert
+    alert(`Account created successfully! Welcome, ${userName}!`);
+    
+    // Redirect to homepage
+    window.location.href = "homepage.html";
 }
-
-function checkLoginStatus() {
-    if ( userLoggedIn != true ) {
-        console.log("User is not currently logged into a valid account!");
+// This prevents errors if elements (like the button) don’t exist yet.
+document.addEventListener("DOMContentLoaded", () => {
+    const submitUserBtn = document.getElementById("userLogIn");
+    if (submitUserBtn) {
+      submitUserBtn.addEventListener("click", registerUser);
+    } else {
+      console.error("Could not find #userLogIn button");
     }
-    else {
-        console.log("The user is logged in.");
-    }
-}
-
-submitUserBtn.addEventListener( "click", registerUser );
-
+});
+  

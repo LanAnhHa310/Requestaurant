@@ -135,7 +135,7 @@ function loadReviews(name) {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-  console.log("✅ JS loaded");
+  console.log("JS loaded");
 
   const darkToggleBtn = document.getElementById("dark-mode");
   const accessToggleBtn = document.getElementById("disability-mode");
@@ -165,5 +165,36 @@ window.addEventListener("DOMContentLoaded", () => {
       document.body.classList.toggle("disability-mode", isOn);
       localStorage.setItem("accessibility", isOn ? "on" : "off");
     });
+  }
+});
+
+// ============================
+// Login State
+// ============================
+
+window.addEventListener("DOMContentLoaded", () => {
+  console.log("JS loaded");
+
+  const createBtn = document.getElementById("create-btn");
+  const profileBtn = document.getElementById("profile-btn");
+  
+  // Load saved logged in info
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser") || {});
+
+  if(isLoggedIn) {
+    // User logged in
+    createBtn.classList.add("hidden");
+    if(profileBtn) {
+      profileBtn.classList.remove("hidden");
+      profileBtn.textContent = `Profile (${loggedInUser.name || "User"})`;
+    }
+  } else {
+    // User logged out
+    console.log("User not logged in");
+    // Show "Create Account" button
+    if(createBtn) createBtn.classList.remove("hidden");
+    // Hide "Profile" button
+    if(profileBtn) profileBtn.classList.add("hidden");
   }
 });

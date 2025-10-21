@@ -16,24 +16,43 @@ function loadedHandler() {
         button.addEventListener( "click", removeBookmark );
     }
 
+    let reviewRemoveBtns = document.getElementsByClassName("remove-review-btn");
+    for ( button of reviewRemoveBtns ) {
+        button.addEventListener( "click", removeReview );
+    }
    
 }
 
+// ====================================================================================
 // Setup functionality to edit user acocunt info ( username, email ):
 
+// ====================================================================================
 // Setup functionality to add / remove user preferences from the preference list:
 
+// ====================================================================================
 // Add functionality for removing bookmarked restaurants:
+
+// Load in bookmarks for user:
 
 // Remove bookmarked restaurant event handler function:
 function removeBookmark( event ) {
+    let button = event.target;
     // Get the <div> of the clicked bookmark:
-    let parent = event.target.parentNode.parentNode;
-    console.log(`${parent}`);
-    parent.parentNode.removeChild.parent;
-    
+    let parent = button.parentNode;
+    parent.parentNode.removeChild(parent);
     console.log("Removed bookmark!");
 }
 
+// ====================================================================================
 // Add functionality for removing / editing restaurant reviews:
 
+// Load in reviews for user:
+
+// Edit user review:
+
+// Remove user review:
+function removeReview( event ) {
+    let review = event.target.parentNode;
+    review.parentNode.removeChild(review);
+    console.log("Removed user review successfully!");
+}

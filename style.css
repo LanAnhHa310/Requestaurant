@@ -59,7 +59,8 @@ main {
   font-size: 0.95rem;
 }
 
-.searchForm button {
+.searchForm button,
+#logout-btn, #userLogIn {
   width: 100%;
   background: #ff5a5f;
   color: white;
@@ -72,7 +73,8 @@ main {
   transition: all 0.3s ease;
 }
 
-.searchForm button:hover {
+.searchForm button:hover,
+#logout-btn:hover, #userLogIn:hover {
   background: #ff444a;
   transform: scale(1.03);
 }

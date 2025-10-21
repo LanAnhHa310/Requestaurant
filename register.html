@@ -4,53 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User registration page</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-
+<header>
     <nav class="nav-links">
-        <button class="nav=btn" onClick="window.location.href='homepage.html'">Back To Homepage</button>
+        <button class="nav-btn" onClick="window.location.href='homepage.html'">Back To Homepage</button>
     </nav>
     
     <h1>User registration</h1>
+</header>
 
+<main>
     <!-- Front End: Users must be able to create an account by generating a username, password, and email -->
     <!-- user registration menu -->
-    <form id="register-form" class="user-registration">
+    <section class="search-section">
+        <form id="register-form" class="user-registration">
 
-        <!-- Create username -->
-        <div>
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" 
-                minlength="5" required>
-        </div>
-        
-        <!-- Create password -->
-        <div>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" 
-                minlength="8" required>
-        </div>
-        
-        <!-- Confirm password -->
-        <div>
-            <label for="passwordConfirm">Confirm:</label>
-            <input type="password" id="passwordConfirm" name="passwordConfirm"
-                minlength="8" required>
-        </div>
-        
-        <!-- Create email -->
-        <div>
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email"
-                required>
-        </div>
-        
-        <!-- Submit user account information -->
-        <button type="submit" id="userLogIn" name="submit-user">Create Account</button>
+            <!-- Create username -->
+            <div>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" 
+                    minlength="5" required>
+            </div>
+            
+            <!-- Create password -->
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" 
+                    minlength="8" required>
+            </div>
+            
+            <!-- Confirm password -->
+            <div>
+                <label for="passwordConfirm">Confirm:</label>
+                <input type="password" id="passwordConfirm" name="passwordConfirm"
+                    minlength="8" required>
+            </div>
+            
+            <!-- Create email -->
+            <div>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email"
+                    required>
+            </div>
+            
+            <!-- Submit user account information -->
+            <button type="submit" id="userLogIn" name="submit-user">Create Account</button>
 
-    </form>
+            </form>
+    </section>
+</main>
 
+    <!-- Load dark mode + shared logic -->
+    <script src="script.js"></script>
+    
     <!-- Load the script last to ensure DOM is fully loaded: -->
     <script src="register_script.js"></script>
 </body>

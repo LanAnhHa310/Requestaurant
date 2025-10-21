@@ -8,40 +8,44 @@
 </head>
 
 <body>
+    <header>
+        <nav class="nav-links">
+            <button class="nav-btn" onClick="window.location.href='homepage.html'">Back To Homepage</button>
+        </nav>
 
-    <nav class="nav-links">
-        <button class="nav-btn" onClick="window.location.href='homepage.html'">Back To Homepage</button>
-    </nav>
+        <h1>Settings</h1>
+    </header>
 
-    <h1>Settings</h1>
-
+    <main>
+        <section class="search-section">
     <!-- Settings options go here. -->
     <div class="settings-menu">
         <form>
-
         <!-- Front End: Users must be able to toggle between light and dark mode -->
         <div id="dark-option">
-            <label for="dark-mode">Toggle dark mode</label>
+            <label for="dark-mode">Dark mode</label>
             <input type="checkbox" id="dark-mode" name="dark-mode">
         </div>
 
-            <!-- Front End: enable simplified view that reduces excess content loading -->
-            <div id="performance-option">
-                <label for="performance-mode">Toggle Performance mode</label>
-                <input type="checkbox" id="performance-mode" name="performance-mode">
-            </div>
+        <!-- Front End: enable simplified view that reduces excess content loading -->
+        <div id="performance-option">
+            <label for="performance-mode">Performance mode</label>
+            <input type="checkbox" id="performance-mode" name="performance-mode">
+        </div>
 
-            <!-- Front End: enable a disability mode that adjusts colors, contrast, and fonts -->
-            <div id="disability-option">  
-                <label for="disability-mode">Toggle disability accessibility</label>
-                <input type="checkbox" id="disability-mode" name="disability-mode">
-            </div>
-            
-            <!-- Apply settings changes by pressing the button -->
-            <button type="submit" id="apply-settings-btn" name="apply-settings-btn">Apply Settings</button>
+        <!-- Front End: enable a disability mode that adjusts colors, contrast, and fonts -->
+        <div id="disability-option">  
+            <label for="disability-mode">Disability accessibility</label>
+            <input type="checkbox" id="disability-mode" name="disability-mode">
+        </div>
 
+        <div id="logout">
+            <button type="button" id="logout-btn" class="searchForm-button">Log out</button>
+        </div>
         </form>
     </div>
+</section>
+</main>
      <!-- Link to javascript file-->
      <script src="script.js"></script>
     

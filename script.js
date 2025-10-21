@@ -137,6 +137,7 @@ function loadReviews(name) {
 window.addEventListener("DOMContentLoaded", () => {
   console.log("JS loaded");
 
+  //Dark mode and accessbility
   const darkToggleBtn = document.getElementById("dark-mode");
   const accessToggleBtn = document.getElementById("disability-mode");
 
@@ -166,21 +167,14 @@ window.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem("accessibility", isOn ? "on" : "off");
     });
   }
-});
 
-// ============================
-// Login State
-// ============================
-
-window.addEventListener("DOMContentLoaded", () => {
-  console.log("JS loaded");
-
+  // Login state
   const createBtn = document.getElementById("create-btn");
   const profileBtn = document.getElementById("profile-btn");
   
   // Load saved logged in info
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser") || {});
+  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser") || "{}");
 
   if(isLoggedIn) {
     // User logged in
@@ -196,5 +190,30 @@ window.addEventListener("DOMContentLoaded", () => {
     if(createBtn) createBtn.classList.remove("hidden");
     // Hide "Profile" button
     if(profileBtn) profileBtn.classList.add("hidden");
+  }
+
+  // Logout state
+  const logoutBtn = document.getElementById("logout-btn");
+
+  if(logoutBtn) {
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
+    // Update button text dynamically
+    logoutBtn.textContent = isLoggedIn ? "Log out" : "Log in";
+
+    logoutBtn.addEventListener("click", () => {
+      if(isLoggedIn){
+        const confirmLogout = confirm("Are you sure you want to log out?");
+        if(confirmLogout) {
+          localStorage.removeItem("isLoggedIn");
+          localStorage.removeItem("loggedInUser");
+          alert("You have been logged out successfully");
+          window.location.href = "homepage.html"
+        }
+      } else {
+        alert("Redirecting to the login page...");
+        window.location.href = "register.html"
+      }
+    });
   }
 });

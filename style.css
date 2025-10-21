@@ -242,3 +242,102 @@ body.dark-mode .nav-btn:hover {
   background-color: #ff9068;
   color: #fff;
 }
+
+/* ACCESSIBILITY MODE*/
+  body.disability-mode {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.5px;
+    line-height: 1.6;
+    background-color: #ffffff;
+    color: #000000;
+  }
+  
+  /* High contrast for key elements */
+  body.disability-mode header,
+  body.disability-mode footer {
+    background-color: #000;
+    color: #fff;
+  }
+  
+  body.disability-mode button {
+    background-color: #000;
+    color: #fff;
+    border: 3px solid yellow;
+  }
+  
+  body.disability-mode input,
+  body.disability-mode select {
+    border: 3px solid #000;
+    background-color: #fff;
+    color: #000;
+  }
+  
+  /* Keyboard focus and interactivity cues */
+  body.disability-mode :focus {
+    outline: 3px solid orange;
+    outline-offset: 2px;
+  }
+  
+  body.disability-mode button,
+  body.disability-mode select,
+  body.disability-mode input[type="checkbox"],
+  body.disability-mode input[type="radio"] {
+    cursor: pointer;
+  }
+  
+  body.disability-mode button:hover,
+  body.disability-mode button:focus {
+    background-color: yellow;
+    color: black;
+  }
+  
+  /* COMBINED DARK + ACCESSIBILITY */
+
+  body.dark-mode.disability-mode {
+    background-color: #000;            /* stay dark */
+    color: #fff;                       /* keep white text */
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.6px;
+    line-height: 1.7;
+  }
+  
+  /* Panels, cards, and forms in accessible dark mode */
+  body.dark-mode.disability-mode .search-section,
+  body.dark-mode.disability-mode .results {
+    background: #1a1a1a;
+    color: #ffffff;
+    border: 3px solid #ffcc00;         /* yellow accent for separation */
+  }
+  
+  body.dark-mode.disability-mode input,
+  body.dark-mode.disability-mode select {
+    background-color: #222;
+    color: #fff;
+    border: 3px solid #ffcc00;
+  }
+  
+  body.dark-mode.disability-mode button {
+    background-color: #222;
+    color: #fff;
+    border: 3px solid #ffcc00;
+  }
+  
+  body.dark-mode.disability-mode button:hover,
+  body.dark-mode.disability-mode button:focus {
+    background-color: #ffcc00;
+    color: #000;
+  }
+  
+  body.dark-mode.disability-mode header,
+  body.dark-mode.disability-mode footer {
+    background-color: #111;
+    color: #ffcc00;
+  }
+  
+  body.dark-mode.disability-mode :focus {
+    outline: 3px solid #ffcc00;
+    outline-offset: 2px;
+  }
+  

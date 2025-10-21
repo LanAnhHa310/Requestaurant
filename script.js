@@ -63,3 +63,24 @@ if(darkToggleBtn) {
 }
 
 
+// Accessibility
+const accessToggleBtn = document.getElementById('disability-mode');
+
+window.addEventListener("load", () => {
+    const savedAccessibility = localStorage.getItem("theme");
+    if (savedAccessibility === "on") {
+        document.body.classList.add("disability-mode");
+        if (accessToggleBtn) accessToggleBtn.checked = true;
+    }
+});
+
+if(accessToggleBtn) {
+    accessToggleBtn.addEventListener("change", () => {
+        document.body.classList.toggle("disability-mode");
+        if(document.body.classList.contains("disability-mode")) {
+            localStorage.setItem("theme", "on");
+        } else {
+            localStorage.setItem("theme", "off");
+        }
+    });
+}

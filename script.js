@@ -1,6 +1,4 @@
-// ============================
 // Restaurant Search + Review
-// ============================
 
 // Elements
 const searchForm = document.getElementById("searchForm");
@@ -34,22 +32,62 @@ if (searchForm) {
     // Example fake dataset
     const results = [
       {
-        name: "Ocean Breeze Grill",
-        image: "",
-        rating: "4.5★",
-        price: "$$",
-        atmosphere: "Casual",
-        info: "Fresh seafood with ocean views and a relaxing ambiance.",
-      },
-      {
-        name: "Pasta & Co.",
-        image: "",
+        name: "Wild Sage American Bistro",
+        image: "https://placehold.co/300x300?text=Wild+Sage+American+Bistro",
         rating: "4.8★",
         price: "$$$",
-        atmosphere: "Romantic",
-        info: "Authentic Italian pasta and fine wine in a cozy setting.",
+        atmosphere: "luxury",
+        info: "Locally owned farm-to-table restaurant known for elegant dining and seasonal flavors."
       },
-    ];
+      {
+        name: "Osprey Restaurant & Bar",
+        image: "https://placehold.co/300x300?text=Osprey+Restaurant+%26+Bar",
+        rating: "4.6★",
+        price: "$$",
+        atmosphere: "casual",
+        info: "Relaxed riverside restaurant offering burgers, steaks, and craft cocktails with outdoor seating."
+      },
+      {
+        name: "Wooden City Spokane",
+        image: "https://placehold.co/300x300?text=Wooden+City",
+        rating: "4.5★",
+        price: "$$",
+        atmosphere: "casual",
+        info: "Downtown spot for hearty American comfort food, wood-fired pizza, and signature cocktails."
+      },
+      {
+        name: "Clinkerdagger",
+        image: "https://placehold.co/300x300?text=Clinkerdagger",
+        rating: "4.7★",
+        price: "$$$$",
+        atmosphere: "romantic",
+        info: "Iconic Spokane steakhouse overlooking the river, perfect for date nights and celebrations."
+      },
+      {
+        name: "Italia Trattoria",
+        image: "https://placehold.co/300x300?text=Italia+Trattoria",
+        rating: "4.7★",
+        price: "$$$",
+        atmosphere: "romantic",
+        info: "Modern Italian dining in Browne’s Addition, featuring handmade pasta and fine wines."
+      },
+      {
+        name: "Safari Room Fresh Grill & Bar",
+        image: "https://placehold.co/300x300?text=Safari+Room",
+        rating: "4.3★",
+        price: "$$",
+        atmosphere: "family-friendly",
+        info: "Warm, inviting restaurant serving steaks, sandwiches, and breakfast inside the Davenport Tower."
+      },
+      {
+        name: "Texas Roadhouse Spokane",
+        image: "https://placehold.co/300x300?text=Texas+Roadhouse",
+        rating: "4.2★",
+        price: "$",
+        atmosphere: "casual",
+        info: "Lively steakhouse known for hand-cut steaks, peanuts on the floor, and a friendly crowd."
+      },
+    ];    
 
     const filtered = results.filter((r) => {
         const searchableText = `
@@ -64,10 +102,14 @@ if (searchForm) {
     }
 
     filtered.forEach((r) => {
+      const imgSrc = r.image && r.image.trim() !== ""
+        ? r.image
+        : "https://placehold.co/200x200?text=Restaurant";
+    
       const card = document.createElement("div");
       card.className = "restaurant-card";
       card.innerHTML = `
-        <img src="${r.image}" alt="${r.name}">
+        <img src="${imgSrc}" alt="${r.name}" class="restaurant-img">
         <div class="restaurant-details">
           <h4>${r.name}</h4>
           <p>${r.price} • ${r.atmosphere} • ${r.rating}</p>
@@ -80,9 +122,8 @@ if (searchForm) {
   });
 }
 
-// ============================
+
 // Popup + Review
-// ============================
 function openPopup(r) {
   popupImg.src = r.image;
   restaurantName.textContent = r.name;

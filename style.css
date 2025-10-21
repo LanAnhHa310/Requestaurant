@@ -341,3 +341,89 @@ body.dark-mode .nav-btn:hover {
     outline-offset: 2px;
   }
   
+/* Result Grid */
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+/* Restaurant Card */
+.restaurant-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.restaurant-card:hover {
+  transform: translateY(-5px);
+}
+
+.restaurant-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.restaurant-details {
+  padding: 15px;
+}
+
+.restaurant-details h4 {
+  margin: 0;
+  color: #ff5a5f;
+  font-size: 1.1rem;
+}
+
+.restaurant-details p {
+  margin: 4px 0;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+/* Popup styles (reuse previous popup) */
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup.hidden {
+  display: none;
+}
+
+.popup-content {
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  width: 400px;
+  max-width: 90%;
+  text-align: left;
+  position: relative;
+}
+
+.popup-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+#close-popup {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 1.5rem;
+  cursor: pointer;
+}

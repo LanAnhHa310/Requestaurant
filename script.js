@@ -93,28 +93,32 @@ function openPopup(r) {
   popup.classList.remove("hidden");
 }
 
-closePopup.addEventListener("click", () => {
-  popup.classList.add("hidden");
-});
+if(closePopup) {
+  closePopup.addEventListener("click", () => {
+    popup.classList.add("hidden");
+  });
+}
 
-reviewForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const rating = reviewRatingSelect.value;
-  const text = reviewText.value.trim();
-
-  if (!rating || !text) {
-    alert("Please complete both fields before submitting.");
-    return;
-  }
-
-  if (!restaurantReviews[currentRestaurant]) {
-    restaurantReviews[currentRestaurant] = [];
-  }
-  restaurantReviews[currentRestaurant].push({ rating, text });
-
-  loadReviews(currentRestaurant);
-  reviewForm.reset();
-});
+if(reviewForm) {
+  reviewForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const rating = reviewRatingSelect.value;
+    const text = reviewText.value.trim();
+  
+    if (!rating || !text) {
+      alert("Please complete both fields before submitting.");
+      return;
+    }
+  
+    if (!restaurantReviews[currentRestaurant]) {
+      restaurantReviews[currentRestaurant] = [];
+    }
+    restaurantReviews[currentRestaurant].push({ rating, text });
+  
+    loadReviews(currentRestaurant);
+    reviewForm.reset();
+  });
+}
 
 function loadReviews(name) {
   reviewsList.innerHTML = "";
@@ -130,44 +134,36 @@ function loadReviews(name) {
   });
 }
 
-// ============================
-// Dark Mode
-// ============================
-const darkToggleBtn = document.getElementById("dark-mode");
-window.addEventListener("load", () => {
-  const savedTheme = localStorage.getItem("theme");
-  if (savedTheme === "dark") {
-    document.body.classList.add("dark-mode");
-    if (darkToggleBtn) darkToggleBtn.checked = true;
-  }
-});
-if (darkToggleBtn) {
-  darkToggleBtn.addEventListener("change", () => {
-    document.body.classList.toggle("dark-mode");
-    localStorage.setItem(
-      "theme",
-      document.body.classList.contains("dark-mode") ? "dark" : "light"
-    );
-  });
-}
+window.addEventListener("DOMContentLoaded", () => {
+  console.log("✅ JS loaded");
 
-// ============================
-// Accessibility
-// ============================
-const accessToggleBtn = document.getElementById("disability-mode");
-window.addEventListener("load", () => {
+  const darkToggleBtn = document.getElementById("dark-mode");
+  const accessToggleBtn = document.getElementById("disability-mode");
+
+  // Load saved preferences
+  const savedTheme = localStorage.getItem("theme");
   const savedAccessibility = localStorage.getItem("accessibility");
-  if (savedAccessibility === "on") {
-    document.body.classList.add("disability-mode");
-    if (accessToggleBtn) accessToggleBtn.checked = true;
+
+  // Apply to every page
+  if (savedTheme === "dark") document.body.classList.add("dark-mode");
+  if (savedAccessibility === "on") document.body.classList.add("disability-mode");
+
+  // Only attach listeners if checkboxes exist (i.e., on settings.html)
+  if (darkToggleBtn) {
+    darkToggleBtn.checked = savedTheme === "dark";
+    darkToggleBtn.addEventListener("change", () => {
+      const isDark = darkToggleBtn.checked;
+      document.body.classList.toggle("dark-mode", isDark);
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+    });
+  }
+
+  if (accessToggleBtn) {
+    accessToggleBtn.checked = savedAccessibility === "on";
+    accessToggleBtn.addEventListener("change", () => {
+      const isOn = accessToggleBtn.checked;
+      document.body.classList.toggle("disability-mode", isOn);
+      localStorage.setItem("accessibility", isOn ? "on" : "off");
+    });
   }
 });
-if (accessToggleBtn) {
-  accessToggleBtn.addEventListener("change", () => {
-    document.body.classList.toggle("disability-mode");
-    localStorage.setItem(
-      "accessibility",
-      document.body.classList.contains("disability-mode") ? "on" : "off"
-    );
-  });
-}

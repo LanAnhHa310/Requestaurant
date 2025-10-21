@@ -165,3 +165,80 @@ footer {
     border: 2px solid white;
     color: white;
 }
+
+/* Dark mode */
+body.dark-mode {
+  background-color: #121212;  /* darker background */
+  color: #f9f9f9;             /* lighter text color */
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Header in dark mode */
+body.dark-mode header {
+  background: linear-gradient(90deg, #222, #444); /* dark gradient */
+  color: #fff;
+}
+
+/* Sidebar & result panels */
+body.dark-mode .search-section,
+body.dark-mode .results {
+  background: #1e1e1e;
+  color: #f0f0f0;
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+}
+
+/* Inputs, selects, and forms */
+body.dark-mode .searchForm input,
+body.dark-mode .searchForm select {
+  background-color: #2a2a2a;
+  border: 1px solid #555;
+  color: #f0f0f0;
+}
+
+/* Buttons */
+body.dark-mode .searchForm button {
+  background: #ff9068;
+  color: #fff;
+}
+
+body.dark-mode .searchForm button:hover {
+  background: #ff5a5f;
+  transform: scale(1.03);
+}
+
+/* Result cards */
+body.dark-mode .result-card {
+  background: #2a2a2a;
+  box-shadow: 0 2px 6px rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode .result-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .result-content h4 {
+  color: #ff9068;
+}
+
+body.dark-mode .result-content p {
+  color: #ddd;
+}
+
+/* Footer */
+body.dark-mode footer {
+  background-color: #000;
+  color: #ff9068;
+}
+
+/* Navigation button */
+body.dark-mode .nav-btn {
+  border: 2px solid #ff9068;
+  color: #ff9068;
+  background-color: transparent;
+}
+
+body.dark-mode .nav-btn:hover {
+  background-color: #ff9068;
+  color: #fff;
+}

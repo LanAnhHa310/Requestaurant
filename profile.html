@@ -59,6 +59,10 @@
             border: 3px solid lightgray;
             padding: 10px;
         }
+        .review-form {
+            display: flex;
+            flex-direction: column;
+        }
     </style>
 </head>
 <body>
@@ -151,9 +155,13 @@
                 <button class="remove-review-btn">Remove</button>
                 <img src="https://placehold.co/200" alt="restaurant image">
                 <h3>Irish Pub</h3>
-                <!-- Add a star rank. -->
-                <p>Review: etc. etc. etc.</p>
-            </div>
+                <p>Your Review:</p>
+                <form class="review-form">
+                    <input type="text" class="review-text" value="Enter your review here">
+                    <button type="submit" class="update-review-btn">Submit Review</button>
+                </form>
+               
+            </div>  
 
         </div>
         

@@ -21,6 +21,10 @@ function loadedHandler() {
         button.addEventListener( "click", removeReview );
     }
    
+    let reviewUpdateBtns = document.getElementsByClassName("update-review-btn");
+    for ( button of reviewUpdateBtns ) {
+        button.addEventListener( "click", updateReview );
+    }
 }
 
 // ====================================================================================
@@ -49,6 +53,10 @@ function removeBookmark( event ) {
 // Load in reviews for user:
 
 // Edit user review:
+function updateReview( event ) {
+    event.preventDefault();
+    console.log("Updated review successfully!");
+}
 
 // Remove user review:
 function removeReview( event ) {

@@ -10,6 +10,9 @@ window.addEventListener( "DOMContentLoaded", loadedHandler );
 
 function loadedHandler() {
 
+    // Update profile with newest user information:
+    loadUserInfo();
+
     // Generate list of current stored reviews in database:
     loadReviews();
 
@@ -31,7 +34,38 @@ function loadedHandler() {
 }
 
 // ====================================================================================
-// Setup functionality to edit user acocunt info ( username, email ):
+// Setup functionality to edit user account info ( username, email ):
+
+// Load in current user information from database:
+function loadUserInfo() {
+    // Access the database:
+    let userInfo = localStorage.getItem("loggedInUser");
+    userInfo = JSON.parse(userInfo);
+
+    usernameDisplay = document.getElementById("usernameDisplay");
+    emailDisplay = document.getElementById("emailDisplay");
+
+    usernameDisplay.textContent = `Username: ${userInfo.name}`;
+    emailDisplay.textContent = `Email: ${userInfo.email}`;
+}
+
+/* FUNCTION EXCEEDS PD2 SCOPE
+// Update user info when requested:
+function updateUserInfo( event ) {
+
+    // Hide old user info
+    let infoDisplay = document.getElementById("user-info");
+    infoDisplay.style.display = "none";
+
+    // Show user information update panel:
+
+    // Once new information is submitted, update the database:
+    let oldUserInfo = localStorage.getItem("loggedInUser");
+    newUserInfo = JSON.parse(oldUserInfo);
+    //newUserInfo.name = 
+    //newUserInfo.email = 
+}
+*/
 
 // ====================================================================================
 // Setup functionality to add / remove user preferences from the preference list:
@@ -61,7 +95,7 @@ function loadReviews() {
     // Get the stored reviews:
     let revData = localStorage.getItem("firstReview");
     let revObj = JSON.parse( revData );
-    if ( revObj.name != null || revObj != "" ) {
+    if ( (revObj.name != null) || (revObj != "") ) {
         console.log("Retrieved user review data!");
 
         // Create the review div:

@@ -10,28 +10,71 @@ window.addEventListener( "DOMContentLoaded", loadedHandler );
 
 function loadedHandler() {
 
+    // Update profile with newest user information:
+    loadUserInfo();
+
+    // Generate list of current stored reviews in database:
+    loadReviews();
+
     // Apply removeBookmark event handler to all bookmarks:
     let bookmarkRemoveBtns = document.getElementsByClassName("remove-bkmk-btn");
-    for ( button of bookmarkRemoveBtns ) {
+    for ( let button of bookmarkRemoveBtns ) {
         button.addEventListener( "click", removeBookmark );
     }
 
     let reviewRemoveBtns = document.getElementsByClassName("remove-review-btn");
-    for ( button of reviewRemoveBtns ) {
+    for ( let button of reviewRemoveBtns ) {
         button.addEventListener( "click", removeReview );
     }
    
     let reviewUpdateBtns = document.getElementsByClassName("update-review-btn");
-    for ( button of reviewUpdateBtns ) {
+    for ( let button of reviewUpdateBtns ) {
         button.addEventListener( "click", updateReview );
     }
 }
 
 // ====================================================================================
-// Setup functionality to edit user acocunt info ( username, email ):
+// Setup functionality to edit user account info ( username, email ):
+
+// Load in current user information from database:
+function loadUserInfo() {
+    // Access the database:
+    let userInfo = localStorage.getItem("loggedInUser");
+    userInfo = JSON.parse(userInfo);
+
+    let pageTitle = document.getElementsByTagName("h1")[0];
+    let usernameDisplay = document.getElementById("usernameDisplay");
+    let emailDisplay = document.getElementById("emailDisplay");
+
+    pageTitle.textContent = `${userInfo.name}'s Profile`;
+    usernameDisplay.textContent = `Username: ${userInfo.name}`;
+    emailDisplay.textContent = `Email: ${userInfo.email}`;
+}
+
+/* FUNCTION EXCEEDS PD2 SCOPE
+// Update user info when requested:
+function updateUserInfo( event ) {
+
+    // Hide old user info
+    let infoDisplay = document.getElementById("user-info");
+    infoDisplay.style.display = "none";
+
+    // Show user information update panel:
+
+    // Once new information is submitted, update the database:
+    let oldUserInfo = localStorage.getItem("loggedInUser");
+    newUserInfo = JSON.parse(oldUserInfo);
+    //newUserInfo.name = 
+    //newUserInfo.email = 
+}
+*/
 
 // ====================================================================================
 // Setup functionality to add / remove user preferences from the preference list:
+
+function updatePreferences() {
+
+}
 
 // ====================================================================================
 // Add functionality for removing bookmarked restaurants:
@@ -44,14 +87,46 @@ function removeBookmark( event ) {
     // Get the <div> of the clicked bookmark:
     let parent = button.parentNode;
     parent.parentNode.removeChild(parent);
-    console.log("Removed bookmark!");
+    console.log("Removed bookmark successfully!");
 }
 
 // ====================================================================================
 // Add functionality for removing / editing restaurant reviews:
 
 // Load in reviews for user:
+function loadReviews() {
 
+    let userReviews = document.getElementById("user-reviews");
+
+    // Get the stored reviews:
+    let revData = localStorage.getItem("firstReview");
+    let revObj = JSON.parse( revData );
+    if ( (revObj.name != null) || (revObj != "") ) {
+        console.log("Retrieved user review data!");
+
+        // Create the review div:
+        let review = document.createElement("div");
+        review.className = "review";
+        review.innerHTML = `
+            <button class="remove-review-btn">Remove</button>
+            <img src="${revObj.image}" alt="${revObj.name}" class="restaurant-img">
+            <div class="restaurant-details">
+                <h4>${revObj.name}</h4>
+                <p>${revObj.rating}</p>
+                <p>${revObj.info}</p>
+            </div>
+            <p>Your Review:</p>
+            <form class="review-form">
+                <input type="text" class="review-text" value="${ revObj.reviewText }">
+                <button type="submit" class="update-review-btn">Update Review</button>
+            </form>
+        `;
+        // Add the review display:
+        userReviews.appendChild(review);
+    }
+    
+}
+   
 // Edit user review:
 function updateReview( event ) {
     event.preventDefault();
@@ -62,5 +137,7 @@ function updateReview( event ) {
 function removeReview( event ) {
     let review = event.target.parentNode;
     review.parentNode.removeChild(review);
-    console.log("Removed user review successfully!");
+    // Clear review data?
+    localStorage.removeItem("firstReview");
+    console.log("Removed review successfully!");
 }

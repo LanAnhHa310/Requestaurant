@@ -17,6 +17,8 @@ const reviewsList = document.getElementById("reviews-list");
 let currentRestaurant = null;
 const restaurantReviews = {}; // stores reviews in memory
 
+let revObj = null; // stores which restaurant is being looked at.
+
 // Handle search
 if (searchForm) {
   searchForm.addEventListener("submit", (event) => {
@@ -132,6 +134,10 @@ function openPopup(r) {
   currentRestaurant = r.name;
   loadReviews(r.name);
   popup.classList.remove("hidden");
+
+  // Store latest popup viewed in case a review is posted:
+  revObj = restaurantReviews[r.name];
+  console.log(`Stored viewed restaurant: ${r.name}`);
 }
 
 if(closePopup) {
@@ -150,6 +156,24 @@ if(reviewForm) {
       alert("Please complete both fields before submitting.");
       return;
     }
+
+    // =================================================================================
+    // If the user fills out both the review text and the rating, store in "database":
+    
+    // Create the new review item:
+    let newReview = {
+      "image": revObj.image,
+      "name": revObj.name,
+      "info": revObj.info,
+      "rating": `${revObj.price} • ${revObj.atmosphere} • ${revObj.rating}`,
+      "reviewRating": rating,
+      "reviewText": text,
+    };
+
+    // Store the review Item:
+    localStorage.setItem( "firstReview", JSON.stringify(newReview) );
+
+    // =================================================================================
   
     if (!restaurantReviews[currentRestaurant]) {
       restaurantReviews[currentRestaurant] = [];

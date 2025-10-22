@@ -6,7 +6,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile Page</title>
-    <script src="profile_script.js"></script>
     <!-- Temporary embedded stylesheet until we decide if we want to have one unified website stylesheet or seperate ones -->
     <style>
         p {
@@ -37,6 +36,10 @@
         #top-display div {
             padding: 5px;
         }
+        #add-preference form {
+            display: flex;
+            flex-direction: column;
+        }
         .pref-div {
             margin: 3px;
             border: 3px solid lightgray;
@@ -58,6 +61,14 @@
             margin: 3px;
             border: 3px solid lightgray;
             padding: 10px;
+        }
+        .review img {
+            width: 100%;
+            height: 200px;
+            width: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
         }
         .review-form {
             display: flex;
@@ -92,10 +103,20 @@
 
             <div id="user-info">
                 <!-- Username -->
-                <p>Username:</p>
+                <p id="usernameDisplay">Username:</p>
                 <!-- Email -->
-                <p>Email:</p>
+                <p id="emailDisplay">Email:</p>
+                <!-- Change user info button -->
+                <button id="update-info-btn">Update Profile</button>
             </div>
+
+            <!-- <div id="info-update-panel">
+                <form>
+                    <input type="text" id="username-update" value="">
+                    <input type="email" id="email-update" value="">
+                    <button type="submit">Update Information</button>
+                </form>
+            </div> -->
 
         </div>
         <!-- End of top display -->
@@ -108,7 +129,17 @@
                 
                 <h3>Add Preference:</h3>
                 <form>
-                    <!-- Add some form of drop-down selection system to select preference type -->
+
+                    <select id="rating">
+                        <option value="">Dietary restrictions</option>
+                        <option value="2">Price</option>
+                        <option value="3">Location</option>
+                        <option value="4">Atmosphere</option>
+                        <option value="5">Rating</option>
+                    </select>
+
+                    <input type="text" id="preference" value="Specify your preference here">
+
                     <button>Add Preference</button>
                 </form>
                 
@@ -166,5 +197,7 @@
         </div>
         
     </section>
+
+    <script src="profile_script.js"></script>
 </body>
 </html>

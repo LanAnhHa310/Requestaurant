@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile Page</title>
+    <script src="profile_script.js"></script>
     <!-- Temporary embedded stylesheet until we decide if we want to have one unified website stylesheet or seperate ones -->
     <style>
         p {
@@ -32,7 +33,6 @@
             border: 3px solid lightgray;
             padding: 10px;
             flex-wrap: wrap;
-
         }
         #top-display div {
             padding: 5px;
@@ -42,10 +42,26 @@
             border: 3px solid lightgray;
             padding: 10px;
         }
+        .bookmark-header p {
+            display: inline;
+        }
         .bookmark {
+            display: flex;
+            flex-direction: column;
             margin: 3px;
             border: 3px solid lightgray;
             padding: 10px;
+        }
+        .review {
+            display: flex;
+            flex-direction: column;
+            margin: 3px;
+            border: 3px solid lightgray;
+            padding: 10px;
+        }
+        .review-form {
+            display: flex;
+            flex-direction: column;
         }
     </style>
 </head>
@@ -118,27 +134,34 @@
             <!-- Preferably, make this section scroll -->
 
             <div class="bookmark">
-                <img src="https://placehold.co/200" alt="restaurant image">
-                <h3>Beneditto's</h3>
-                <p>Restaurant summary</p>
+
+                <button class="remove-bkmk-btn">Remove</button>
+                <div class="bookmark-info"> 
+                <!-- ^^^ Remove usesless class?! ^^^ -->
+                    <img src="https://placehold.co/200" alt="restaurant image">
+                    <h3>Beneditto's</h3>
+                    <p>Restaurant summary</p>
+                </div>
+               
             </div>
 
-            <div class="bookmark">
-                <img src="https://placehold.co/200" alt="restaurant image">
-                <h3>Donut Masters</h3>
-                <p>Restaurant summary</p>
-            </div>
-
-            <div class="bookmark">
-                <img src="https://placehold.co/200" alt="restaurant image">
-                <h3>Irish Pub</h3>
-                <p>Restaurant summary</p>
-            </div>
         </div>
         
         <!-- Display restaurant reviews -->
         <h2>Personal Reviews:</h2>
         <div id="user-reviews" class="display-block">
+
+            <div class="review">
+                <button class="remove-review-btn">Remove</button>
+                <img src="https://placehold.co/200" alt="restaurant image">
+                <h3>Irish Pub</h3>
+                <p>Your Review:</p>
+                <form class="review-form">
+                    <input type="text" class="review-text" value="Enter your review here">
+                    <button type="submit" class="update-review-btn">Submit Review</button>
+                </form>
+               
+            </div>  
 
         </div>
         

@@ -67,7 +67,12 @@ function loadReviews() {
     review.className = "review";
     review.innerHTML = `
     <button class="remove-review-btn">Remove</button>
-    
+    <img src="${revData.image}" alt="${revData.name}" class="restaurant-img">
+    <div class="restaurant-details">
+        <h4>${revData.name}</h4>
+        <p>${revData.rating}</p>
+        <p>${revData.info}</p>
+    </div>
     <p>Your Review:</p>
     <form class="review-form">
         <input type="text" class="review-text" value="${ revObj.reviewText }">
@@ -75,13 +80,6 @@ function loadReviews() {
     </form>
     `;
     userReviews.appendChild(review);
-
-    // <img src="${revData.image}" alt="${revData.name}" class="restaurant-img">
-    // <div class="restaurant-details">
-    //     <h4>${revData.name}</h4>
-    //     <p>${revData.rating}</p>
-    //     <p>${revData.info}</p>
-    // </div>
 }
    
 // Edit user review:

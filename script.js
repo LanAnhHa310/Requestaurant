@@ -156,11 +156,10 @@ if(reviewForm) {
     
     // Create the new review item:
     let newReview = {
-      //"image": r.image,
-      "image": popupImg,
-      "name": restaurantName.textContent,
-      "info": restaurantInfo.textContent,
-      "rating": restaurantRating.textContent,
+      //"image": popupImg.src,
+      //"name": restaurantName.textContent, // Most of these don't do anything because we don't track
+      //"info": restaurantInfo.textContent, // The current review information being filed long enough.
+      //"rating": restaurantRating.textContent,
       "reviewRating": rating,
       "reviewText": text,
     };

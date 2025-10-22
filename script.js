@@ -150,6 +150,25 @@ if(reviewForm) {
       alert("Please complete both fields before submitting.");
       return;
     }
+
+    // =================================================================================
+    // If the user fills out both the review text and the rating, store in "database":
+    
+    // Create the new review item:
+    let newReview = {
+      //"image": r.image,
+      "image": popupImg,
+      "name": restaurantName.textContent,
+      "info": restaurantInfo.textContent,
+      "rating": restaurantRating.textContent,
+      "reviewRating": rating,
+      "reviewText": text,
+    };
+
+    // Store the review Item:
+    localStorage.setItem( "firstReview", JSON.stringify(newReview) );
+
+    // =================================================================================
   
     if (!restaurantReviews[currentRestaurant]) {
       restaurantReviews[currentRestaurant] = [];

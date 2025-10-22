@@ -18,17 +18,17 @@ function loadedHandler() {
 
     // Apply removeBookmark event handler to all bookmarks:
     let bookmarkRemoveBtns = document.getElementsByClassName("remove-bkmk-btn");
-    for ( button of bookmarkRemoveBtns ) {
+    for ( let button of bookmarkRemoveBtns ) {
         button.addEventListener( "click", removeBookmark );
     }
 
     let reviewRemoveBtns = document.getElementsByClassName("remove-review-btn");
-    for ( button of reviewRemoveBtns ) {
+    for ( let button of reviewRemoveBtns ) {
         button.addEventListener( "click", removeReview );
     }
    
     let reviewUpdateBtns = document.getElementsByClassName("update-review-btn");
-    for ( button of reviewUpdateBtns ) {
+    for ( let button of reviewUpdateBtns ) {
         button.addEventListener( "click", updateReview );
     }
 }
@@ -42,9 +42,11 @@ function loadUserInfo() {
     let userInfo = localStorage.getItem("loggedInUser");
     userInfo = JSON.parse(userInfo);
 
-    usernameDisplay = document.getElementById("usernameDisplay");
-    emailDisplay = document.getElementById("emailDisplay");
+    let pageTitle = document.getElementsByTagName("h1")[0];
+    let usernameDisplay = document.getElementById("usernameDisplay");
+    let emailDisplay = document.getElementById("emailDisplay");
 
+    pageTitle.textContent = `${userInfo.name}'s Profile`;
     usernameDisplay.textContent = `Username: ${userInfo.name}`;
     emailDisplay.textContent = `Email: ${userInfo.email}`;
 }
@@ -69,6 +71,10 @@ function updateUserInfo( event ) {
 
 // ====================================================================================
 // Setup functionality to add / remove user preferences from the preference list:
+
+function updatePreferences() {
+
+}
 
 // ====================================================================================
 // Add functionality for removing bookmarked restaurants:

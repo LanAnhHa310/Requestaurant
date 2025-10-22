@@ -6,7 +6,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile Page</title>
-    <script src="profile_script.js"></script>
     <!-- Temporary embedded stylesheet until we decide if we want to have one unified website stylesheet or seperate ones -->
     <style>
         p {
@@ -37,8 +36,9 @@
         #top-display div {
             padding: 5px;
         }
-        #user-info {
-            
+        #add-preference form {
+            display: flex;
+            flex-direction: column;
         }
         .pref-div {
             margin: 3px;
@@ -129,7 +129,17 @@
                 
                 <h3>Add Preference:</h3>
                 <form>
-                    <!-- Add some form of drop-down selection system to select preference type -->
+
+                    <select id="rating">
+                        <option value="">Dietary restrictions</option>
+                        <option value="2">Price</option>
+                        <option value="3">Location</option>
+                        <option value="4">Atmosphere</option>
+                        <option value="5">Rating</option>
+                    </select>
+
+                    <input type="text" id="preference" value="Specify your preference here">
+
                     <button>Add Preference</button>
                 </form>
                 
@@ -187,5 +197,7 @@
         </div>
         
     </section>
+
+    <script src="profile_script.js"></script>
 </body>
 </html>

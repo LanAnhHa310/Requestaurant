@@ -178,17 +178,20 @@ function loadReviews(name) {
 window.addEventListener("DOMContentLoaded", () => {
   console.log("JS loaded");
 
-  //Dark mode and accessbility
+  //Dark mode and accessbility and performance
   const darkToggleBtn = document.getElementById("dark-mode");
   const accessToggleBtn = document.getElementById("disability-mode");
+  const performToggleBtn = document.getElementById("performance-mode");
 
   // Load saved preferences
   const savedTheme = localStorage.getItem("theme");
   const savedAccessibility = localStorage.getItem("accessibility");
+  const savedPerform = localStorage.getItem("performance");
 
   // Apply to every page
   if (savedTheme === "dark") document.body.classList.add("dark-mode");
   if (savedAccessibility === "on") document.body.classList.add("disability-mode");
+  if (savedPerform === "on") document.body.classList.add("performance-mode");
 
   // Only attach listeners if checkboxes exist (i.e., on settings.html)
   if (darkToggleBtn) {
@@ -209,6 +212,15 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  if(performToggleBtn) {
+    performToggleBtn.checked = savedPerform === "on";
+    performToggleBtn.addEventListener("change", () => {
+      const isOn = performToggleBtn.checked;
+      document.body.classList.toggle("performance-mode", isOn);
+      localStorage.setItem("performance", isOn ? "on" : "off");
+    });
+  }
+
   // Login state
   const createBtn = document.getElementById("create-btn");
   const profileBtn = document.getElementById("profile-btn");
@@ -219,7 +231,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   if(isLoggedIn) {
     // User logged in
-    createBtn.classList.add("hidden");
+    if(createBtn) createBtn.classList.add("hidden");
     if(profileBtn) {
       profileBtn.classList.remove("hidden");
       profileBtn.textContent = `Your Profile`;

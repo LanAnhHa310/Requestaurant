@@ -66,18 +66,18 @@ function loadReviews() {
     let review = document.createElement("div");
     review.className = "review";
     review.innerHTML = `
-    <button class="remove-review-btn">Remove</button>
-    <img src="${revData.image}" alt="${revData.name}" class="restaurant-img">
-    <div class="restaurant-details">
-        <h4>${revData.name}</h4>
-        <p>${revData.rating}</p>
-        <p>${revData.info}</p>
-    </div>
-    <p>Your Review:</p>
-    <form class="review-form">
-        <input type="text" class="review-text" value="${ revObj.reviewText }">
-        <button type="submit" class="update-review-btn">Update Review</button>
-    </form>
+        <button class="remove-review-btn">Remove</button>
+        <img src="${revObj.image}" alt="${revObj.name}" class="restaurant-img">
+        <div class="restaurant-details">
+            <h4>${revObj.name}</h4>
+            <p>${revObj.rating}</p>
+            <p>${revObj.info}</p>
+        </div>
+        <p>Your Review:</p>
+        <form class="review-form">
+            <input type="text" class="review-text" value="${ revObj.reviewText }">
+            <button type="submit" class="update-review-btn">Update Review</button>
+        </form>
     `;
     userReviews.appendChild(review);
 }

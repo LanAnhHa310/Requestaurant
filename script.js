@@ -17,6 +17,8 @@ const reviewsList = document.getElementById("reviews-list");
 let currentRestaurant = null;
 const restaurantReviews = {}; // stores reviews in memory
 
+let restaurantViewed = null; // stores which restaurant is being looked at.
+
 // Handle search
 if (searchForm) {
   searchForm.addEventListener("submit", (event) => {
@@ -132,6 +134,9 @@ function openPopup(r) {
   currentRestaurant = r.name;
   loadReviews(r.name);
   popup.classList.remove("hidden");
+
+  // Store latest popup information:
+  restaurantViewed = restaurantReviews[r.name];
 }
 
 if(closePopup) {
@@ -156,10 +161,10 @@ if(reviewForm) {
     
     // Create the new review item:
     let newReview = {
-      //"image": popupImg.src,
-      //"name": restaurantName.textContent, // Most of these don't do anything because we don't track
-      //"info": restaurantInfo.textContent, // The current review information being filed long enough.
-      //"rating": restaurantRating.textContent,
+      "image": restaurantViewed.src,
+      "name": restaurantViewed.name, // Most of these don't do anything because we don't track
+      "info": restaurantViewed.info, // The current review information being filed long enough.
+      "rating": `${restaurantViewed.price} • ${restaurantViewed.atmosphere} • ${restaurantViewed.rating}`,
       "reviewRating": rating,
       "reviewText": text,
     };

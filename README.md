@@ -6,10 +6,19 @@ Requestaurant is a web-based application designed with the sole function of help
 To do this, requestaurant allows users to enter a wide variety of search parameters ranging from location to menu price average.
 The application will then seach it's database for the best possible matches and display them to the user to choose from.
 
-## Table of Contents
-
 ## Installation
-
+You can run the requestaurant application via the following methods:
+### Downloading & running with VSCode
+To download requestaurant:
+1. Navigate to the top-right, corner of the repositry.
+2. Click on the green "Code" button and select "Download ZIP".
+3. After downloading, extract the downloaded ZIP of requestaurant in a new blank directory.
+4. Open the directory with VSCode.
+5. In VSCode, download one of the following applications:
+  - [Microsoft Live Preview](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server)
+  - [HTML Play](https://marketplace.visualstudio.com/items?itemName=bianxianyang.htmlplay)
+6. **Using Microsoft Preview**: right click the homepage.html file and select the "preview" option. A localhost window will appear with the application running.
+7. **Using HTML Play**: Select the homepage.html file in the directory to run the application.
 
 ## Usage
 Run the file locally:

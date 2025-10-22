@@ -431,7 +431,45 @@ body.dark-mode .nav-btn:hover {
   cursor: pointer;
 }
 
+/* Style log in button */
 .hidden {
   display: none !important;
 }
 
+/* Performance Mode */
+body.performance-mode {
+  background-color: #f9f9f9;
+  color: #000;
+}
+
+body.performance-mode img,
+body.performance-mode .restaurant-card img,
+body.performance-mode .popup-image {
+  display: none !important; /* Hide all images */
+}
+
+body.performance-mode .restaurant-card {
+  background: #fff;
+  border: 1px solid #ccc;
+  box-shadow: none;
+  transition: none;
+}
+
+body.performance-mode .restaurant-card:hover {
+  transform: none;
+}
+
+body.performance-mode .restaurant-details p {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+body.performance-mode button {
+  background-color: #ddd;
+  color: #111;
+}
+
+body.performance-mode .popup {
+  background-color: #fff;
+  color: #000;
+}

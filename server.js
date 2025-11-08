@@ -13,8 +13,7 @@ const app = express(); // Set application object equal to express obj.
 app.get("/search", (req, res) => {
     console.log("Opening search homepage...");
     // Open search homepage ( homepage.html )
-    const html = homepage.html;
-    res.send( html );
+    //res.render( "homepage.html" );
 });
 
 

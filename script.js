@@ -1,11 +1,5 @@
 // Restaurant Search + Review webpage
 
-// ====================== SERVER SETUP ============================
-// NOTE: This may be a temporary location for this code. Will likely be moved to an independant launch-setup script later.
-
-
-// ================================================================
-
 // Elements
 const searchForm = document.getElementById("searchForm");
 const resultList = document.getElementById("result-grid");

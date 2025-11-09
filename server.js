@@ -2,6 +2,8 @@
 
 const express = require("express"); // generaste express application object.
 
+var path = require('path'); // provides utilities for working with file and directory paths.
+
 const app = express(); // Set application object equal to express obj.
 
 // app.use(express.static('__public/webpages-directory__')); // <--- implement later when project files are better organized.
@@ -10,10 +12,10 @@ const app = express(); // Set application object equal to express obj.
 
 
 // app method for launcing initial search page:
-app.get("/search", (req, res) => {
+app.get('/', (req, res) => {
     console.log("Opening search homepage...");
     // Open search homepage ( homepage.html )
-    //res.render( "homepage.html" );
+    res.sendFile(__dirname + '/homepage.html');
 });
 
 

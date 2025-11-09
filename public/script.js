@@ -1,4 +1,4 @@
-// Restaurant Search + Review
+// Restaurant Search + Review webpage
 
 // Elements
 const searchForm = document.getElementById("searchForm");

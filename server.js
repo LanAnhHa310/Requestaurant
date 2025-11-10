@@ -21,15 +21,24 @@ const userSchema = new mongoose.Schema({
 });
 
 // Create access connection with db:
-const Project = mongoose.model( "Project", userSchema);
+const User = mongoose.model( "User", userSchema);
 
 // app method for launcing initial search page:
-app.get('/search', (req, res) => {
+app.get('/search', async (req, res) => {
   console.log("Opening search homepage...");
+
   // Open search homepage ( homepage.html )
   // res.sendFile(__dirname + '/homepage.html');
   res.sendFile('homepage.html', {root: __dirname + '/public'});
   // res.sendFile("homepage.html");
+
+  // ------ TEST: add user data to db: -----------
+  const newUser = new User({
+    userName: "Testy",
+  });
+
+  await newUser.save();
+  console.log(`Saved test user to the db!: ${newUser.userName}`);
 });
 
 // Catch-all for when project files are not found:

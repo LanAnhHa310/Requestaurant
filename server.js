@@ -1,15 +1,27 @@
-// ====================== SERVER SETUP ============================
-
 const express = require("express"); // generaste express application object.
+
+const mongoose = require("mongoose"); // require mongoose for ease of DB operations.
 
 var path = require('path'); // provides utilities for working with file and directory paths.
 
+// ====================== SERVER / DATABASE SETUP ============================
 const app = express(); // Set application object equal to express obj.
 
 app.use(express.static(path.join(__dirname + '/public') ) ); // <--- implement later when project files are better organized.
 // app.use(express.static('public'));
 
+// Connect to user database:
+mongoose.connect("mongodb://localhost/requestaurant-db");
+
 // ================================================================
+
+// Setup schema:
+const userSchema = new mongoose.Schema({
+  userName: { type: String, required: true },
+});
+
+// Create access connection with db:
+const Project = mongoose.model( "Project", userSchema);
 
 // app method for launcing initial search page:
 app.get('/search', (req, res) => {

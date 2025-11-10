@@ -1,6 +1,9 @@
 const express = require("express"); // generaste express application object.
 
-const mongoose = require("mongoose"); // require mongoose for ease of DB operations.
+//const mongoose = require("mongoose"); // require mongoose for ease of DB operations. // <<<<<<<<<<<<<<<<<<<<<<<
+
+// Use user model exported from models directory ( connects to the db ).
+const User = require("./models/user");
 
 var path = require('path'); // provides utilities for working with file and directory paths.
 
@@ -13,10 +16,11 @@ app.use(express.static(path.join(__dirname + '/public') ) ); // <--- implement l
 // app.use(express.static('public'));
 
 // Connect to user database:
-mongoose.connect("mongodb://localhost/requestaurant-db");
+//mongoose.connect("mongodb://localhost/requestaurant-db");  // <<<<<<<<<<<<<<<<<<<<<<<
 
 // ================================================================
 
+/*
 // Setup schema:
 const userSchema = new mongoose.Schema({
   userName: { type: String, required: true },
@@ -24,6 +28,7 @@ const userSchema = new mongoose.Schema({
 
 // Create access connection with db:
 const User = mongoose.model( "User", userSchema);
+*/  // <<<<<<<<<<<<<<<<<<<<<<<
 
 // app method for launcing initial search page:
 app.get("/search", (req, res) => {

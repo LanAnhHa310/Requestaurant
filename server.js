@@ -1,34 +1,22 @@
-const express = require("express"); // generaste express application object.
-
-//const mongoose = require("mongoose"); // require mongoose for ease of DB operations. // <<<<<<<<<<<<<<<<<<<<<<<
+// generate express application object.
+const express = require("express");
 
 // Use user model exported from models directory ( connects to the db ).
 const User = require("./models/user");
 
 var path = require('path'); // provides utilities for working with file and directory paths.
 
-// ====================== SERVER / DATABASE SETUP ============================
+// ====================== SERVER SETUP ============================
+
 const app = express(); // Set application object equal to express obj.
 
 app.use(express.urlencoded({ extended: false })); // Used to tell the webserver to recognize incoming POST or PUT request data as string / array values.
 
-app.use(express.static(path.join(__dirname + '/public') ) ); // <--- implement later when project files are better organized.
+app.use(express.static(path.join(__dirname + '/public') ) );
 // app.use(express.static('public'));
 
-// Connect to user database:
-//mongoose.connect("mongodb://localhost/requestaurant-db");  // <<<<<<<<<<<<<<<<<<<<<<<
+// ========================= METHODS ==============================
 
-// ================================================================
-
-/*
-// Setup schema:
-const userSchema = new mongoose.Schema({
-  userName: { type: String, required: true },
-});
-
-// Create access connection with db:
-const User = mongoose.model( "User", userSchema);
-*/  // <<<<<<<<<<<<<<<<<<<<<<<
 
 // app method for launcing initial search page:
 app.get("/search", (req, res) => {

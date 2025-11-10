@@ -2,7 +2,22 @@
     This script is to be used for the registering of user acocunts.S
 */
 
-let submitUserBtn = document.getElementById("userLogIn");
+// Assign eventhandlers after all html webpage content ( buttons, inputs, etc. ) are loded.
+document.addEventListener("DOMContentLoaded", () => {
+    
+    const submitUserBtn = document.getElementById("userLogIn");
+    const form = document.getElementById("register-form");
+
+    // Add event listener to submission button
+    if (submitUserBtn) {
+        //submitUserBtn.addEventListener("click", registerUser);
+    } else {
+      console.error("Could not find #userLogIn button");
+    }
+
+    // Add event listener to the form itself:
+    form.addEventListener("submit", registerUser);
+});
 
 // ==============================================================
 // User Account information validation:
@@ -56,7 +71,7 @@ function registerUser( event ) {
 
     event.preventDefault(); // Note: inline form validation stops working when this is enabled.
 
-    // Verify registration information is correct, stops when registration is invalid
+    // Verify registration information is correct, stops when registration is invalid:
     if ( validateRegistration() == false ) {
         console.log("User registration failed: Invalid information entered");
         return;
@@ -66,13 +81,10 @@ function registerUser( event ) {
     let userName = document.getElementById("username").value;
     let userEmail = document.getElementById("email").value;
 
-    // Store user data locally (simulate database + login)
-        localStorage.setItem("loggedInUser", JSON.stringify({
-            name: userName,
-            email: userEmail
-        }));
-
-    console.log(`Added new user: ${userName} at ${userEmail}`);
+    // Submit the form data:
+    console.log("Submitting form data...");
+    //document.getElementById("register-form").submit();
+    
     
     // Mark as logged in for this session
     localStorage.setItem("isLoggedIn", "true");
@@ -83,14 +95,4 @@ function registerUser( event ) {
     // Redirect to homepage
     window.location.href = "homepage.html";
 }
-
-// This prevents errors if elements (like the button) don’t exist yet.
-document.addEventListener("DOMContentLoaded", () => {
-    const submitUserBtn = document.getElementById("userLogIn");
-    if (submitUserBtn) {
-      submitUserBtn.addEventListener("click", registerUser);
-    } else {
-      console.error("Could not find #userLogIn button");
-    }
-});
   

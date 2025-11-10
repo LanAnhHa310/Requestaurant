@@ -83,6 +83,7 @@ function registerUser( event ) {
     // Redirect to homepage
     window.location.href = "homepage.html";
 }
+
 // This prevents errors if elements (like the button) don’t exist yet.
 document.addEventListener("DOMContentLoaded", () => {
     const submitUserBtn = document.getElementById("userLogIn");

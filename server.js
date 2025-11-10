@@ -7,6 +7,8 @@ var path = require('path'); // provides utilities for working with file and dire
 // ====================== SERVER / DATABASE SETUP ============================
 const app = express(); // Set application object equal to express obj.
 
+app.use(express.urlencoded({ extended: false })); // Used to tell the webserver to recognize incoming POST or PUT request data as string / array values.
+
 app.use(express.static(path.join(__dirname + '/public') ) ); // <--- implement later when project files are better organized.
 // app.use(express.static('public'));
 
@@ -24,7 +26,7 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model( "User", userSchema);
 
 // app method for launcing initial search page:
-app.get('/search', (req, res) => {
+app.get("/search", (req, res) => {
   console.log("Opening search homepage...");
 
   // Open search homepage ( homepage.html )
@@ -35,9 +37,10 @@ app.get('/search', (req, res) => {
 
 
 // METHOD: Register new user in DB:
-app.post('/register', async (req,res) => {
+app.post("/register", async (req,res) => {
 
   // Create new user DB entry from register webpage data:
+  console.log(`Request username: ${req.body.username}`); // <-TEST
   const newUser = new User({
     //userName: "Testy",
     userName: req.body.username,

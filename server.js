@@ -24,21 +24,35 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model( "User", userSchema);
 
 // app method for launcing initial search page:
-app.get('/search', async (req, res) => {
+app.get('/search', (req, res) => {
   console.log("Opening search homepage...");
 
   // Open search homepage ( homepage.html )
   // res.sendFile(__dirname + '/homepage.html');
   res.sendFile('homepage.html', {root: __dirname + '/public'});
   // res.sendFile("homepage.html");
+});
 
-  // ------ TEST: add user data to db: -----------
+
+// METHOD: Register new user in DB:
+app.post('/register', async (req,res) => {
+
+  // Create new user DB entry from register webpage data:
   const newUser = new User({
-    userName: "Testy",
+    //userName: "Testy",
+    userName: req.body.username,
   });
 
-  await newUser.save();
-  console.log(`Saved test user to the db!: ${newUser.userName}`);
+  // Add new user to the user database:
+  try {
+    await newUser.save();
+    console.log(`Saved test user to the db!: ${newUser.userName}`);
+  }
+  catch {
+    // Failed to register new user in DB:
+    res.status(400).send(ex.message);
+  }
+ 
 });
 
 // Catch-all for when project files are not found:

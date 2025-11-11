@@ -34,7 +34,7 @@ function validateRegistration() {
     let userPassConfirm = document.getElementById("passwordConfirm").value;
 
     // Check if password has the correct length:
-    let passwordExp = RegExp(".{8}"); // <------ UPDATE: Set soem more rules for this.
+    let passwordExp = RegExp(".{8}"); // <------ UPDATE: Set some more rules for this.
     if ( passwordExp.test( userPassword ) == false ) {
         alert("ERROR: Password is of insufficent length.");
         return false;

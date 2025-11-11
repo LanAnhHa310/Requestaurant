@@ -18,7 +18,7 @@ app.use(express.static(path.join(__dirname + '/public') ) );
 // ========================= METHODS ==============================
 
 
-// app method for launcing initial search page:
+// Launcing initial search page:
 app.get("/search", (req, res) => {
   console.log("Opening search homepage...");
 
@@ -29,27 +29,28 @@ app.get("/search", (req, res) => {
 });
 
 
-// METHOD: Register new user in DB:
+// Register new user in DB:
 app.post("/register", async (req,res) => {
 
   // Create new user DB entry from register webpage data:
   console.log(`Request username: ${req.body.username}`); // <-TEST
   const newUser = new User({
-    //userName: "Testy",
     userName: req.body.username,
+    password: req.body.password, // Needs to be hashed / secured later if possible!
+    email: req.body.email,
   });
 
   // Add new user to the user database:
   try {
     await newUser.save();
     console.log(`Saved test user to the db!: ${newUser.userName}`);
-  }
-  catch {
+  } catch {
     // Failed to register new user in DB:
     res.status(400).send(ex.message);
   }
  
 });
+
 
 // Catch-all for when project files are not found:
 app.use((req, res) => {

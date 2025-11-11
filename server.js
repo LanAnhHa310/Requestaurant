@@ -24,7 +24,7 @@ app.get("/search", (req, res) => {
 
   // Open search homepage ( homepage.html )
   // res.sendFile(__dirname + '/homepage.html');
-  res.sendFile('homepage.html', {root: __dirname + '/public'});
+  res.sendFile('homepage.html', {root: __dirname + '/public'}); // Olive: Most likely a one-off pathing issue.
   // res.sendFile("homepage.html");
 });
 

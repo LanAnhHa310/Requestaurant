@@ -1,14 +1,17 @@
 // generate express application object.
 const express = require("express");
 
+var path = require('path'); // provides utilities for working with file and directory paths.
+
 // Use user model exported from models directory ( connects to the db ).
 const User = require("./models/user");
 
-var path = require('path'); // provides utilities for working with file and directory paths.
-
 // ====================== SERVER SETUP ============================
 
-const app = express(); // Set application object equal to express obj.
+const app = express();
+
+// Parse JSON and form bodies
+app.use(express.json()); // Set application object equal to express obj.
 
 app.use(express.urlencoded({ extended: false })); // Used to tell the webserver to recognize incoming POST or PUT request data as string / array values.
 
@@ -37,23 +40,41 @@ app.get("/search", (req, res) => {
   then adds a new user to the user data collection
   in the database from the register webpage request.
 */
+
+app.get("/register", (req, res) => {
+  res.sendFile("register.html", { root: path.join(__dirname, "public") });
+});
+
 app.post("/register", async (req,res) => {
 
-  // Create new user DB entry from register webpage data:
-  const newUser = new User({
-    userName: req.body.username,
-    password: req.body.password, // Needs to be hashed / secured later if possible!
-    email: req.body.email,
-  });
+  // // Create new user DB entry from register webpage data:
+  // const newUser = new User({
+  //   userName: req.body.username,
+  //   password: req.body.password, // Needs to be hashed / secured later if possible!
+  //   email: req.body.email,
+  // });
 
   // Add new user to the user database:
+  // try {
+  //   await newUser.save();
+  //   console.log(`Saved ${newUser.userName} to database successfully!`);
+  // } catch {
+  //   // Failed to register new user in DB:
+  //   res.status(400).send(ex.message);
+  // }
+
   try {
+    const newUser = new User({
+      userName: req.body.username,
+      password: req.body.password,
+      email: req.body.email,
+    });
     await newUser.save();
-    console.log(`Saved ${newUser.userName} to database successfully!`);
-  } catch {
-    // Failed to register new user in DB:
-    res.status(400).send(ex.message);
-  }
+    console.log(`Saved ${newUser.userName} to database successfully!`, "→ collection:", newUser.collection.name);
+    return res.status(201).json({ message: "Registered", user: { username: newUser.userName, email: newUser.email } });
+    } catch (err) {
+      return res.status(400).send(err.message);
+    }
  
   // TOKEN: save information to identify which user is logged in.
   // Use a sessionStorage username for now. Not best practice.

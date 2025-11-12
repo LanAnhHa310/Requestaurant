@@ -147,20 +147,23 @@ if(closePopup) {
 }
 
 if(reviewForm) {
-  reviewForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const rating = reviewRatingSelect.value;
-    const text = reviewText.value.trim();
-  
-    if (!rating || !text) {
-      alert("Please complete both fields before submitting.");
-      return;
-    }
+  reviewForm.addEventListener("submit", submitReview
+)};
 
-    // =================================================================================
-    // If the user fills out both the review text and the rating, store in "database":
+async function submitReview(event) {
+  event.preventDefault();
+  const rating = reviewRatingSelect.value;
+  const text = reviewText.value.trim();
+  
+  if (!rating || !text) {
+    alert("Please complete both fields before submitting.");
+    return;
+  }
+
+  // =================================================================================
+  // If the user fills out both the review text and the rating, store in "database":
     
-    // Create the new review item:
+  // Create the new review item:
     let newReview = {
       "image": revObj.image,
       "name": revObj.name,
@@ -182,8 +185,7 @@ if(reviewForm) {
   
     loadReviews(currentRestaurant);
     reviewForm.reset();
-  });
-}
+} 
 
 function loadReviews(name) {
   reviewsList.innerHTML = "";

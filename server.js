@@ -5,10 +5,13 @@ var path = require('path'); // provides utilities for working with file and dire
 
 // Use user model exported from models directory ( connects to the db ).
 const User = require("./models/user");
+const Review = require("./models/review");
 
 // ====================== SERVER SETUP ============================
 
 const app = express();
+// Create an express route
+app.route = express.Router();
 
 // Parse JSON and form bodies
 app.use(express.json()); // Set application object equal to express obj.
@@ -82,6 +85,31 @@ app.post("/register", async (req,res) => {
   //sessionStorage.setItem("currentUser", newUser.userName);
 });
 
+app.get("/register", (req, res) => {
+  res.sendFile("register.html", { root: path.join(__dirname, "public") });
+});
+
+
+// home methods: receive review input and store in the database
+router.get("/home", function(req, res) {
+  res.sendFile("homepage.html", { root: path.join(__dirname, "public") });
+});
+
+router.post("/home", function(req, res) {
+  try {
+    const newReview = new Review({
+      rating: req.body.rating,
+      text: req.body.text
+    });
+    await newReview.save(); 
+    console.log('Saved review to database successfully!', "collection: ", newReview.collection);
+    return res.status(201).json({message: "Registered", review: {rating: newReview.rating, text: newReview.text}});
+  } catch (err) {
+    return res.status(404).send(err.message);
+  }
+});
+
+app.use(router);
 
 // Catch-all for when project files are not found:
 app.use((req, res) => {

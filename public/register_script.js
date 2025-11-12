@@ -10,13 +10,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Add event listener to submission button
     if (submitUserBtn) {
-        //submitUserBtn.addEventListener("click", registerUser);
+        submitUserBtn.addEventListener("click", registerUser); // <------ Using form instead to assign event handler.
     } else {
       console.error("Could not find #userLogIn button");
     }
 
     // Add event listener to the form itself:
-    form.addEventListener("submit", registerUser);
+    //form.addEventListener("submit", registerUser);
 });
 
 // ==============================================================
@@ -62,35 +62,39 @@ function validateRegistration() {
 // ==============================================================
 // User Account registration:
 
-// // Track if the user has logged in:
-// let userLoggedIn = false;
-
 // Function registers a new user and logs them into the system.
 // Currently returns fake data.
-function registerUser( event ) {
+async function registerUser( event ) {
 
-    event.preventDefault(); // Note: inline form validation stops working when this is enabled.
+    //event.preventDefault(); // Note: inline form validation stops working when this is enabled.
 
     // Verify registration information is correct, stops when registration is invalid:
     if ( validateRegistration() == false ) {
         console.log("User registration failed: Invalid information entered");
         return;
     }
+    console.log("Registration validation passed.");
     
-    // Get new user account registration info:
-    let userName = document.getElementById("username").value;
-    let userEmail = document.getElementById("email").value;
+    // Generate user from registration form data:
+    const newUser = {
+        username: document.getElementById("username").value,
+        password: document.getElementById("password").value,
+        email: document.getElementById("email").value,
+    }
 
-    // Submit the form data:
+    // POST json-encoded registration form data via (register/) request:
     console.log("Submitting form data...");
-    //document.getElementById("register-form").submit();
-    
+    const response = await fetch("/register", { // <--- Pretty sure this is the problem.
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newUser),
+    });
     
     // Mark as logged in for this session
     localStorage.setItem("isLoggedIn", "true");
     
     // Confirmation alert
-    alert(`Account created successfully! Welcome, ${userName}!`);
+    alert(`Account created successfully! Welcome, ${newUser.username}!`);
     
     // Redirect to homepage
     window.location.href = "homepage.html";

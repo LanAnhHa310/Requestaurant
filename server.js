@@ -50,30 +50,26 @@ app.get("/register", (req, res) => {
 
 app.post("/register", async (req,res) => {
 
-  // Create new user DB entry from register webpage data and add to the database:
+  // Create new user DB entry from register webpage data:
+  const newUser = new User({
+    userName: req.body.username,
+    password: req.body.password, // Needs to be hashed / secured later if possible!
+    email: req.body.email,
+  });
+    
+  //Add to the database:
   try {
-    const newUser = new User({
-      userName: req.body.username,
-      password: req.body.password, // Needs to be hashed / secured later if possible!
-      email: req.body.email,
-    });
     await newUser.save();
 
     console.log(`Saved ${newUser.userName} to database successfully!`, "→ collection:", newUser.collection.name);
 
-    //return res.status(201).json({ message: "Registered", user: { username: newUser.userName, email: newUser.email } });
+    // Return final response:
+    return res.status(201).json({ message: "Registered", user: { username: newUser.userName, email: newUser.email } });
 
-    } catch (err) {
-      // Failed to register new user in DB:
-      return res.status(400).send(err.message);
-    }
- 
-  // TOKEN: save information to identify which user is logged in.
-  
-  // Add token / user identification to response:
-
-  // Return final response:
-  return res.status(201).json({ message: "Registered", user: { username: newUser.userName, email: newUser.email } });
+  } catch (err) {
+    // Failed to register new user in DB:
+    return res.status(400).send(err.message);
+  }
 });
 
 

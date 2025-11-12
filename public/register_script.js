@@ -5,18 +5,19 @@
 // Assign eventhandlers after all html webpage content ( buttons, inputs, etc. ) are loded.
 document.addEventListener("DOMContentLoaded", () => {
     
-    const submitUserBtn = document.getElementById("userLogIn");
+    // const submitUserBtn = document.getElementById("userLogIn");
     const form = document.getElementById("register-form");
 
-    // Add event listener to submission button
-    if (submitUserBtn) {
-        submitUserBtn.addEventListener("click", registerUser); // <------ Using form instead to assign event handler.
-    } else {
-      console.error("Could not find #userLogIn button");
-    }
+    // // Add event listener to submission button
+    // if (submitUserBtn) {
+    //     submitUserBtn.addEventListener("click", registerUser); // <------ Using form instead to assign event handler.
+    // } else {
+    //   console.error("Could not find #userLogIn button");
+    // }
 
+    if (!form) return console.error("Missing #register-form");
     // Add event listener to the form itself:
-    //form.addEventListener("submit", registerUser);
+    form.addEventListener("submit", registerUser);
 });
 
 // ==============================================================
@@ -66,7 +67,7 @@ function validateRegistration() {
 // Currently returns fake data.
 async function registerUser( event ) {
 
-    //event.preventDefault(); // Note: inline form validation stops working when this is enabled.
+    event.preventDefault(); // Note: inline form validation stops working when this is enabled.
 
     // Verify registration information is correct, stops when registration is invalid:
     if ( validateRegistration() == false ) {
@@ -89,6 +90,12 @@ async function registerUser( event ) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newUser),
     });
+
+    if(!response.ok) {
+        const msg = await response.text().catch(() => "");
+        alert(`Could not create account: ${msg || response.status}`);
+        return;
+    }
     
     // Mark as logged in for this session
     localStorage.setItem("isLoggedIn", "true");
@@ -97,6 +104,7 @@ async function registerUser( event ) {
     alert(`Account created successfully! Welcome, ${newUser.username}!`);
     
     // Redirect to homepage
-    window.location.href = "homepage.html";
+    // window.location.href = "homepage.html";
+    window.location.href = "/search";
 }
   

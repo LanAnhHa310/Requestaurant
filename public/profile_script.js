@@ -51,17 +51,11 @@ async function loadUserInfo() {
 
     // Place user information into webpage:
     document.getElementsByTagName("h1")[0].textContent = `${userInfo.userName}'s Profile`;
+    document.getElementById("usernameDisplay").textContent = `Username: ${userInfo.userName}`;
+    document.getElementById("emailDisplay").textContent = `Email: ${userInfo.email}`;
 
-    //let userInfo = localStorage.getItem("loggedInUser");
-    //userInfo = JSON.parse(userInfo);
-
-    // let pageTitle = document.getElementsByTagName("h1")[0];
-    // let usernameDisplay = document.getElementById("usernameDisplay");
-    // let emailDisplay = document.getElementById("emailDisplay");
-
-    // pageTitle.textContent = `${userInfo.name}'s Profile`;
-    // usernameDisplay.textContent = `Username: ${userInfo.name}`;
-    // emailDisplay.textContent = `Email: ${userInfo.email}`;
+    // Place user preferences into preferences tab:
+    
 }
 
 /* FUNCTION EXCEEDS PD2 SCOPE

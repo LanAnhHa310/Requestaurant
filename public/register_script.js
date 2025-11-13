@@ -99,10 +99,10 @@ async function registerUser( event ) {
     }
     
     // Mark as logged in for this session
-    localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem( "isLoggedIn", "true" );
 
     // TOKEN: Ensure website recognizes which user is currently logged in:
-    localStorage.setItem(`currentUser, ${newUser.username}`);
+    localStorage.setItem( "currentUser", newUser.username );
 
     // Access specific values from response object
     const data = await response.json();

@@ -14,7 +14,7 @@ function loadedHandler() {
     loadUserInfo();
 
     // Generate list of current stored reviews in database:
-    loadReviews();
+    //loadReviews();
 
     // Apply removeBookmark event handler to all bookmarks:
     let bookmarkRemoveBtns = document.getElementsByClassName("remove-bkmk-btn");
@@ -40,7 +40,16 @@ function loadedHandler() {
 async function loadUserInfo() {
 
     // Access the database:
-    const response = await fetch("/profile",);
+
+    const testSearch = {
+        searchName: localStorage.getItem( "currentUser" ),
+    };
+
+    const response = await fetch("/profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify( testSearch ),
+    });
 
     // Place user information into webpage:
     if ( response.ok ) {

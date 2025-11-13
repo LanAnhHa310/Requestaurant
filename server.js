@@ -73,15 +73,18 @@ app.post("/register", async (req,res) => {
 });
 
 
-app.get( "/profile", async (req, res) => {
+app.post( "/profile", async (req, res) => {
   
   console.log("Retreiving user information...");
 
   // Get user data:
   try {
 
-    const user = await User.findOne({ userName: req.body.user })
-    //const user = await User.find();
+    // Look for databse username that matches the request localStorage username.
+    const foundUser = await User.findOne({ userName: req.body.searchName });
+
+    // Return final response:
+    return res.status(201).json({ message: "User found", foundUser });
 
   } catch (err) {
     // Failed to find user in DB:

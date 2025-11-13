@@ -73,6 +73,25 @@ app.post("/register", async (req,res) => {
 });
 
 
+app.get( "/profile", async (req, res) => {
+  
+  console.log("Retreiving user information...");
+
+  // Get user data:
+  try {
+
+    const user = await User.findOne({ userName: req.body.user })
+    //const user = await User.find();
+
+  } catch (err) {
+    // Failed to find user in DB:
+    return res.status(400).send(err.message);
+  }
+  
+  
+});
+
+
 // Catch-all for when project files are not found:
 app.use((req, res) => {
   res.status(404);

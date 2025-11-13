@@ -73,25 +73,39 @@ app.post("/register", async (req,res) => {
 });
 
 
-app.post( "/profile", async (req, res) => {
+// app.post( "/profile", async (req, res) => {
   
-  console.log("Retreiving user information...");
+//   console.log("Retreiving user information...");
 
-  // Get user data:
+//   // Get user data:
+//   try {
+
+//     // Look for databse username that matches the request localStorage username.
+//     const foundUser = await User.findOne({ userName: req.body.searchName });
+
+//     // Return final response:
+//     return res.status(201).json({ message: "User found", foundUser });
+
+//   } catch (err) {
+//     // Failed to find user in DB:
+//     return res.status(400).send(err.message);
+//   }
+  
+  
+// });
+
+app.get("/api/profile/:userName", async (req, res) => {
+
   try {
+    const foundUser = await User.findOne({
+      userName: req.params.userName
+    })
+    return res.status(200).json(foundUser);
 
-    // Look for databse username that matches the request localStorage username.
-    const foundUser = await User.findOne({ userName: req.body.searchName });
-
-    // Return final response:
-    return res.status(201).json({ message: "User found", foundUser });
-
-  } catch (err) {
-    // Failed to find user in DB:
-    return res.status(400).send(err.message);
+  } catch( err ) {
+    console.error("ERROR in user database:", err.message);
+    return res.status(500).json({ error:"Failed to fetch user" });
   }
-  
-  
 });
 
 

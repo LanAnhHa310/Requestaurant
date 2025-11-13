@@ -40,23 +40,17 @@ function loadedHandler() {
 async function loadUserInfo() {
 
     // Access the database:
+    const response = await fetch(`/api/profile/${localStorage.getItem("currentUser")}`);
 
-    const testSearch = {
-        searchName: localStorage.getItem( "currentUser" ),
-    };
+    // Check that user was fetched successfully:
+    if ( !response.ok ) {
+        throw new Error("Failed to retrieve logged-in user data");
+    }
 
-    const response = await fetch("/profile", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify( testSearch ),
-    });
+    const userInfo = await response.json();
 
     // Place user information into webpage:
-    if ( response.ok ) {
-        let user = await response.json();
-
-        document.getElementsByTagName("h1")[0].textContent = `${user.userName}'s Profile`;
-    }
+    document.getElementsByTagName("h1")[0].textContent = `${userInfo.userName}'s Profile`;
 
     //let userInfo = localStorage.getItem("loggedInUser");
     //userInfo = JSON.parse(userInfo);

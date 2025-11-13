@@ -85,6 +85,7 @@ async function registerUser( event ) {
 
     // POST json-encoded registration form data via (register/) request:
     console.log("Submitting form data...");
+
     const response = await fetch("/register", { // <--- Pretty sure this is the problem.
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -98,10 +99,17 @@ async function registerUser( event ) {
     }
     
     // Mark as logged in for this session
-    localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem( "isLoggedIn", "true" );
+
+    // TOKEN: Ensure website recognizes which user is currently logged in:
+    localStorage.setItem( "currentUser", newUser.username );
+
+    // Access specific values from response object
+    const data = await response.json();
     
     // Confirmation alert
-    alert(`Account created successfully! Welcome, ${newUser.username}!`);
+    //alert(`Account created successfully! Welcome, ${newUser.username}!`);
+    alert(`Account created successfully! Welcome, ${ data.user.username }`)
     
     // Redirect to homepage
     // window.location.href = "homepage.html";

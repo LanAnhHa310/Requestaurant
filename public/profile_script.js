@@ -14,7 +14,7 @@ function loadedHandler() {
     loadUserInfo();
 
     // Generate list of current stored reviews in database:
-    loadReviews();
+    //loadReviews();
 
     // Apply removeBookmark event handler to all bookmarks:
     let bookmarkRemoveBtns = document.getElementsByClassName("remove-bkmk-btn");
@@ -37,18 +37,31 @@ function loadedHandler() {
 // Setup functionality to edit user account info ( username, email ):
 
 // Load in current user information from database:
-function loadUserInfo() {
+async function loadUserInfo() {
+
     // Access the database:
-    let userInfo = localStorage.getItem("loggedInUser");
-    userInfo = JSON.parse(userInfo);
+    const response = await fetch(`/api/profile/${localStorage.getItem("currentUser")}`);
 
-    let pageTitle = document.getElementsByTagName("h1")[0];
-    let usernameDisplay = document.getElementById("usernameDisplay");
-    let emailDisplay = document.getElementById("emailDisplay");
+    // Check that user was fetched successfully:
+    if ( !response.ok ) {
+        throw new Error("Failed to retrieve logged-in user data");
+    }
 
-    pageTitle.textContent = `${userInfo.name}'s Profile`;
-    usernameDisplay.textContent = `Username: ${userInfo.name}`;
-    emailDisplay.textContent = `Email: ${userInfo.email}`;
+    const userInfo = await response.json();
+
+    // Place user information into webpage:
+    document.getElementsByTagName("h1")[0].textContent = `${userInfo.userName}'s Profile`;
+
+    //let userInfo = localStorage.getItem("loggedInUser");
+    //userInfo = JSON.parse(userInfo);
+
+    // let pageTitle = document.getElementsByTagName("h1")[0];
+    // let usernameDisplay = document.getElementById("usernameDisplay");
+    // let emailDisplay = document.getElementById("emailDisplay");
+
+    // pageTitle.textContent = `${userInfo.name}'s Profile`;
+    // usernameDisplay.textContent = `Username: ${userInfo.name}`;
+    // emailDisplay.textContent = `Email: ${userInfo.email}`;
 }
 
 /* FUNCTION EXCEEDS PD2 SCOPE

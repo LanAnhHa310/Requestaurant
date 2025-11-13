@@ -1,17 +1,15 @@
 // generate express application object.
 const express = require("express");
-
 var path = require('path'); // provides utilities for working with file and directory paths.
 
 // Use user model exported from models directory ( connects to the db ).
 const User = require("./models/user");
 const Review = require("./models/review");
+const Restaurant = require("./models/restaurant");
 
 // ====================== SERVER SETUP ============================
 
 const app = express();
-// Create an express route
-app.route = express.Router();
 
 // Parse JSON and form bodies
 app.use(express.json()); // Set application object equal to express obj.
@@ -49,23 +47,6 @@ app.get("/register", (req, res) => {
 });
 
 app.post("/register", async (req,res) => {
-
-  // // Create new user DB entry from register webpage data:
-  // const newUser = new User({
-  //   userName: req.body.username,
-  //   password: req.body.password, // Needs to be hashed / secured later if possible!
-  //   email: req.body.email,
-  // });
-
-  // Add new user to the user database:
-  // try {
-  //   await newUser.save();
-  //   console.log(`Saved ${newUser.userName} to database successfully!`);
-  // } catch {
-  //   // Failed to register new user in DB:
-  //   res.status(400).send(ex.message);
-  // }
-
   try {
     const newUser = new User({
       userName: req.body.username,
@@ -78,79 +59,89 @@ app.post("/register", async (req,res) => {
     } catch (err) {
       return res.status(400).send(err.message);
     }
- 
-  // TOKEN: save information to identify which user is logged in.
-  // Use a sessionStorage username for now. Not best practice.
-  //console.log(`User ${newUser.userName} saved to sessionStorage`)
-  //sessionStorage.setItem("currentUser", newUser.userName);
 });
 
 app.get("/register", (req, res) => {
   res.sendFile("register.html", { root: path.join(__dirname, "public") });
 });
 
+// -------- Restaurant Routes --------
 
-// home methods: receive review input and store in the database
-router.get("/home", function(req, res) {
-  res.sendFile("homepage.html", { root: path.join(__dirname, "public") });
-});
-
-router.post("/home", function(req, res) {
+// GET all restaurants (for populating search results)
+app.get("/api/restaurants", async (req, res) => {
   try {
-    const newReview = new Review({
-      rating: req.body.rating,
-      text: req.body.text
-    });
-    await newReview.save(); 
-    console.log('Saved review to database successfully!', "collection: ", newReview.collection);
-    return res.status(201).json({message: "Registered", review: {rating: newReview.rating, text: newReview.text}});
+    const restaurants = await Restaurant.find(); // Get all restaurants from DB
+    return res.status(200).json(restaurants);
   } catch (err) {
-    return res.status(404).send(err.message);
+    console.error("Error fetching restaurants:", err.message);
+    return res.status(500).json({ error: "Failed to fetch restaurants" });
   }
 });
 
-app.use(router);
+// POST a new restaurant (for adding restaurants to DB)
+app.post("/api/restaurants", async (req, res) => {
+  try {
+    const newRestaurant = new Restaurant({
+      name: req.body.name,
+      image: req.body.image,
+      rating: req.body.rating,
+      price: req.body.price,
+      atmosphere: req.body.atmosphere,
+      info: req.body.info
+    });
+    await newRestaurant.save();
+    console.log(`Saved restaurant: ${newRestaurant.name}`);
+    return res.status(201).json({ 
+      message: "Restaurant added", 
+      restaurant: newRestaurant 
+    });
+  } catch (err) {
+    console.error("Error saving restaurant:", err.message);
+    return res.status(400).json({ error: err.message });
+  }
+});
+
+// -------- Review Routes --------
+
+// GET reviews for a specific restaurant
+app.get("/api/reviews/:restaurantName", async (req, res) => {
+  try {
+    const reviews = await Review.find({ 
+      restaurantName: req.params.restaurantName 
+    }).sort({ createdAt: -1 }); // Sort by newest first
+    return res.status(200).json(reviews);
+  } catch (err) {
+    console.error("Error fetching reviews:", err.message);
+    return res.status(500).json({ error: "Failed to fetch reviews" });
+  }
+});
+
+// POST a new review
+app.post("/api/reviews", async (req, res) => {
+  try {
+    const newReview = new Review({
+      rating: req.body.rating,
+      text: req.body.text,
+      restaurantName: req.body.restaurantName,
+      userName: req.body.userName || "Anonymous" // Optional user tracking
+    });
+    await newReview.save();
+    console.log(`Saved review for ${newReview.restaurantName}`);
+    return res.status(201).json({ 
+      message: "Review submitted", 
+      review: newReview 
+    });
+  } catch (err) {
+    console.error("Error saving review:", err.message);
+    return res.status(400).json({ error: err.message });
+  }
+});
 
 // Catch-all for when project files are not found:
 app.use((req, res) => {
   res.status(404);
   res.send('<h1>ERROR: Resource(s) not found</h1>');
 });
-
-// ====================== Helper methods: =========================
-
-// function validateRegistration( String username, String password, String  ) {
-
-//     let userName = document.getElementById("username").value;
-//     let userPassword = document.getElementById("password").value;
-//     let userPassConfirm = document.getElementById("passwordConfirm").value;
-
-//     // Check if password has the correct length:
-//     let passwordExp = RegExp(".{8}"); // <------ UPDATE: Set some more rules for this.
-//     if ( passwordExp.test( userPassword ) == false ) {
-//         alert("ERROR: Password is of insufficent length.");
-//         return false;
-//     }
-
-//     // Check if password entries match:
-//     if ( userPassword != userPassConfirm ) {
-//         alert("ERROR: Passwords do not match.");
-//         return false;
-//     }
-
-//     let userEmail = document.getElementById("email").value;
-
-//     // Check that email meets the required pattern:
-//     let re = /^(.+)@(.+)/; // <---- UPDATE: Make email validation more exact.
-//     let emailCheck = re.test( userEmail );
-//     if ( emailCheck == false ) {
-//         alert("ERROR: Email invalid.");
-//         return false;
-//     }
-
-//     return true;
-// }
-
 
 // ====================== Launch Server ===========================
 

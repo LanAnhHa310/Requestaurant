@@ -55,7 +55,10 @@ async function loadUserInfo() {
     document.getElementById("emailDisplay").textContent = `Email: ${userInfo.email}`;
 
     // Place user preferences into preferences tab:
-    
+    prefList = document.getElementById("current-preferences");
+
+    console.log(userInfo.preferences);
+    console.log(userInfo.preferences.rating);
 }
 
 /* FUNCTION EXCEEDS PD2 SCOPE

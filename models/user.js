@@ -9,7 +9,7 @@ const User = db.model( "User", {
   // Store user preferences in a nested document:
   preferences: { 
     cost: { type: Number },
-    rating: { type: Number, min: 1, max: 5 },
+    rating: { type: Number, min: 1, max: 5, Default: 3 },
   },
 });
 

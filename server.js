@@ -6,6 +6,8 @@ var path = require('path');
 
 // Use user model exported from models directory ( connects to the db ).
 const User = require("./models/user");
+// Preferences model used to store user restaurant preferences:
+const Preferences = require("./models/preferences");
 
 // ====================== SERVER SETUP ============================
 
@@ -56,10 +58,22 @@ app.post("/register", async (req,res) => {
     password: req.body.password, // Needs to be hashed / secured later if possible!
     email: req.body.email,
   });
-    
+  
+  // Generate empty preferences list for user:
+  const userPreferences = new Preferences({
+    userName: req.body.username,
+    price: "3.00",
+    rating: 4,
+    dietary: "Sandwich",
+    atmosphere: "Romantic",
+  });
+
   //Add to the database:
   try {
+    // Add new user:
     await newUser.save();
+    // Generate empty preferences list for user:
+    await userPreferences.save();
 
     console.log(`Saved ${newUser.userName} to database successfully!`, "→ collection:", newUser.collection.name);
 
@@ -99,12 +113,27 @@ app.get("/api/profile/:userName", async (req, res) => {
   try {
     const foundUser = await User.findOne({
       userName: req.params.userName
-    })
+    });
     return res.status(200).json(foundUser);
 
   } catch( err ) {
     console.error("ERROR in user database:", err.message);
     return res.status(500).json({ error:"Failed to fetch user" });
+  }
+});
+
+
+app.get("api/profile-preferences/:userName", async (req, res) => {
+
+  try {
+    const foundPreferences = await Preferences.findOne({
+      userName: req.params.userName,
+    });
+    return res.status(200).json(foundPreferences);
+
+  } catch (err) {
+    console.error("ERROR in preferences database:", err.message);
+    return res.status(500).json({ error:"Failed to fetch user preferences" });
   }
 });
 

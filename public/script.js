@@ -15,129 +15,127 @@ const reviewRatingSelect = document.getElementById("review-rating");
 const reviewsList = document.getElementById("reviews-list");
 
 let currentRestaurant = null;
-const restaurantReviews = {}; // stores reviews in memory
 
-let revObj = null; // stores which restaurant is being looked at.
+// ==================== SEARCH FUNCTIONALITY ====================
 
-// Handle search
+// Handle search - now fetches from database instead of hardcoded array
 if (searchForm) {
-  searchForm.addEventListener("submit", (event) => {
+  searchForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     const query = document.getElementById("q").value.trim().toLowerCase();
-    resultList.innerHTML = "";
+    resultList.innerHTML = "<p>Loading restaurants...</p>";
 
     if (!query) {
       alert("Please enter a search term!");
       return;
     }
 
-    // Example fake dataset
-    const results = [
-      {
-        name: "Wild Sage American Bistro",
-        image: "https://placehold.co/300x300?text=Wild+Sage+American+Bistro",
-        rating: "4.8★",
-        price: "$$$",
-        atmosphere: "luxury",
-        info: "Locally owned farm-to-table restaurant known for elegant dining and seasonal flavors."
-      },
-      {
-        name: "Osprey Restaurant & Bar",
-        image: "https://placehold.co/300x300?text=Osprey+Restaurant+%26+Bar",
-        rating: "4.6★",
-        price: "$$",
-        atmosphere: "casual",
-        info: "Relaxed riverside restaurant offering burgers, steaks, and craft cocktails with outdoor seating."
-      },
-      {
-        name: "Wooden City Spokane",
-        image: "https://placehold.co/300x300?text=Wooden+City",
-        rating: "4.5★",
-        price: "$$",
-        atmosphere: "casual",
-        info: "Downtown spot for hearty American comfort food, wood-fired pizza, and signature cocktails."
-      },
-      {
-        name: "Clinkerdagger",
-        image: "https://placehold.co/300x300?text=Clinkerdagger",
-        rating: "4.7★",
-        price: "$$$$",
-        atmosphere: "romantic",
-        info: "Iconic Spokane steakhouse overlooking the river, perfect for date nights and celebrations."
-      },
-      {
-        name: "Italia Trattoria",
-        image: "https://placehold.co/300x300?text=Italia+Trattoria",
-        rating: "4.7★",
-        price: "$$$",
-        atmosphere: "romantic",
-        info: "Modern Italian dining in Browne’s Addition, featuring handmade pasta and fine wines."
-      },
-      {
-        name: "Safari Room Fresh Grill & Bar",
-        image: "https://placehold.co/300x300?text=Safari+Room",
-        rating: "4.3★",
-        price: "$$",
-        atmosphere: "family-friendly",
-        info: "Warm, inviting restaurant serving steaks, sandwiches, and breakfast inside the Davenport Tower."
-      },
-      {
-        name: "Texas Roadhouse Spokane",
-        image: "https://placehold.co/300x300?text=Texas+Roadhouse",
-        rating: "4.2★",
-        price: "$",
-        atmosphere: "casual",
-        info: "Lively steakhouse known for hand-cut steaks, peanuts on the floor, and a friendly crowd."
-      },
-    ];    
+    try {
+      // Fetch restaurants from database via API
+      const response = await fetch("/api/restaurants");
+      if (!response.ok) throw new Error("Failed to fetch restaurants");
+      
+      const results = await response.json();
 
-    const filtered = results.filter((r) => {
+      // Filter results based on search query
+      const filtered = results.filter((r) => {
         const searchableText = `
           ${r.name} ${r.info} ${r.atmosphere} ${r.price} ${r.rating}
         `.toLowerCase();
         return searchableText.includes(query);
-    });
+      });
 
-    if (filtered.length === 0) {
-      resultList.innerHTML = `<p>No restaurants found for "${query}".</p>`;
-      return;
+      // Display results
+      if (filtered.length === 0) {
+        resultList.innerHTML = `<p>No restaurants found for "${query}".</p>`;
+        return;
+      }
+
+      resultList.innerHTML = ""; // Clear loading message
+      filtered.forEach((r) => {
+        const imgSrc = r.image && r.image.trim() !== ""
+          ? r.image
+          : "https://placehold.co/200x200?text=Restaurant";
+      
+        const card = document.createElement("div");
+        card.className = "restaurant-card";
+        card.innerHTML = `
+          <img src="${imgSrc}" alt="${r.name}" class="restaurant-img">
+          <div class="restaurant-details">
+            <h4>${r.name}</h4>
+            <p>${r.price} • ${r.atmosphere} • ${r.rating}</p>
+            <p>${r.info}</p>
+          </div>
+        `;
+        card.addEventListener("click", () => openPopup(r));
+        resultList.appendChild(card);
+      });
+    } catch (err) {
+      console.error("Search error:", err);
+      resultList.innerHTML = "<p>Error loading restaurants. Please try again.</p>";
     }
-
-    filtered.forEach((r) => {
-      const imgSrc = r.image && r.image.trim() !== ""
-        ? r.image
-        : "https://placehold.co/200x200?text=Restaurant";
-    
-      const card = document.createElement("div");
-      card.className = "restaurant-card";
-      card.innerHTML = `
-        <img src="${imgSrc}" alt="${r.name}" class="restaurant-img">
-        <div class="restaurant-details">
-          <h4>${r.name}</h4>
-          <p>${r.price} • ${r.atmosphere} • ${r.rating}</p>
-          <p>${r.info}</p>
-        </div>
-      `;
-      card.addEventListener("click", () => openPopup(r));
-      resultList.appendChild(card);
-    });
   });
 }
 
+// ==================== POPUP & REVIEW FUNCTIONALITY ====================
 
-// Popup + Review
-function openPopup(r) {
+// Open popup and load reviews from database
+async function openPopup(r) {
   popupImg.src = r.image;
   restaurantName.textContent = r.name;
   restaurantInfo.textContent = r.info;
   restaurantRating.textContent = `${r.price} • ${r.atmosphere} • ${r.rating}`;
-  currentRestaurant = r.name;
-  loadReviews(r.name);
-  popup.classList.remove("hidden");
+  currentRestaurant = r; // Store full restaurant object (not just name)
 
-  // Store latest popup viewed in case a review is posted:
-  revObj = restaurantReviews[r.name];
-  console.log(`Stored viewed restaurant: ${r.name}`);
+  // Check if user is logged in and show/hide review form accordingly
+  checkLoginStatusForReviews();
+
+  await loadReviews(r.name); // Load reviews from database
+  popup.classList.remove("hidden");
+}
+
+// Check login status and enable/disable review form
+function checkLoginStatusForReviews() {
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const reviewFormSection = document.getElementById("review-form");
+  const reviewRatingSelect = document.getElementById("review-rating");
+  const reviewTextArea = document.getElementById("review-text");
+  const submitButton = reviewFormSection ? reviewFormSection.querySelector('button[type="submit"]') : null;
+  
+  if (!isLoggedIn) {
+    // Disable the form and show login message
+    if (reviewFormSection) {
+      // Add a login message before the form
+      let loginMessage = document.getElementById("login-message");
+      if (!loginMessage) {
+        loginMessage = document.createElement("p");
+        loginMessage.id = "login-message";
+        loginMessage.style.color = "#ff5a5f";
+        loginMessage.style.fontWeight = "bold";
+        loginMessage.innerHTML = 'You must <a href="register.html" style="color: #ff5a5f; text-decoration: underline;">create an account</a> to leave a review.';
+        reviewFormSection.parentNode.insertBefore(loginMessage, reviewFormSection);
+      }
+      
+      // Disable all form inputs
+      if (reviewRatingSelect) reviewRatingSelect.disabled = true;
+      if (reviewTextArea) {
+        reviewTextArea.disabled = true;
+        reviewTextArea.placeholder = "Please log in to write a review...";
+      }
+      if (submitButton) submitButton.disabled = true;
+    }
+  } else {
+    // Enable the form and remove login message
+    const loginMessage = document.getElementById("login-message");
+    if (loginMessage) loginMessage.remove();
+    
+    if (reviewRatingSelect) reviewRatingSelect.disabled = false;
+    if (reviewTextArea) {
+      reviewTextArea.disabled = false;
+      reviewTextArea.placeholder = "Write your review...";
+    }
+    if (submitButton) submitButton.disabled = false;
+  }
 }
 
 if(closePopup) {
@@ -146,57 +144,88 @@ if(closePopup) {
   });
 }
 
+// Submit review to database
 if(reviewForm) {
-  reviewForm.addEventListener("submit", (e) => {
-    e.preventDefault();
+  reviewForm.addEventListener("submit", async(event) => {
+    event.preventDefault();
     const rating = reviewRatingSelect.value;
     const text = reviewText.value.trim();
-  
+
     if (!rating || !text) {
       alert("Please complete both fields before submitting.");
       return;
     }
 
-    // =================================================================================
-    // If the user fills out both the review text and the rating, store in "database":
+    // Get current logged-in user
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser") || "{}");
     
-    // Create the new review item:
-    let newReview = {
-      "image": revObj.image,
-      "name": revObj.name,
-      "info": revObj.info,
-      "rating": `${revObj.price} • ${revObj.atmosphere} • ${revObj.rating}`,
-      "reviewRating": rating,
-      "reviewText": text,
-    };
-
-    // Store the review Item:
-    localStorage.setItem( "firstReview", JSON.stringify(newReview) );
-
-    // =================================================================================
-  
-    if (!restaurantReviews[currentRestaurant]) {
-      restaurantReviews[currentRestaurant] = [];
+    if (!isLoggedIn || !loggedInUser.username) {
+      alert("You must be logged in to submit a review.");
+      return;
     }
-    restaurantReviews[currentRestaurant].push({ rating, text });
-  
-    loadReviews(currentRestaurant);
-    reviewForm.reset();
-  });
-}
 
-function loadReviews(name) {
-  reviewsList.innerHTML = "";
-  const reviews = restaurantReviews[name];
-  if (!reviews || reviews.length === 0) {
-    reviewsList.innerHTML = "<p>No reviews yet. Be the first to leave one!</p>";
-    return;
+    try {
+      // POST review to database
+      const response = await fetch("/api/reviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json"},
+        body: JSON.stringify({
+          rating: parseInt(rating),
+          text: text,
+          restaurantName: currentRestaurant.name,
+          userName: loggedInUser.username,
+          // Store restaurant details for profile page display
+          restaurantImage: currentRestaurant.image,
+          restaurantPrice: currentRestaurant.price,
+          restaurantAtmosphere: currentRestaurant.atmosphere,
+          restaurantRating: currentRestaurant.rating,
+          restaurantInfo: currentRestaurant.info
+        })
+      });
+
+      if(!response.ok) throw new Error("Failed to submit review")
+
+      const result = await response.json();
+      console.log("Review saved:", result);
+
+      //Reload reviews and reset form
+      await loadReviews(currentRestaurant.name); //passing the correct string
+      reviewForm.reset();
+      alert("Review submitted successfully!");
+    } catch (err) {
+      console.error("Review submission error:", err);
+      alert("Failed to submit review. Please try again.")
+    }
   }
-  reviews.forEach((r) => {
-    const li = document.createElement("li");
-    li.textContent = `${r.rating}★ - ${r.text}`;
-    reviewsList.appendChild(li);
-  });
+)};
+
+// Load reviews from database
+async function loadReviews(name) {
+  reviewsList.innerHTML = "<p>Loading reviews....</p>";
+
+  try {
+    // GET reviews from database
+    const response = await fetch(`/api/reviews/${encodeURIComponent(name)}`);
+    if(!response.ok) throw new Error("Failed to fetch reviews");
+
+    const reviews = await response.json();
+
+    if (!reviews || reviews.length === 0) {
+      reviewsList.innerHTML = "<p>No reviews yet. Be the first to leave one!</p>";
+      return;
+    }
+
+    reviewsList.innerHTML = ""; // Clear loading message
+    reviews.forEach((r) => {
+      const li = document.createElement("li");
+      li.textContent = `${r.rating}★ - ${r.text}`;
+      reviewsList.appendChild(li);
+    });
+  } catch (err) {
+    console.error("Error loading reviews:", err);
+    reviewsList.innerHTML = "<p>Error loading reviews.</p>";
+  }
 }
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -251,7 +280,7 @@ window.addEventListener("DOMContentLoaded", () => {
   
   // Load saved logged in info
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser") || "{}");
+  // const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser") || "{}");
 
   if(isLoggedIn) {
     // User logged in
@@ -268,6 +297,9 @@ window.addEventListener("DOMContentLoaded", () => {
     // Hide "Profile" button
     if(profileBtn) profileBtn.classList.add("hidden");
   }
+
+  // Also check login status for review form if popup is already open
+  checkLoginStatusForReviews();
 
   // Logout state
   const logoutBtn = document.getElementById("logout-btn");

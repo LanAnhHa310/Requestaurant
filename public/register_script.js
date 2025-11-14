@@ -97,15 +97,14 @@ async function registerUser( event ) {
         alert(`Could not create account: ${msg || response.status}`);
         return;
     }
+    // Access specific values from response object
+    const data = await response.json();
     
     // Mark as logged in for this session
     localStorage.setItem( "isLoggedIn", "true" );
 
     // TOKEN: Ensure website recognizes which user is currently logged in:
     localStorage.setItem( "currentUser", newUser.username );
-
-    // // Access specific values from response object
-    // const data = await response.json();
     
     // Store user info for profile and reviews (username is used for review ownership)
     localStorage.setItem("loggedInUser", JSON.stringify({

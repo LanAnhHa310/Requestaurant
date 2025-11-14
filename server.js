@@ -123,8 +123,8 @@ app.get("/api/profile/:userName", async (req, res) => {
 });
 
 
-app.get("api/profile-preferences/:userName", async (req, res) => {
-
+app.get("/api/profile-preferences/:userName", async (req, res) => {
+  console.log("HIT /api/profile-preferences with", req.params.userName);
   try {
     const foundPreferences = await Preferences.findOne({
       userName: req.params.userName

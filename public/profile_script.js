@@ -58,7 +58,7 @@ async function loadUserInfo() {
     const prefResponse = await fetch(`/api/profile-preferences/${localStorage.getItem("currentUser")}`);
 
     // Check that user was fetched successfully:
-    if ( !response.ok ) {
+    if ( !prefResponse.ok ) {
         throw new Error("Failed to retrieve logged-in user preference data");
     }
     const userPreferences = await prefResponse.json();
@@ -70,15 +70,25 @@ async function loadUserInfo() {
 
     // Check each preference for an entry:
 
-    if ( ( userPreferences.rating != "" ) && ( userPreferences.rating != null ) ) {
+    // if ( ( userPreferences.rating != "" ) && ( userPreferences.rating != null ) ) {
         
+    //     let ratingPref = document.createElement("li");
+    //     review.className = "preference-list-item";
+    //     review.textContent = `Preferred Rating: ${userPreferences.rating}`;
+    //     // Add the user preference to the list:
+    //     prefList.appendChild(ratingPref);
+    // }
+    
+    // userPreferences.rating is a Number, so just check for null
+    if ( userPreferences && userPreferences.rating != null ) {
+        // fixed issue with type
         let ratingPref = document.createElement("li");
-        review.className = "preference-list-item";
-        review.textContent = `Preferred Rating: ${userPreferences.rating}`;
+        ratingPref.className = "preference-list-item";
+        ratingPref.textContent = `Preferred Rating: ${userPreferences.rating}`;
         // Add the user preference to the list:
         prefList.appendChild(ratingPref);
     }
-    
+
 //   price: { type: String },
 //   rating: { type: Number, min: 1, max: 5, Default: 3 },
 //   dietary: { type: String },

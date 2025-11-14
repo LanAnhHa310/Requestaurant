@@ -104,9 +104,15 @@ async function registerUser( event ) {
     // TOKEN: Ensure website recognizes which user is currently logged in:
     localStorage.setItem( "currentUser", newUser.username );
 
-    // Access specific values from response object
-    const data = await response.json();
+    // // Access specific values from response object
+    // const data = await response.json();
     
+    // Store user info for profile and reviews (username is used for review ownership)
+    localStorage.setItem("loggedInUser", JSON.stringify({
+        username: newUser.username,
+        email: newUser.email
+    }));
+
     // Confirmation alert
     //alert(`Account created successfully! Welcome, ${newUser.username}!`);
     alert(`Account created successfully! Welcome, ${ data.user.username }`)

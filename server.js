@@ -134,16 +134,87 @@ app.post("/api/reviews", async (req, res) => {
       rating: req.body.rating,
       text: req.body.text,
       restaurantName: req.body.restaurantName,
-      userName: req.body.userName || "Anonymous" // Optional user tracking
+      userName: req.body.userName, // user tracking
+      // Store restaurant details for profile display
+      restaurantImage: req.body.restaurantImage,
+      restaurantPrice: req.body.restaurantPrice,
+      restaurantAtmosphere: req.body.restaurantAtmosphere,
+      restaurantRating: req.body.restaurantRating,
+      restaurantInfo: req.body.restaurantInfo
     });
     await newReview.save();
-    console.log(`Saved review for ${newReview.restaurantName}`);
+    console.log(`Saved review for ${newReview.restaurantName} by ${newReview.userName}`);
     return res.status(201).json({ 
       message: "Review submitted", 
       review: newReview 
     });
   } catch (err) {
     console.error("Error saving review:", err.message);
+    return res.status(400).json({ error: err.message });
+  }
+});
+
+// PUT update a review (user can only update their own reviews)
+app.put("/api/reviews/:reviewId", async (req, res) => {
+  try {
+    const reviewId = req.params.reviewId;
+    const userName = req.body.userName; // User making the request
+    
+    // Find the review first to verify ownership
+    const review = await Review.findById(reviewId);
+    
+    if (!review) {
+      return res.status(404).json({ error: "Review not found" });
+    }
+    
+    // Verify the user owns this review
+    if (review.userName !== userName) {
+      return res.status(403).json({ error: "You can only update your own reviews" });
+    }
+    
+    // Update the review
+    review.rating = req.body.rating || review.rating;
+    review.text = req.body.text || review.text;
+    review.updatedAt = Date.now();
+    
+    await review.save();
+    console.log(`Updated review ${reviewId} by ${userName}`);
+    return res.status(200).json({ 
+      message: "Review updated successfully", 
+      review: review 
+    });
+  } catch (err) {
+    console.error("Error updating review:", err.message);
+    return res.status(400).json({ error: err.message });
+  }
+});
+
+// DELETE a review (user can only delete their own reviews)
+app.delete("/api/reviews/:reviewId", async (req, res) => {
+  try {
+    const reviewId = req.params.reviewId;
+    const userName = req.query.userName; // User making the request
+    
+    // Find the review first to verify ownership
+    const review = await Review.findById(reviewId);
+    
+    if (!review) {
+      return res.status(404).json({ error: "Review not found" });
+    }
+    
+    // Verify the user owns this review
+    if (review.userName !== userName) {
+      return res.status(403).json({ error: "You can only delete your own reviews" });
+    }
+    
+    // Delete the review
+    await Review.findByIdAndDelete(reviewId);
+    console.log(`Deleted review ${reviewId} by ${userName}`);
+    return res.status(200).json({ 
+      message: "Review deleted successfully" 
+    });
+  } catch (err) {
+    console.error("Error deleting review:", err.message);
     return res.status(400).json({ error: err.message });
   }
 });

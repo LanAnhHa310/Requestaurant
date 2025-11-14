@@ -85,14 +85,57 @@ async function openPopup(r) {
   restaurantName.textContent = r.name;
   restaurantInfo.textContent = r.info;
   restaurantRating.textContent = `${r.price} • ${r.atmosphere} • ${r.rating}`;
-  currentRestaurant = r.name;
+  currentRestaurant = r; // Store full restaurant object (not just name)
+
+  // Check if user is logged in and show/hide review form accordingly
+  checkLoginStatusForReviews();
 
   await loadReviews(r.name); // Load reviews from database
   popup.classList.remove("hidden");
+}
 
-  // Store latest popup viewed in case a review is posted:
-  revObj = restaurantReviews[r.name];
-  console.log(`Stored viewed restaurant: ${r.name}`);
+// Check login status and enable/disable review form
+function checkLoginStatusForReviews() {
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const reviewFormSection = document.getElementById("review-form");
+  const reviewRatingSelect = document.getElementById("review-rating");
+  const reviewTextArea = document.getElementById("review-text");
+  const submitButton = reviewFormSection ? reviewFormSection.querySelector('button[type="submit"]') : null;
+  
+  if (!isLoggedIn) {
+    // Disable the form and show login message
+    if (reviewFormSection) {
+      // Add a login message before the form
+      let loginMessage = document.getElementById("login-message");
+      if (!loginMessage) {
+        loginMessage = document.createElement("p");
+        loginMessage.id = "login-message";
+        loginMessage.style.color = "#ff5a5f";
+        loginMessage.style.fontWeight = "bold";
+        loginMessage.innerHTML = 'You must <a href="register.html" style="color: #ff5a5f; text-decoration: underline;">create an account</a> to leave a review.';
+        reviewFormSection.parentNode.insertBefore(loginMessage, reviewFormSection);
+      }
+      
+      // Disable all form inputs
+      if (reviewRatingSelect) reviewRatingSelect.disabled = true;
+      if (reviewTextArea) {
+        reviewTextArea.disabled = true;
+        reviewTextArea.placeholder = "Please log in to write a review...";
+      }
+      if (submitButton) submitButton.disabled = true;
+    }
+  } else {
+    // Enable the form and remove login message
+    const loginMessage = document.getElementById("login-message");
+    if (loginMessage) loginMessage.remove();
+    
+    if (reviewRatingSelect) reviewRatingSelect.disabled = false;
+    if (reviewTextArea) {
+      reviewTextArea.disabled = false;
+      reviewTextArea.placeholder = "Write your review...";
+    }
+    if (submitButton) submitButton.disabled = false;
+  }
 }
 
 if(closePopup) {
@@ -113,6 +156,15 @@ if(reviewForm) {
       return;
     }
 
+    // Get current logged-in user
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser") || "{}");
+    
+    if (!isLoggedIn || !loggedInUser.username) {
+      alert("You must be logged in to submit a review.");
+      return;
+    }
+
     try {
       // POST review to database
       const response = await fetch("/api/reviews", {
@@ -121,8 +173,14 @@ if(reviewForm) {
         body: JSON.stringify({
           rating: parseInt(rating),
           text: text,
-          restaurantName: currentRestaurant,
-          userName: localStorage.getItem("currentUser") || "Anonymous"
+          restaurantName: currentRestaurant.name,
+          userName: loggedInUser.username,
+          // Store restaurant details for profile page display
+          restaurantImage: currentRestaurant.image,
+          restaurantPrice: currentRestaurant.price,
+          restaurantAtmosphere: currentRestaurant.atmosphere,
+          restaurantRating: currentRestaurant.rating,
+          restaurantInfo: currentRestaurant.info
         })
       });
 
@@ -222,7 +280,7 @@ window.addEventListener("DOMContentLoaded", () => {
   
   // Load saved logged in info
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser") || "{}");
+  // const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser") || "{}");
 
   if(isLoggedIn) {
     // User logged in
@@ -239,6 +297,9 @@ window.addEventListener("DOMContentLoaded", () => {
     // Hide "Profile" button
     if(profileBtn) profileBtn.classList.add("hidden");
   }
+
+  // Also check login status for review form if popup is already open
+  checkLoginStatusForReviews();
 
   // Logout state
   const logoutBtn = document.getElementById("logout-btn");

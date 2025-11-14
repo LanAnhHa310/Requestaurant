@@ -190,6 +190,7 @@ function createReviewCard(review, container) {
 
 // UPDATE: Update an existing review
 async function updateReview( event ) {
+    event.preventDefault();
     const form = event.target;
     const reviewId = form.dataset.reviewId;
     const newRating = form.querySelector(".review-rating").value;

@@ -127,6 +127,20 @@ app.get("/api/reviews/:restaurantName", async (req, res) => {
   }
 });
 
+// GET all reviews by a specific user (for profile page)
+app.get("/api/reviews/user/:userName", async (req, res) => {
+  try {
+    const reviews = await Review.find({ 
+      userName: req.params.userName 
+    }).sort({ createdAt: -1 }); // Sort by newest first
+    console.log(`Found ${reviews.length} reviews for user: ${req.params.userName}`);
+    return res.status(200).json(reviews);
+  } catch (err) {
+    console.error("Error fetching user reviews:", err.message);
+    return res.status(500).json({ error: "Failed to fetch user reviews" });
+  }
+});
+
 // POST a new review
 app.post("/api/reviews", async (req, res) => {
   try {

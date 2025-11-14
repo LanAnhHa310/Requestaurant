@@ -53,7 +53,6 @@ async function loadUserInfo() {
     document.getElementById("usernameDisplay").textContent = `Username: ${userInfo.userName}`;
     document.getElementById("emailDisplay").textContent = `Email: ${userInfo.email}`;
 
-
     // Access the user preferences:
     const prefResponse = await fetch(`/api/profile-preferences/${localStorage.getItem("currentUser")}`);
 
@@ -66,34 +65,38 @@ async function loadUserInfo() {
     // Place user preferences into preferences list:
     prefList = document.getElementById("current-preferences");
 
-    // foreach( Object.keys(prefList).length) {}
-
     // Check each preference for an entry:
 
-    // if ( ( userPreferences.rating != "" ) && ( userPreferences.rating != null ) ) {
-        
-    //     let ratingPref = document.createElement("li");
-    //     review.className = "preference-list-item";
-    //     review.textContent = `Preferred Rating: ${userPreferences.rating}`;
-    //     // Add the user preference to the list:
-    //     prefList.appendChild(ratingPref);
-    // }
-    
+    // userPreferences.price is a String
+    if ( userPreferences && userPreferences.price != null ) {
+        let pricePref = document.createElement("li");
+        pricePref.className = "preference-list-item";
+        pricePref.textContent = `Rating: ${userPreferences.price}`;
+        // Add the user preference to the list:
+        prefList.appendChild(pricePref);
+    }
     // userPreferences.rating is a Number, so just check for null
     if ( userPreferences && userPreferences.rating != null ) {
         // fixed issue with type
         let ratingPref = document.createElement("li");
         ratingPref.className = "preference-list-item";
-        ratingPref.textContent = `Preferred Rating: ${userPreferences.rating}`;
-        // Add the user preference to the list:
+        ratingPref.textContent = `Price-range: ${userPreferences.rating}`;
         prefList.appendChild(ratingPref);
     }
-
-//   price: { type: String },
-//   rating: { type: Number, min: 1, max: 5, Default: 3 },
-//   dietary: { type: String },
-//   atmosphere: { Type: String },
-    
+    // userPreferences.dietary is a String
+    if ( userPreferences && userPreferences.dietary != null ) {
+        let dietaryPref = document.createElement("li");
+        dietaryPref.className = "preference-list-item";
+        dietaryPref.textContent = `Dietary exceptions: ${userPreferences.dietary}`;
+        prefList.appendChild(dietaryPref);
+    }
+    // userPreferences.atmosphere is a String
+    if ( userPreferences && userPreferences.atmosphere != null ) {
+        let atmoPref = document.createElement("li");
+        atmoPref.className = "preference-list-item";
+        atmoPref.textContent = `Restaurant Theme / Atmosphere: ${userPreferences.atmosphere}`;
+        prefList.appendChild(atmoPref);
+    }
 }
 
 /* FUNCTION EXCEEDS PD2 SCOPE

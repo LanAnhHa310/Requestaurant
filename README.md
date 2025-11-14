@@ -23,13 +23,34 @@ To download requestaurant:
 5. In VSCode, download one of the following applications:
   - [Microsoft Live Preview](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server)
   - [HTML Play](https://marketplace.visualstudio.com/items?itemName=bianxianyang.htmlplay)
+  - [Node.js](https://nodejs.org/) (v14 or higher)
+  - [MongoDB](https://www.mongodb.com/try/download/community) (running locally)
 6. **Using Microsoft Preview**: right click the homepage.html file and select the "preview" option. A localhost window will appear with the application running.
 7. **Using HTML Play**: Select the homepage.html file in the directory to run the application.
-
 ## Usage
 Run the file locally:
 - Clone the repo and open the folder.
-- Double-click homepage.html to open in your browser.
+- Install dependencies:
+```bash
+   npm install
+```
+- Start MongoDB:
+```bash
+   # On Mac/Linux
+   mongod --dbpath ~/data/db
+   
+   # Or if installed via Homebrew
+   brew services start mongodb-community
+```
+- Seed the database** (populate with sample restaurants):
+```bash
+   node seed.js
+```
+- Start the server:
+```bash
+   node server.js
+```
+- Open your browser: Navigate to `http://localhost:3000`
 
 What you can do for front end simulation
 1. Search and filter restaurant:
@@ -49,6 +70,15 @@ What you can do for front end simulation
 6. Profile & Bookmark
 - Use register.html to simulate account creation (sets localStorage.logInUser).
 - Bookmark a restaurant from its card or popup; view in profile.html.
+
+What you can do for back end:
+1. Create an Account
+2. Search for Restaurants
+3. View Restaurant Details & Reviews
+4. Submit a Review
+5. Manage Your Reviews
+6. Customize Settings
+7. View Your Preferences
 
 ## Contributing
 We use a simple branch-based flow with two active dev branches: jaxon and anh.

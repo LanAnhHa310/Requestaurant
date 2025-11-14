@@ -127,7 +127,7 @@ app.get("api/profile-preferences/:userName", async (req, res) => {
 
   try {
     const foundPreferences = await Preferences.findOne({
-      userName: req.params.userName,
+      userName: req.params.userName
     });
     return res.status(200).json(foundPreferences);
 

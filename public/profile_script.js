@@ -40,6 +40,7 @@ function loadedHandler() {
 async function loadUserInfo() {
 
     // Access the user:
+    console.log(`Retrieving DB information for user: ${localStorage.getItem("currentUser")}...`);
     const response = await fetch(`/api/profile/${localStorage.getItem("currentUser")}`);
 
     // Check that user was fetched successfully:
@@ -53,7 +54,10 @@ async function loadUserInfo() {
     document.getElementById("usernameDisplay").textContent = `Username: ${userInfo.userName}`;
     document.getElementById("emailDisplay").textContent = `Email: ${userInfo.email}`;
 
+    // ================= Loading user preferences: ====================
+
     // Access the user preferences:
+    console.log(`Retrieving DB preferences for user: ${localStorage.getItem("currentUser")}...`);
     const prefResponse = await fetch(`/api/profile-preferences/${localStorage.getItem("currentUser")}`);
 
     // Check that user was fetched successfully:
@@ -65,7 +69,7 @@ async function loadUserInfo() {
     // Place user preferences into preferences list:
     prefList = document.getElementById("current-preferences");
 
-    // Check each preference for an entry:
+    // Check each preference for an entry to display:
 
     // userPreferences.price is a String
     if ( userPreferences && userPreferences.price != null ) {

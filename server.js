@@ -62,11 +62,11 @@ app.post("/register", async (req,res) => {
   
   // Generate empty preferences list for user:
   const userPreferences = new Preferences({
-    userName: req.body.username,
-    price: "3.00",
-    rating: 4,
-    dietary: "Sandwich",
-    atmosphere: "Romantic",
+    userName: req.body.username, // Username must match User DB entry / localstorage username for search purposes.
+    price: "0.00",
+    rating: 0,
+    dietary: "",
+    atmosphere: "",
   });
 
   //Add to the database:

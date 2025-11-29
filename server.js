@@ -86,7 +86,7 @@ app.post("/register", async (req,res) => {
 });
 
 app.get("/register", (req, res) => {
-  res.sendFile("register.html", { root: path.join(__dirname, "public") });
+  res.sendFile("register.html", { root: path.join(__dirname, "public") }); // <--- Duplicate?
 });
 
 // -------- Restaurant Routes --------

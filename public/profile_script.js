@@ -13,6 +13,10 @@ function loadedHandler() {
     // Update profile with newest user information:
     loadUserInfo();
 
+    // Apply updatePreferences() event handler to preferenceMenu:
+    let addPreferenceBtn = document.getElementById("add-preference-btn");
+    addPreferenceBtn.addEventListener( "click", updatePreferences );
+
     // Generate list of current stored reviews in database:
     loadReviews();
 
@@ -103,29 +107,33 @@ async function loadUserInfo() {
     }
 }
 
-/* FUNCTION EXCEEDS PD2 SCOPE
-// Update user info when requested:
-function updateUserInfo( event ) {
+// ====================================================================================
+/**
+ * updatePreferences(): takes the information entered into the user
+ * preferences menu, then formats and adds it to the user-preferences
+ * db entry of the user. The preferences display is updated
+ * to match the new preference added.
+ */
+async function updatePreferences() {
 
-    // Hide old user info
-    let infoDisplay = document.getElementById("user-info");
-    infoDisplay.style.display = "none";
+    let user = localStorage.getItem("loggedInUser");
 
-    // Show user information update panel:
+    // Take the information sent to the preferences menu:
+    let prefOption = document.getElementById("preference-options");
+    let prefInput = document.getElementById("preference-input");
+
+    // Check for valid inputs:
+    if ( ( prefOption.value = null ) ) {
+        // Invalid input: No preference selected:
+        console.log("Preference menu: Invalid input: No preference selected")
+    }
+    console.log( prefOption.value );
+
+    // Upload new preference to the DB.
+
+    // Update the preferences display list:
 
     // Once new information is submitted, update the database:
-    let oldUserInfo = localStorage.getItem("loggedInUser");
-    newUserInfo = JSON.parse(oldUserInfo);
-    //newUserInfo.name = 
-    //newUserInfo.email = 
-}
-*/
-
-// ====================================================================================
-// Setup functionality to add / remove user preferences from the preference list:
-
-function updatePreferences() {
-
 }
 
 // ====================================================================================

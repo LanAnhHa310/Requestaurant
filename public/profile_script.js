@@ -44,7 +44,7 @@ function loadedHandler() {
 async function loadUserInfo() {
 
     // Access the user:
-    console.log(`Retrieving DB information for user: ${localStorage.getItem("currentUser")}...`);
+    console.log(`Retrieving DB personal info for user: ${localStorage.getItem("currentUser")}...`);
     const response = await fetch(`/api/profile/${localStorage.getItem("currentUser")}`);
 
     // Check that user was fetched successfully:
@@ -114,7 +114,8 @@ async function loadUserInfo() {
  * db entry of the user. The preferences display is updated
  * to match the new preference added.
  */
-async function updatePreferences() {
+async function updatePreferences( event ) {
+    event.preventDefault();
 
     let user = localStorage.getItem("loggedInUser");
 
@@ -123,11 +124,13 @@ async function updatePreferences() {
     let prefInput = document.getElementById("preference-input");
 
     // Check for valid inputs:
-    if ( ( prefOption.value = null ) ) {
-        // Invalid input: No preference selected:
+    if ( ( prefOption == null ) ) {
         console.log("Preference menu: Invalid input: No preference selected")
     }
-    console.log( prefOption.value );
+    console.log( `Preference selectedOptions: ${prefOption.selectedOptions}, value: ${prefOption.value}`);
+    console.log( `Text: ${document.getElementById("preference-options").selectedOptions[0].text} `);
+
+
 
     // Upload new preference to the DB.
 

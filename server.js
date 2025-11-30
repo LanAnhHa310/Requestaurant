@@ -65,7 +65,7 @@ app.post("/register", async (req,res) => {
     userName: req.body.username, // Username must match User DB entry / localstorage username for search purposes.
     price: "0.00",
     rating: 0,
-    dietary: "",
+    dietary: ["test1", "test2"],
     atmosphere: "",
   });
 

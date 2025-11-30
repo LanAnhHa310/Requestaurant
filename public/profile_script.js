@@ -127,14 +127,24 @@ async function updatePreferences( event ) {
     if ( ( prefOption.value == null ) ) {
         console.log("Preference menu: Invalid input: No preference selected")
     }
-    console.log( `option value: ${prefOption.value}`);
-    console.log( `Text: ${document.getElementById("preference-options").selectedOptions[0].text} `);
+    //console.log( `Text: ${document.getElementById("preference-options").selectedOptions[0].text} `);
 
-    // Check for valid input:
-    if ( ( prefInput.value == null ) || ( prefInput == "" ) ) {
-        console.log("Preference menu: Invalid input: preference not specified")
+    for ( var i = 0; i < prefOption.selectedOptions.length; i++ ) {
+        console.log( `Adding ${prefOption.selectedOptions[i].text} `);
+        console.log( `option value: ${prefOption.selectedOptions[i].value}`);
+        var prefGroup = prefOption.selectedOptions[i].value;
+
+        // Adding preference to dietary Restrictions ( 0-5 ):
+        if ( (prefGroup >= 0) && (prefGroup <= 5) ) {
+            console.log("Pushing preference to dietary restrictions!");
+        }
     }
-    console.log( `input value: ${prefInput.value}`);
+
+    // // Check for valid input:
+    // if ( ( prefInput.value == null ) || ( prefInput == "" ) ) {
+    //     console.log("Preference menu: Invalid input: preference not specified")
+    // }
+    // console.log( `input value: ${prefInput.value}`);
 
     // Upload new preference to the DB.
 

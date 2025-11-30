@@ -129,16 +129,19 @@
                 
                 <h3>Add Preference:</h3>
                 <form>
+                    <!-- See https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/select for formatting reference -->
 
-                    <select name="preference-options" id="preference-options">
-                        <option value="1">Dietary restrictions</option>
-                        <option value="2">Price</option>
-                        <option value="3">Location</option>
-                        <option value="4">Atmosphere</option>
-                        <option value="5">Rating</option>
+                    <select name="preference-options" id="preference-options" multiple>
+                        <optgroup>Dietary Restrictions</optgroup>
+                        <hr>
+                        <option value="0">Vegan</option>
+                        <option value="1">Vegetarian</option>
+                        <option value="2">Gluten-free</option>
+                        <option value="3">Halal</option>
+                        <option value="4">Kosher</option>
                     </select>
 
-                    <input type="text" name="preference-input" id="preference-input" value="Specify your preference here">
+                    <!-- <input type="text" name="preference-input" id="preference-input" value="Specify your preference here"> -->
 
                     <button type="submit" id="add-preference-btn" name="add-preference-btn">Add Preference</button>
                 </form>

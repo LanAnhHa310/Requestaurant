@@ -123,14 +123,18 @@ async function updatePreferences( event ) {
     let prefOption = document.getElementById("preference-options");
     let prefInput = document.getElementById("preference-input");
 
-    // Check for valid inputs:
-    if ( ( prefOption == null ) ) {
+    // Check for valid option:
+    if ( ( prefOption.value == null ) ) {
         console.log("Preference menu: Invalid input: No preference selected")
     }
-    console.log( `Preference selectedOptions: ${prefOption.selectedOptions}, value: ${prefOption.value}`);
+    console.log( `option value: ${prefOption.value}`);
     console.log( `Text: ${document.getElementById("preference-options").selectedOptions[0].text} `);
 
-
+    // Check for valid input:
+    if ( ( prefInput.value == null ) || ( prefInput == "" ) ) {
+        console.log("Preference menu: Invalid input: preference not specified")
+    }
+    console.log( `input value: ${prefInput.value}`);
 
     // Upload new preference to the DB.
 

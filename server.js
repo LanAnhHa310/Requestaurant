@@ -46,7 +46,6 @@ app.get("/", (req, res) => {
   then adds a new user to the user data collection
   in the database from the register webpage request.
 */
-
 app.get("/register", (req, res) => {
   res.sendFile("register.html", { root: path.join(__dirname, "public") });
 });
@@ -187,7 +186,7 @@ app.put("/api/reviews/:reviewId", async (req, res) => {
   try {
     const reviewId = req.params.reviewId;
     const userName = req.body.userName; // User making the request
-    
+  
     // Find the review first to verify ownership
     const review = await Review.findById(reviewId);
     
@@ -283,28 +282,62 @@ app.get("/api/profile/:userName", async (req, res) => {
   }
 });
 
+
 /**
  * 
  */
 app.put("/api/profile-preferences/update/:userName", async (req, res) => {
+  
   console.log("HIT /api/profile-preferences/update with", req.params.userName);
-
-  // Generate updated preference information from request:
-  const newPreferences = new Preferences ({
-    userName: req.body.username, // Username must match User DB entry / localstorage username for search purposes.
-    price: "0.00",
-    rating: 0,
-    dietary: req.body.dietary,
-    atmosphere: "classy",
-  });
-
-  // Save new preferences to the preference DB:
   try {
-    await newPreferences.save();
 
-    console.log(`Saved ${newPreferences.userName} to database successfully!`, "→ collection:", newPreferences.collection.name);
+
+    /**
+     * const reviewId = req.params.reviewId;
+    const userName = req.body.userName; // User making the request
+  
+    // Find the review first to verify ownership
+    const review = await Review.findById(reviewId);
+    
+    if (!review) {
+      return res.status(404).json({ error: "Review not found" });
+    }
+    
+    // Verify the user owns this review
+    if (review.userName !== userName) {
+      return res.status(403).json({ error: "You can only update your own reviews" });
+    }
+    
+    // Update the review
+    review.rating = req.body.rating || review.rating;
+    review.text = req.body.text || review.text;
+    review.updatedAt = Date.now();
+     */
+
+    const userName = req.body.userName; // User making the request
+
+    // Check preferences database for exisitng preference entry:
+    const userPreferences = await Preferences.findById(userName);
+    if (!userPreferences) {
+      return res.status(404).json({ error: "Preferences not found" });
+    }
+    // Verify preferences belong to the user:
+    if ( userPreferences.userName !== userName ) {
+      return res.status(403).json({ error: `User preferences do not belong to ${userName}`});
+    }
+
+    // Update preference information from request:
+    userPreferences.price = req.body.price || userPreferences.price;
+    userPreferences.rating = req.body.rating || userPreferences.rating;
+    userPreferences.dietary = req.body.dietary || userPreferences.dietary;
+    userPreferences.atmosphere = req.body.atmosphere || userPreferences.atmosphere;
+
+    // Save new preferences to the preference DB:
+    await userPreferences.save();
+
+    console.log(`Saved ${userPreferences.userName} to database successfully!`, "→ collection:", userPreferences.collection.name);
     // Return final response:
-    return res.status(201).json({ message: "Updated", preferences: { username: newPreferences.userName } });
+    return res.status(201).json({ message: "Updated", preferences: { username: userPreferences.userName } });
   }
   catch (err) {
     return res.status(400).send(err.message);

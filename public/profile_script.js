@@ -128,7 +128,6 @@ async function updatePreferences( event ) {
     if ( ( prefOption.value == null ) ) {
         console.log("Preference menu: Invalid input: No preference selected")
     }
-    
     console.log(`preference option value: ${prefOption.value}`);
 
     const newPreferences = {
@@ -150,12 +149,11 @@ async function updatePreferences( event ) {
     const updateResponse = await fetch(`/api/profile-preferences/update/${user}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify( newPreferences )
+        body: JSON.stringify( newPreferences ),
     });
 
     if (!updateResponse.ok) throw new Error("Failed to update preferences.");
 
-    
     // Update the preferences display list:
 }
 

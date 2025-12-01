@@ -122,13 +122,13 @@ async function updatePreferences( event ) {
     console.log(`User retrieved from local storage: ${user}`);
 
     // Take the information sent to the preferences menu:
-    let prefOption = document.getElementById("preference-options");
+    let dietOption = document.getElementById("dietary-options");
     //let prefInput = document.getElementById("preference-input");
-    console.log(`preference option value: ${prefOption.value}`); //TEST
+    console.log(`dietary preference option value: ${dietOption.value}`); //TEST
 
     // Check for valid option:
-    if ( ( prefOption.value == null ) ) {
-        console.log("Preference menu: Invalid input: No preference selected");
+    if ( ( dietOption.value == null ) ) {
+        console.log("Preference menu: Invalid diet input: No preference selected");
         return;
     }
 
@@ -136,7 +136,7 @@ async function updatePreferences( event ) {
         userName: user,
         price: "$123.00",
         rating: 4,
-        dietary: prefOption.value,
+        dietary: dietOption.value,
         atmosphere: "family",
     };
 

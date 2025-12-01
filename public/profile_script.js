@@ -6,6 +6,8 @@
     - User reviews
 */
 
+const Preferences = require("../models/preferences");
+
 window.addEventListener( "DOMContentLoaded", loadedHandler );
 
 function loadedHandler() {
@@ -115,9 +117,10 @@ async function loadUserInfo() {
  * to match the new preference added.
  */
 async function updatePreferences( event ) {
+
     event.preventDefault();
 
-    let user = localStorage.getItem("loggedInUser");
+    let user = localStorage.getItem("currentUser");
 
     // Take the information sent to the preferences menu:
     let prefOption = document.getElementById("preference-options");
@@ -127,30 +130,36 @@ async function updatePreferences( event ) {
     if ( ( prefOption.value == null ) ) {
         console.log("Preference menu: Invalid input: No preference selected")
     }
-    //console.log( `Text: ${document.getElementById("preference-options").selectedOptions[0].text} `);
+    
+    const newPreferences = {
+        userName: user,
+        // preferences:
+        price: "$123.00",
+        rating: 4,
+        dietary: prefOption.value,
+        atmosphere: "Classy",
+    };
 
-    for ( var i = 0; i < prefOption.selectedOptions.length; i++ ) {
-        console.log( `Adding ${prefOption.selectedOptions[i].text} `);
-        console.log( `option value: ${prefOption.selectedOptions[i].value}`);
-        var prefGroup = prefOption.selectedOptions[i].value;
-
-        // Adding preference to dietary Restrictions ( 0-5 ):
-        if ( (prefGroup >= 0) && (prefGroup <= 5) ) {
-            console.log("Pushing preference to dietary restrictions!");
-        }
-    }
-
-    // // Check for valid input:
+    // // Check for valid location input:
     // if ( ( prefInput.value == null ) || ( prefInput == "" ) ) {
     //     console.log("Preference menu: Invalid input: preference not specified")
     // }
     // console.log( `input value: ${prefInput.value}`);
 
     // Upload new preference to the DB.
+    const updateResponse = await fetch(`/api/profile-preferences/update/${localStorage.getItem("currentUser")}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify( newPreferences )
+    });
 
+    if ( updateResponse.ok) {      
+        alert("Updated preferences.");
+    }
+    else {
+        console.log("ERROR: COuld not update preferences");
+    }     
     // Update the preferences display list:
-
-    // Once new information is submitted, update the database:
 }
 
 // ====================================================================================

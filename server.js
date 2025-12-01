@@ -61,20 +61,20 @@ app.post("/register", async (req,res) => {
   });
   
   // Generate empty preferences list for user:
-  const userPreferences = new Preferences({
-    userName: req.body.username, // Username must match User DB entry / localstorage username for search purposes.
-    price: "0.00",
-    rating: 0,
-    dietary: ["test1", "test2"],
-    atmosphere: "",
-  });
+  // const userPreferences = new Preferences({
+  //   userName: req.body.username, // Username must match User DB entry / localstorage username for search purposes.
+  //   price: "0.00",
+  //   rating: 0,
+  //   dietary: ["test1", "test2"],
+  //   atmosphere: "",
+  // });
 
   //Add to the database:
   try {
     // Add new user:
     await newUser.save();
     // Generate empty preferences list for user:
-    await userPreferences.save();
+    //await userPreferences.save();
 
     console.log(`Saved ${newUser.userName} to database successfully!`, "→ collection:", newUser.collection.name);
 
@@ -282,7 +282,40 @@ app.get("/api/profile/:userName", async (req, res) => {
   }
 });
 
+/**
+ * 
+ */
+app.put("/api/profile-preferences/update/:userName", async (req, res) => {
+  console.log("HIT /api/profile-preferences with", req.params.userName);
 
+  // Generate updated preference information from request:
+  const newPreferencess = new Preferences ({
+    userName: req.body.username, // Username must match User DB entry / localstorage username for search purposes.
+    price: "0.00",
+    rating: 0,
+    dietary: req.body.dietary,
+    atmosphere: "Classy",
+  });
+
+  // Save new preferences to the preference DB:
+  try {
+    await newPreferencess.save();
+
+    console.log(`Saved ${newPreferencess.userName} to database successfully!`, "→ collection:", newPreferencess.collection.name);
+    // Return final response:
+    return res.status(201).json({ message: "Updated", preferences: { username: newPreferencess.userName } });
+  }
+  catch (err) {
+    return res.status(400).send(err.message);
+  }
+
+});
+
+
+/**
+ * /api/profile-preferences/:userName - Retrieves user preferences
+ * from user preferences database and returns them in json format:
+ */
 app.get("/api/profile-preferences/:userName", async (req, res) => {
   console.log("HIT /api/profile-preferences with", req.params.userName);
   try {

@@ -119,24 +119,25 @@ async function updatePreferences( event ) {
     event.preventDefault();
 
     const user = localStorage.getItem("currentUser");
+    console.log(`User retrieved from local storage: ${user}`);
 
     // Take the information sent to the preferences menu:
     let prefOption = document.getElementById("preference-options");
     //let prefInput = document.getElementById("preference-input");
+    console.log(`preference option value: ${prefOption.value}`); //TEST
 
     // Check for valid option:
     if ( ( prefOption.value == null ) ) {
-        console.log("Preference menu: Invalid input: No preference selected")
+        console.log("Preference menu: Invalid input: No preference selected");
+        return;
     }
-    console.log(`preference option value: ${prefOption.value}`);
 
     const newPreferences = {
         userName: user,
-        // preferences:
         price: "$123.00",
         rating: 4,
         dietary: prefOption.value,
-        atmosphere: "Community",
+        atmosphere: "family",
     };
 
     // // Check for valid location input:
@@ -152,7 +153,13 @@ async function updatePreferences( event ) {
         body: JSON.stringify( newPreferences ),
     });
 
-    if (!updateResponse.ok) throw new Error("Failed to update preferences.");
+    //if (!updateResponse.ok) throw new Error("Failed to update preferences.");
+
+    if(!updateResponse.ok) {
+        const msg = await updateResponse.text().catch(() => "");
+        alert(`Could not update preferences: ${msg || updateResponse.status}`);
+        return;
+    }
 
     // Update the preferences display list:
 }

@@ -291,33 +291,10 @@ app.put("/api/profile-preferences/update/:userName", async (req, res) => {
   console.log("HIT /api/profile-preferences/update with", req.params.userName);
   try {
 
-
-    /**
-     * const reviewId = req.params.reviewId;
-    const userName = req.body.userName; // User making the request
-  
-    // Find the review first to verify ownership
-    const review = await Review.findById(reviewId);
-    
-    if (!review) {
-      return res.status(404).json({ error: "Review not found" });
-    }
-    
-    // Verify the user owns this review
-    if (review.userName !== userName) {
-      return res.status(403).json({ error: "You can only update your own reviews" });
-    }
-    
-    // Update the review
-    review.rating = req.body.rating || review.rating;
-    review.text = req.body.text || review.text;
-    review.updatedAt = Date.now();
-     */
-
     const userName = req.body.userName; // User making the request
 
     // Check preferences database for exisitng preference entry:
-    const userPreferences = await Preferences.findById(userName);
+    const userPreferences = await Preferences.findOne(userName);
     if (!userPreferences) {
       return res.status(404).json({ error: "Preferences not found" });
     }
@@ -335,12 +312,16 @@ app.put("/api/profile-preferences/update/:userName", async (req, res) => {
     // Save new preferences to the preference DB:
     await userPreferences.save();
 
-    console.log(`Saved ${userPreferences.userName} to database successfully!`, "→ collection:", userPreferences.collection.name);
+    console.log(`Updated ${userName} preferences successfully!`, "→ collection:", userPreferences.collection.name);
     // Return final response:
-    return res.status(201).json({ message: "Updated", preferences: { username: userPreferences.userName } });
+    return res.status(201).json({
+      message: "Updated preferences",
+      preferences: userPreferences
+    });
   }
-  catch (err) {
-    return res.status(400).send(err.message);
+  catch ( err ) {
+    console.error("Error updating preferences:", err.message);
+    return res.status(400).json({ error: err.message });
   }
 
 });

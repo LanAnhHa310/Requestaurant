@@ -294,7 +294,7 @@ app.put("/api/profile-preferences/update/:userName", async (req, res) => {
     const userName = req.body.userName; // User making the request
 
     // Check preferences database for exisitng preference entry:
-    const userPreferences = await Preferences.findOne(userName);
+    const userPreferences = await Preferences.findOne({ userName: req.params.userName });
     if (!userPreferences) {
       return res.status(404).json({ error: "Preferences not found" });
     }

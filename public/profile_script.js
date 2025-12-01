@@ -6,8 +6,6 @@
     - User reviews
 */
 
-const Preferences = require("../models/preferences");
-
 window.addEventListener( "DOMContentLoaded", loadedHandler );
 
 function loadedHandler() {
@@ -120,24 +118,26 @@ async function updatePreferences( event ) {
 
     event.preventDefault();
 
-    let user = localStorage.getItem("currentUser");
+    const user = localStorage.getItem("currentUser");
 
     // Take the information sent to the preferences menu:
     let prefOption = document.getElementById("preference-options");
-    let prefInput = document.getElementById("preference-input");
+    //let prefInput = document.getElementById("preference-input");
 
     // Check for valid option:
     if ( ( prefOption.value == null ) ) {
         console.log("Preference menu: Invalid input: No preference selected")
     }
     
+    console.log(`preference option value: ${prefOption.value}`);
+
     const newPreferences = {
         userName: user,
         // preferences:
         price: "$123.00",
         rating: 4,
         dietary: prefOption.value,
-        atmosphere: "Classy",
+        atmosphere: "COmmunity",
     };
 
     // // Check for valid location input:
@@ -147,18 +147,19 @@ async function updatePreferences( event ) {
     // console.log( `input value: ${prefInput.value}`);
 
     // Upload new preference to the DB.
-    const updateResponse = await fetch(`/api/profile-preferences/update/${localStorage.getItem("currentUser")}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify( newPreferences )
-    });
+    try {
+        const updateResponse = await fetch(`/api/profile-preferences/update/${user}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify( newPreferences )
+        });
 
-    if ( updateResponse.ok) {      
-        alert("Updated preferences.");
+        if (!updateResponse.ok) throw new Error("Failed to update preferences.");
     }
-    else {
-        console.log("ERROR: COuld not update preferences");
-    }     
+    catch (err) {
+        console.error("Error updating preferences:", err);
+    }
+    
     // Update the preferences display list:
 }
 

@@ -61,28 +61,29 @@ app.post("/register", async (req,res) => {
   });
   
   // Generate empty preferences list for user:
-  // const userPreferences = new Preferences({
-  //   userName: req.body.username, // Username must match User DB entry / localstorage username for search purposes.
-  //   price: "0.00",
-  //   rating: 0,
-  //   dietary: ["test1", "test2"],
-  //   atmosphere: "",
-  // });
+  const userPreferences = new Preferences({
+    userName: req.body.username, // Username must match User DB entry / localstorage username for search purposes.
+    price: "0.00",
+    rating: 0,
+    dietary: "test1",
+    atmosphere: "Classy",
+  });
 
   //Add to the database:
   try {
     // Add new user:
     await newUser.save();
     // Generate empty preferences list for user:
-    //await userPreferences.save();
+    await userPreferences.save();
 
     console.log(`Saved ${newUser.userName} to database successfully!`, "→ collection:", newUser.collection.name);
 
     // Return final response:
     return res.status(201).json({ message: "Registered", user: { username: newUser.userName, email: newUser.email } });
-    } catch (err) {
-      return res.status(400).send(err.message);
-    }
+
+  } catch (err) {
+    return res.status(400).send(err.message);
+  }
 });
 
 app.get("/register", (req, res) => {
@@ -286,24 +287,24 @@ app.get("/api/profile/:userName", async (req, res) => {
  * 
  */
 app.put("/api/profile-preferences/update/:userName", async (req, res) => {
-  console.log("HIT /api/profile-preferences with", req.params.userName);
+  console.log("HIT /api/profile-preferences/update with", req.params.userName);
 
   // Generate updated preference information from request:
-  const newPreferencess = new Preferences ({
+  const newPreferences = new Preferences ({
     userName: req.body.username, // Username must match User DB entry / localstorage username for search purposes.
     price: "0.00",
     rating: 0,
     dietary: req.body.dietary,
-    atmosphere: "Classy",
+    atmosphere: "classy",
   });
 
   // Save new preferences to the preference DB:
   try {
-    await newPreferencess.save();
+    await newPreferences.save();
 
-    console.log(`Saved ${newPreferencess.userName} to database successfully!`, "→ collection:", newPreferencess.collection.name);
+    console.log(`Saved ${newPreferences.userName} to database successfully!`, "→ collection:", newPreferences.collection.name);
     // Return final response:
-    return res.status(201).json({ message: "Updated", preferences: { username: newPreferencess.userName } });
+    return res.status(201).json({ message: "Updated", preferences: { username: newPreferences.userName } });
   }
   catch (err) {
     return res.status(400).send(err.message);

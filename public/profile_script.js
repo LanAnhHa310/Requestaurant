@@ -147,18 +147,14 @@ async function updatePreferences( event ) {
     // console.log( `input value: ${prefInput.value}`);
 
     // Upload new preference to the DB.
-    try {
-        const updateResponse = await fetch(`/api/profile-preferences/update/${user}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify( newPreferences )
-        });
+    const updateResponse = await fetch(`/api/profile-preferences/update/${user}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify( newPreferences )
+    });
 
-        if (!updateResponse.ok) throw new Error("Failed to update preferences.");
-    }
-    catch (err) {
-        console.error("Error updating preferences:", err);
-    }
+    if (!updateResponse.ok) throw new Error("Failed to update preferences.");
+
     
     // Update the preferences display list:
 }

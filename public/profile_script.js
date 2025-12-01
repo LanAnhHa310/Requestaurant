@@ -137,7 +137,7 @@ async function updatePreferences( event ) {
         price: "$123.00",
         rating: 4,
         dietary: prefOption.value,
-        atmosphere: "COmmunity",
+        atmosphere: "Community",
     };
 
     // // Check for valid location input:

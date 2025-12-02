@@ -383,7 +383,28 @@ app.post("/api/bookmark", async (req, res) => {
   }
 });
 
-// Fetch bookmark
+// Fetch all bookmarks for a user
+app.get("/api/bookmarks/:username", async( req, res ) => {
+  console.log("HIT /api/bookmarks for", req.params.username);
+  try{
+    const user = await User.findOne({ 
+      userName: req.params.username 
+    });
+
+    if (!user) return res.status(404).json({ 
+      error: "User not found" 
+    });
+
+     // Return bookmarks array (or empty array if none)
+     return res.json(user.bookmarks || []);
+
+  } catch(err) {
+    console.error(err);
+    res.status(500).json({ 
+      error: "Failed to load bookmarks" 
+    });
+  }
+});
 
 
 // Catch-all for when project files are not found:

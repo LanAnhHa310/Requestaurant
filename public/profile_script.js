@@ -28,6 +28,9 @@ function loadedHandler() {
         button.addEventListener( "click", removeBookmark );
     }
 
+    // Show a list of bookmarked restaurants from database
+    loadBookmarks();
+
     // let reviewRemoveBtns = document.getElementsByClassName("remove-review-btn");
     // for ( let button of reviewRemoveBtns ) {
     //     button.addEventListener( "click", removeReview );
@@ -211,7 +214,7 @@ async function updatePreferences( event ) {
 // Load in bookmarks for user:
 
 // Remove bookmarked restaurant event handler function:
-function removeBookmark( event ) {
+function removeBookmark( event ) { 
     let button = event.target;
     // Get the <div> of the clicked bookmark:
     let parent = button.parentNode;
@@ -398,5 +401,79 @@ async function deleteReview(event) {
     } catch (err) {
         console.error("Error deleting review:", err);
         alert(`Failed to delete review: ${err.message}`);
+    }
+}
+
+// Load and display all bookmarks for the currently logged-in user
+async function loadBookmarks() {
+    // Get the username of the logged-in user from localStorage.
+    // In your app you use "currentUser" / "loggedInUser"
+    // so pull from those instead:
+    let username = localStorage.getItem("currentUser");
+    if (!username) {
+      const storedUser = localStorage.getItem("loggedInUser");
+      if (storedUser) {
+        try {
+          const parsed = JSON.parse(storedUser);
+          username = parsed.username;
+        } catch (e) {
+          console.error("Error parsing loggedInUser:", e);
+        }
+      }
+    }
+  
+    // If still don't have a username, there's no logged-in user → nothing to load
+    if (!username) return;
+  
+    //  Call backend route to get this user's bookmarks from MongoDB
+    try {
+        console.log("Fetching bookmarks for", username);
+        // Call backend route to get this user's bookmarks from MongoDB
+        const response = await fetch(`/api/bookmarks/${encodeURIComponent(username)}`);
+        if (!response.ok) {
+        console.error("Failed to load bookmarks");
+        return;
+        }
+        const bookmarks = await response.json();
+        console.log("Bookmarks returned from server:", bookmarks);
+    
+        // Find the container on profile.html where bookmarks should be displayed
+        const container = document.getElementById("user-bookmarks");
+
+        if (!container) {
+            console.error("#user-bookmarks container not found");
+            return;
+        }
+
+        // Clear any previous content before rendering fresh list
+        container.innerHTML = "";
+    
+        // For each bookmark, create a card-like div and append to the container
+        bookmarks.forEach(b => {
+        const div = document.createElement("div");
+        div.className = "bookmark";
+    
+        // Use a template string to fill in bookmark details:
+        // image, name, price, atmosphere, rating, and description/info.
+        // Also include a "Remove" button with a data attribute carrying the restaurant name.
+        div.innerHTML = `
+        <button class="remove-bkmk-btn" data-name="${b.name}">Remove</button>
+        <div class="bookmark-info">
+            <img src="${b.image}" alt="${b.name}">
+            <h3>${b.name}</h3>
+            <p>${b.price} • ${b.atmosphere} • ${b.rating}</p>
+            <p>${b.info}</p>
+        </div>
+        `;
+
+        // Add the card to the bookmarks section on the page
+        container.appendChild(div);
+
+        // Attach the existing remove handler to the new button
+        const removeBtn = div.querySelector(".remove-bkmk-btn");
+        removeBtn.addEventListener("click", removeBookmark);
+        });
+    } catch(err) {
+        console.error("Error loading bookmarks:", err);
     }
 }

@@ -384,7 +384,7 @@ app.post("/api/bookmark", async (req, res) => {
 });
 
 // Fetch all bookmarks for a user
-app.get("/api/bookmarks/:username", async( req, res ) => {
+app.get("/api/bookmark/:username", async( req, res ) => {
   console.log("HIT /api/bookmarks for", req.params.username);
   try{
     const user = await User.findOne({ 

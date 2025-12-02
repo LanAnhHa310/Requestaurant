@@ -473,3 +473,213 @@ body.performance-mode .popup {
   background-color: #fff;
   color: #000;
 }
+
+/* =========================
+      PROFILE PAGE STYLING
+   ========================= */
+
+/* Container layout */
+section {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* Title headers */
+h2 {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+/* Top profile block */
+.display-block {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+  padding: 20px;
+  background: #fafafa;
+}
+
+/* User image */
+#user-img img {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #ff5a5f;
+}
+
+/* User Info */
+#user-info p {
+  font-size: 1.1rem;
+  margin: 5px 0;
+}
+
+#update-info-btn {
+  margin-top: 10px;
+  padding: 10px 15px;
+  border: none;
+  background: #ff5a5f;
+  color: white;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+#update-info-btn:hover {
+  background: #ff7a7f;
+}
+
+/* ======================================================
+ PREFERENCES SECTION
+ ====================================================== */
+
+.pref-div {
+  border: 2px solid #ddd;
+  padding: 15px;
+  border-radius: 12px;
+  background: #fefefe;
+}
+
+#preference-form select,
+#preference-form input {
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 8px;
+  border: 1px solid #bbb;
+}
+
+#add-preference-btn {
+  margin-top: 10px;
+  padding: 10px;
+  background: #ff5a5f;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.25s ease;
+}
+
+#add-preference-btn:hover {
+  background: #ff7a7f;
+}
+
+/* Preference list items */
+.preference-list-item {
+  padding: 6px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 1rem;
+}
+
+/* ======================================================
+ BOOKMARK CARDS
+ ====================================================== */
+
+.bookmark {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 2px solid #eee;
+  padding: 15px;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  width: 260px;
+}
+
+#user-bookmarks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.bookmark img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.remove-bkmk-btn {
+  background: #d9534f;
+  color: white;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  align-self: flex-end;
+  transition: 0.25s ease;
+}
+
+.remove-bkmk-btn:hover {
+  background: #c9302c;
+}
+
+/* ======================================================
+ REVIEW CARDS
+ ====================================================== */
+
+.review {
+  width: 350px;
+  border: 2px solid #eee;
+  padding: 15px;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+#user-reviews {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.review img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.remove-review-btn {
+  background: #d9534f;
+  color: white;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: 0.25s ease;
+}
+
+.remove-review-btn:hover {
+  background: #c9302c;
+}
+
+.review-form select,
+.review-form textarea {
+  margin-top: 8px;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.update-review-btn {
+  background: #5cb85c;
+  color: white;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.update-review-btn:hover {
+  background: #4cae4c;
+}

@@ -429,7 +429,7 @@ async function loadBookmarks() {
     try {
         console.log("Fetching bookmarks for", username);
         // Call backend route to get this user's bookmarks from MongoDB
-        const response = await fetch(`/api/bookmarks/${encodeURIComponent(username)}`);
+        const response = await fetch(`/api/bookmark/${encodeURIComponent(username)}`);
         if (!response.ok) {
         console.error("Failed to load bookmarks");
         return;

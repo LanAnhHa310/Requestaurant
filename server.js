@@ -346,6 +346,45 @@ app.get("/api/profile-preferences/:userName", async (req, res) => {
   }
 });
 
+// -------- Bookmark Routes --------
+// Add a bookmark to the user
+app.post("/api/bookmark", async (req, res) => {
+  console.log("HIT api/bookmark");
+  try {
+    // When user bookmarks, the browser sends the resquested info and req.body stores that
+    const { username, restaurant } = req.body;
+
+    // Find matching user in the database, otherwise signal error
+    const user = await user.findOne({
+      userName: username
+    });
+
+    if(!user) return res.status(404).json({
+      error: "User not found"
+    });
+
+    // Check if the restaurant is already saved
+    const exists = user.bookmarks.some(b => b.name === restaurant.name)
+    if(exists) return res.json({
+      message: "Already bookmarked"
+    });
+
+    user.bookmarks.push(restaurant);
+    await user.save();
+
+    return res.json({
+      message: "Bookmarked successfully", bookmarks: user.bookmarks
+    });
+  } catch {
+    console.error(err);
+    res.status(500).json({
+      error: "Bookmark failed"
+    });
+  }
+});
+
+// Fetch bookmark
+
 
 // Catch-all for when project files are not found:
 app.use((req, res) => {

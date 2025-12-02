@@ -116,6 +116,11 @@ async function openPopup(r) {
   restaurantRating.textContent = `${r.price} • ${r.atmosphere} • ${r.rating}`;
   currentRestaurant = r; // Store full restaurant object (not just name)
 
+  // Activate bookmark function when clicking on "save restaurant" button
+  document.getElementById("bookmark-btn").onclick = () => {
+    bookmarkRestaurant(currentRestaurant);
+  };
+
   // Check if user is logged in and show/hide review form accordingly
   checkLoginStatusForReviews();
 
@@ -228,6 +233,33 @@ if(reviewForm) {
     }
   }
 )};
+
+// bookmark functionality:
+// checks who the logged-in user is(from localStorage)
+// if no one logged in show alert to log in and stop
+// send a POST request to /api/bookmark with username, restaurant
+// wait for server's reply
+// read and parse the server's json
+// show server's message in alert
+
+async function bookmarkRestaurant(restaurant) {
+  const username = localStorage.getItem("logInUser");
+  if(!username) {
+    alert("Please log in to bookmark restaurant");
+    return;
+  }
+
+  const response = await fetch("api/bookmark", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" }, 
+    body: JSON.stringify({ username, restaurant })
+
+  });
+
+  const data = await response.json();
+  alert(data.message || "Bookmark added");
+
+}
 
 // Load reviews from database
 async function loadReviews(name) {

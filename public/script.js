@@ -243,21 +243,52 @@ if(reviewForm) {
 // show server's message in alert
 
 async function bookmarkRestaurant(restaurant) {
-  const username = localStorage.getItem("logInUser");
-  if(!username) {
-    alert("Please log in to bookmark restaurant");
+  // Check if user is logged in
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  if (!isLoggedIn) {
+    alert("Please log in to bookmark restaurants!");
     return;
   }
 
-  const response = await fetch("api/bookmark", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" }, 
-    body: JSON.stringify({ username, restaurant })
+  // Get username from localStorage
+  // Prefer currentUser, fall back to loggedInUser
+  let username = localStorage.getItem("currentUser");
+  if (!username) {
+    const storedUser = localStorage.getItem("loggedInUser");
+    if (storedUser) {
+      try {
+        const parsed = JSON.parse(storedUser);
+        username = parsed.username;
+      } catch (e) {
+        console.error("Error parsing loggedInUser:", e);
+      }
+    }
+  }
 
-  });
+  if (!username) {
+    alert("Could not detect logged-in user. Please log in again.");
+    return;
+  }
 
-  const data = await response.json();
-  alert(data.message || "Bookmark added");
+  // Send bookmark to backend
+  try {
+    const response = await fetch("/api/bookmark", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, restaurant }),
+    });
+
+    if (!response.ok) {
+      const err = await response.json().catch(() => ({}));
+      throw new Error(err.error || "Bookmark request failed");
+    }
+
+    const data = await response.json();
+    alert(data.message || "Bookmark added!");
+  } catch (err) {
+    console.error("Error bookmarking:", err);
+    alert("Something went wrong while bookmarking. Please try again.");
+  }
 
 }
 

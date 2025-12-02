@@ -355,7 +355,7 @@ app.post("/api/bookmark", async (req, res) => {
     const { username, restaurant } = req.body;
 
     // Find matching user in the database, otherwise signal error
-    const user = await user.findOne({
+    const user = await User.findOne({
       userName: username
     });
 
@@ -375,7 +375,7 @@ app.post("/api/bookmark", async (req, res) => {
     return res.json({
       message: "Bookmarked successfully", bookmarks: user.bookmarks
     });
-  } catch {
+  } catch(err) {
     console.error(err);
     res.status(500).json({
       error: "Bookmark failed"

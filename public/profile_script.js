@@ -107,6 +107,13 @@ async function loadUserPreferences() {
         ratingPref.textContent = `Ideal Rating: ${userPreferences.rating}`;
         prefList.appendChild(ratingPref);
     }
+    // userPreferences.location is a string:
+    if ( (userPreferences.location != "") && (userPreferences.location != null) ){
+        let locationPref = document.createElement("li");
+        locationPref.className = "preference-list-item";
+        locationPref.textContent = `Location(s): ${userPreferences.location}`;
+        prefList.appendChild(locationPref);
+    }
     // userPreferences.dietary is a String
     if ( (userPreferences.dietary != "") && (userPreferences.dietary != null) ) {
         let dietaryPref = document.createElement("li");
@@ -173,6 +180,7 @@ async function updatePreferences( event ) {
         userName: user,
         price: priceOption.value,
         rating: ratingOption.value,
+        location: locationInput.value,
         dietary: dietOption.value,
         atmosphere: themeOption.value,
     };

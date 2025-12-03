@@ -10,6 +10,7 @@ const Preferences = db.model( "Preferences", {
   // Actual preference list:
   price: { type: String },
   rating: { type: String },
+  location: {type: String},
   dietary: { type: String },
   atmosphere: { type: String },
 });

@@ -64,6 +64,7 @@ app.post("/register", async (req,res) => {
     userName: req.body.username, // Username must match User DB entry / localstorage username for search purposes.
     price: "",
     rating: "",
+    location: "",
     dietary: "",
     atmosphere: "",
   });
@@ -306,6 +307,7 @@ app.put("/api/profile-preferences/update/:userName", async (req, res) => {
     // Update preference information from request:
     userPreferences.price = req.body.price || userPreferences.price;
     userPreferences.rating = req.body.rating || userPreferences.rating;
+    userPreferences.location = req.body.location || userPreferences.location;
     userPreferences.dietary = req.body.dietary || userPreferences.dietary;
     userPreferences.atmosphere = req.body.atmosphere || userPreferences.atmosphere;
 
@@ -323,9 +325,7 @@ app.put("/api/profile-preferences/update/:userName", async (req, res) => {
     console.error("Error updating preferences:", err.message);
     return res.status(400).json({ error: err.message });
   }
-
 });
-
 
 /**
  * /api/profile-preferences/:userName - Retrieves user preferences

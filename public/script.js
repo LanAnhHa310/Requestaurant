@@ -435,11 +435,14 @@ window.addEventListener("DOMContentLoaded", () => {
 
   // Get the ID of the button with auto-fills the search form with user preferences
   const addPrefsButton = document.getElementById("prefLoadBtn");
-  addPrefsButton.addEventListener("click", searchWithPreferences);
+  // addPrefsButton.addEventListener("click", searchWithPreferences);
+  // Guard the preferences button code to avoid null because script crashed earlier when trying to add an event listener to a missing #preLoadBtn
+  if (addPrefsButton) {
+    addPrefsButton.addEventListener("click", searchWithPreferences);
+  }
   
   // Load saved logged in info
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-  // const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser") || "{}");
 
   if(isLoggedIn) {
     // User logged in

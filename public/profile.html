@@ -125,22 +125,52 @@
         <h2>Preferences:</h2>
         <div id="user-preferences" class="display-block">
 
-            <div id="add-preference" class="pref-div">
+            <div id="preference-menu" class="pref-div">
                 
                 <h3>Add Preference:</h3>
-                <form>
+                <form id="preference-form">
+                    <!-- See https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/select for formatting reference -->
 
-                    <select id="rating">
-                        <option value="">Dietary restrictions</option>
-                        <option value="2">Price</option>
-                        <option value="3">Location</option>
-                        <option value="4">Atmosphere</option>
-                        <option value="5">Rating</option>
+                    <label for="price-options">Price Range</label>
+                    <select id="price-options" name="price-options">
+                        <!-- FIX THIS: "" cannot be uploaded to the mongoDB. Change "" to new keyword. -->
+                        <option value=" ">No preference</option>
+                        <option value="$">$ (Budget)</option>
+                        <option value="$$">$$ (Mid-range)</option>
+                        <option value="$$$">$$$ (Fine dining)</option>
                     </select>
-
-                    <input type="text" id="preference" value="Specify your preference here">
-
-                    <button>Add Preference</button>
+                    <br>
+                    <label for="rating-options">Restaurant Rating</label>
+                    <select id="rating-options" name="rating-options">
+                        <option value="">No preference</option>
+                        <option value="2">2★ and above</option>
+                        <option value="3">3★ and above</option>
+                        <option value="4">4★ and above</option>
+                    </select>
+                    <br>
+                    <label for="location-input">Preferred Locations (city/state)</label>
+                    <input type="text" name="location-input" id="location-input" value="Specify your preference here">
+                    <br>
+                    <label for="dietary-options">Dietary Restrictions</label>
+                    <select id="dietary-options" name="dietary-options">
+                        <option value="">No preference</option>
+                        <option value="vegan">Vegan</option>
+                        <option value="vegetarian">Vegetarian</option>
+                        <option value="gluten-free">Gluten-Free</option>
+                        <option value="halal">Halal</option>
+                        <option value="kosher">Kosher</option>
+                    </select>
+                    <br>
+                    <label for="atmosphere-options">Ideal Atmosphere</label>
+                    <select id="atmosphere-options" name="atmosphere-options">
+                        <option value="">No preference</option>
+                        <option value="casual">Casual</option>
+                        <option value="romantic">Romantic</option>
+                        <option value="family">Family-Friendly</option>
+                        <option value="luxury">Luxury</option>
+                    </select>
+                    <br>
+                    <button type="submit" id="add-preference-btn" name="add-preference-btn">Add Preference</button>
                 </form>
                 
             </div>

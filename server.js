@@ -46,7 +46,6 @@ app.get("/", (req, res) => {
   then adds a new user to the user data collection
   in the database from the register webpage request.
 */
-
 app.get("/register", (req, res) => {
   res.sendFile("register.html", { root: path.join(__dirname, "public") });
 });
@@ -62,11 +61,12 @@ app.post("/register", async (req,res) => {
   
   // Generate empty preferences list for user:
   const userPreferences = new Preferences({
-    userName: req.body.username,
-    price: "3.00",
-    rating: 4,
-    dietary: "Sandwich",
-    atmosphere: "Romantic",
+    userName: req.body.username, // Username must match User DB entry / localstorage username for search purposes.
+    price: "",
+    rating: "",
+    location: "",
+    dietary: "",
+    atmosphere: "",
   });
 
   //Add to the database:
@@ -80,13 +80,14 @@ app.post("/register", async (req,res) => {
 
     // Return final response:
     return res.status(201).json({ message: "Registered", user: { username: newUser.userName, email: newUser.email } });
-    } catch (err) {
-      return res.status(400).send(err.message);
-    }
+
+  } catch (err) {
+    return res.status(400).send(err.message);
+  }
 });
 
 app.get("/register", (req, res) => {
-  res.sendFile("register.html", { root: path.join(__dirname, "public") });
+  res.sendFile("register.html", { root: path.join(__dirname, "public") }); // <--- Duplicate?
 });
 
 // -------- Restaurant Routes --------
@@ -186,7 +187,7 @@ app.put("/api/reviews/:reviewId", async (req, res) => {
   try {
     const reviewId = req.params.reviewId;
     const userName = req.body.userName; // User making the request
-    
+  
     // Find the review first to verify ownership
     const review = await Review.findById(reviewId);
     
@@ -283,6 +284,54 @@ app.get("/api/profile/:userName", async (req, res) => {
 });
 
 
+/**
+ * 
+ */
+app.put("/api/profile-preferences/update/:userName", async (req, res) => {
+  
+  console.log("HIT /api/profile-preferences/update with", req.params.userName);
+  try {
+
+    const userName = req.body.userName; // User making the request
+
+    // Check preferences database for exisitng preference entry:
+    const userPreferences = await Preferences.findOne({ userName: req.params.userName });
+    if (!userPreferences) {
+      return res.status(404).json({ error: "Preferences not found" });
+    }
+    // Verify preferences belong to the user:
+    if ( userPreferences.userName !== userName ) {
+      return res.status(403).json({ error: `User preferences do not belong to ${userName}`});
+    }
+
+    // Update preference information from request:
+    console.log(`REQ price: ${req.body.price}, DB Preferences price: ${userPreferences.price}`);
+    userPreferences.price = req.body.price || userPreferences.price;
+    userPreferences.rating = req.body.rating || userPreferences.rating;
+    userPreferences.location = req.body.location || userPreferences.location;
+    userPreferences.dietary = req.body.dietary || userPreferences.dietary;
+    userPreferences.atmosphere = req.body.atmosphere || userPreferences.atmosphere;
+
+    // Save new preferences to the preference DB:
+    await userPreferences.save();
+
+    console.log(`Updated ${userName} preferences successfully!`, "→ collection:", userPreferences.collection.name);
+    // Return final response:
+    return res.status(201).json({
+      message: "Updated preferences",
+      preferences: userPreferences
+    });
+  }
+  catch ( err ) {
+    console.error("Error updating preferences:", err.message);
+    return res.status(400).json({ error: err.message });
+  }
+});
+
+/**
+ * /api/profile-preferences/:userName - Retrieves user preferences
+ * from user preferences database and returns them in json format:
+ */
 app.get("/api/profile-preferences/:userName", async (req, res) => {
   console.log("HIT /api/profile-preferences with", req.params.userName);
   try {

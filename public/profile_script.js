@@ -10,8 +10,14 @@ window.addEventListener( "DOMContentLoaded", loadedHandler );
 
 function loadedHandler() {
 
-    // Update profile with newest user information:
+    // Load profile with newest user information:
     loadUserInfo();
+    // Load user preferences:
+    loadUserPreferences();
+
+    // Apply updatePreferences() event handler to preferenceMenu:
+    let addPreferenceBtn = document.getElementById("add-preference-btn");
+    addPreferenceBtn.addEventListener( "click", updatePreferences );
 
     // Generate list of current stored reviews in database:
     loadReviews();
@@ -40,6 +46,7 @@ function loadedHandler() {
 async function loadUserInfo() {
 
     // Access the user:
+    console.log(`Retrieving DB personal info for user: ${localStorage.getItem("currentUser")}...`);
     const response = await fetch(`/api/profile/${localStorage.getItem("currentUser")}`);
 
     // Check that user was fetched successfully:
@@ -53,7 +60,18 @@ async function loadUserInfo() {
     document.getElementById("usernameDisplay").textContent = `Username: ${userInfo.userName}`;
     document.getElementById("emailDisplay").textContent = `Email: ${userInfo.email}`;
 
+    return;
+}
+
+/**
+ * loadUserPreferences() Takes the user preferences stored in the preferences database,
+ * then displays them in the user profile page.
+ * This function is also called whenever the preferences are updated.
+ */
+async function loadUserPreferences() {
+
     // Access the user preferences:
+    console.log(`Retrieving DB preferences for user: ${localStorage.getItem("currentUser")}...`);
     const prefResponse = await fetch(`/api/profile-preferences/${localStorage.getItem("currentUser")}`);
 
     // Check that user was fetched successfully:
@@ -63,65 +81,128 @@ async function loadUserInfo() {
     const userPreferences = await prefResponse.json();
 
     // Place user preferences into preferences list:
-    prefList = document.getElementById("current-preferences");
+    const prefList = document.getElementById("current-preferences");
 
-    // Check each preference for an entry:
+    // Clear previous preference entries:
+    while ( prefList.firstChild ) {
+        prefList.removeChild(prefList.lastChild);
+    }
+
+    // Check each preference for an entry to display:
+    // "No preference"-DB entries should not be displayed!
 
     // userPreferences.price is a String
-    if ( userPreferences && userPreferences.price != null ) {
+    if ( (userPreferences.price != "") && (userPreferences.price != null) ) {
         let pricePref = document.createElement("li");
         pricePref.className = "preference-list-item";
-        pricePref.textContent = `Rating: ${userPreferences.price}`;
+        pricePref.textContent = `Price Range: ${userPreferences.price}`;
         // Add the user preference to the list:
         prefList.appendChild(pricePref);
     }
     // userPreferences.rating is a Number, so just check for null
-    if ( userPreferences && userPreferences.rating != null ) {
+    if ( (userPreferences.rating != "") && (userPreferences.rating != null) ) {
         // fixed issue with type
         let ratingPref = document.createElement("li");
         ratingPref.className = "preference-list-item";
-        ratingPref.textContent = `Price-range: ${userPreferences.rating}`;
+        ratingPref.textContent = `Ideal Rating: ${userPreferences.rating}`;
         prefList.appendChild(ratingPref);
     }
+    // userPreferences.location is a string:
+    if ( (userPreferences.location != "") && (userPreferences.location != null) ){
+        let locationPref = document.createElement("li");
+        locationPref.className = "preference-list-item";
+        locationPref.textContent = `Location(s): ${userPreferences.location}`;
+        prefList.appendChild(locationPref);
+    }
     // userPreferences.dietary is a String
-    if ( userPreferences && userPreferences.dietary != null ) {
+    if ( (userPreferences.dietary != "") && (userPreferences.dietary != null) ) {
         let dietaryPref = document.createElement("li");
         dietaryPref.className = "preference-list-item";
         dietaryPref.textContent = `Dietary exceptions: ${userPreferences.dietary}`;
         prefList.appendChild(dietaryPref);
     }
     // userPreferences.atmosphere is a String
-    if ( userPreferences && userPreferences.atmosphere != null ) {
+    if ( (userPreferences.atmosphere != "") && (userPreferences.atmosphere != null) ) {
         let atmoPref = document.createElement("li");
         atmoPref.className = "preference-list-item";
         atmoPref.textContent = `Restaurant Theme / Atmosphere: ${userPreferences.atmosphere}`;
         prefList.appendChild(atmoPref);
     }
+    console.log("Loaded user preferences successfully.");
+    return;
 }
-
-/* FUNCTION EXCEEDS PD2 SCOPE
-// Update user info when requested:
-function updateUserInfo( event ) {
-
-    // Hide old user info
-    let infoDisplay = document.getElementById("user-info");
-    infoDisplay.style.display = "none";
-
-    // Show user information update panel:
-
-    // Once new information is submitted, update the database:
-    let oldUserInfo = localStorage.getItem("loggedInUser");
-    newUserInfo = JSON.parse(oldUserInfo);
-    //newUserInfo.name = 
-    //newUserInfo.email = 
-}
-*/
 
 // ====================================================================================
-// Setup functionality to add / remove user preferences from the preference list:
+/**
+ * updatePreferences(): takes the information entered into the user
+ * preferences menu, then formats and adds it to the user-preferences
+ * db entry of the user. The preferences display is updated
+ * to match the new preference added.
+ */
+async function updatePreferences( event ) {
 
-function updatePreferences() {
+    event.preventDefault();
 
+    const user = localStorage.getItem("currentUser");
+    console.log(`User retrieved from local storage: ${user}`);
+
+    // Take the information sent to the preferences menu:
+
+    let priceOption = document.getElementById("price-options");
+    let ratingOption = document.getElementById("rating-options");
+    let locationInput = document.getElementById("location-input");
+    let dietOption = document.getElementById("dietary-options");
+    let themeOption = document.getElementById("atmosphere-options");
+    
+    // Check for valid inputs:
+    if ( priceOption.value == null ) {
+        console.log("Preference menu: Invalid price input: No preference selected");
+        return;
+    }
+    if ( ratingOption.value == null ) {
+        console.log("Preference menu: Invalid rating input: No preference selected");
+        return;
+    }
+    if ( (locationInput.value == null) || (locationInput.value == "") ){
+        console.log("Preference menu: Invalid location input: No preference selected");
+        return;
+    }
+    if ( dietOption.value == null ) {
+        console.log("Preference menu: Invalid diet input: No preference selected");
+        return;
+    }
+    if ( themeOption.value == null ) {
+        console.log("Preference menu: Invalid atmosphere input: No preference selected");
+        return;
+    }
+
+    const newPreferences = {
+        userName: user,
+        price: priceOption.value,
+        rating: ratingOption.value,
+        location: locationInput.value,
+        dietary: dietOption.value,
+        atmosphere: themeOption.value,
+    };
+
+    // Upload new preference to the DB.
+    const updateResponse = await fetch(`/api/profile-preferences/update/${user}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify( newPreferences ),
+    });
+
+    //if (!updateResponse.ok) throw new Error("Failed to update preferences.");
+    if(!updateResponse.ok) {
+        const msg = await updateResponse.text().catch(() => "");
+        alert(`Could not update preferences: ${msg || updateResponse.status}`);
+        return;
+    }
+
+    // Update the preferences display list:
+    loadUserPreferences();
+
+    return;
 }
 
 // ====================================================================================

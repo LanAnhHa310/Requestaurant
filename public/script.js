@@ -14,6 +14,9 @@ const reviewText = document.getElementById("review-text");
 const reviewRatingSelect = document.getElementById("review-rating");
 const reviewsList = document.getElementById("reviews-list");
 
+// Get the ID of the button with auto-fills the search form with user preferences
+const addPrefsButton = document.getElementById("prefLoadBtn");
+
 let currentRestaurant = null;
 
 // ==================== SEARCH FUNCTIONALITY ====================
@@ -75,6 +78,30 @@ if (searchForm) {
       resultList.innerHTML = "<p>Error loading restaurants. Please try again.</p>";
     }
   });
+}
+
+/**
+ * 
+ */
+async function searchWithPreferences( event ) {
+
+  // prevent the search form from submitting:
+  event.preventDefault();
+
+  // Access the user preferences:
+  console.log(`Loading DB preferences into search for user: ${localStorage.getItem("currentUser")}...`);
+  const prefResponse = await fetch(`/api/profile-preferences/${localStorage.getItem("currentUser")}`);
+
+  // Check that user was fetched successfully:
+  if ( !prefResponse.ok ) {
+      throw new Error("Failed to retrieve logged-in user preference data");
+  }
+  const searchPreferences = await prefResponse.json();
+
+  // Once retrieved, load the user preferences into the search form fields:
+  document.getElementById("price").value = searchPreferences.price;
+
+  return;
 }
 
 // ==================== POPUP & REVIEW FUNCTIONALITY ====================

@@ -305,6 +305,7 @@ app.put("/api/profile-preferences/update/:userName", async (req, res) => {
     }
 
     // Update preference information from request:
+    console.log(`REQ price: ${req.body.price}, DB Preferences price: ${userPreferences.price}`);
     userPreferences.price = req.body.price || userPreferences.price;
     userPreferences.rating = req.body.rating || userPreferences.rating;
     userPreferences.location = req.body.location || userPreferences.location;

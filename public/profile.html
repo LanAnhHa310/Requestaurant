@@ -133,7 +133,8 @@
 
                     <label for="price-options">Price Range</label>
                     <select id="price-options" name="price-options">
-                        <option value="">No preference</option>
+                        <!-- FIX THIS: "" cannot be uploaded to the mongoDB. Change "" to new keyword. -->
+                        <option value=" ">No preference</option>
                         <option value="$">$ (Budget)</option>
                         <option value="$$">$$ (Mid-range)</option>
                         <option value="$$$">$$$ (Fine dining)</option>

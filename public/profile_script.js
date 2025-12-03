@@ -58,7 +58,15 @@ async function loadUserInfo() {
     document.getElementById("usernameDisplay").textContent = `Username: ${userInfo.userName}`;
     document.getElementById("emailDisplay").textContent = `Email: ${userInfo.email}`;
 
-    // ================= Loading user preferences: ====================
+    return;
+}
+
+/**
+ * loadUserPreferences() Takes the user preferences stored in the preferences database,
+ * then displays them in the user profile page.
+ * This function is also called whenever the preferences are updated.
+ */
+async function loadUserPreferences() {
 
     // Access the user preferences:
     console.log(`Retrieving DB preferences for user: ${localStorage.getItem("currentUser")}...`);
@@ -79,7 +87,7 @@ async function loadUserInfo() {
     if ( userPreferences && userPreferences.price != null ) {
         let pricePref = document.createElement("li");
         pricePref.className = "preference-list-item";
-        pricePref.textContent = `Rating: ${userPreferences.price}`;
+        pricePref.textContent = `Price Range: ${userPreferences.price}`;
         // Add the user preference to the list:
         prefList.appendChild(pricePref);
     }
@@ -88,7 +96,7 @@ async function loadUserInfo() {
         // fixed issue with type
         let ratingPref = document.createElement("li");
         ratingPref.className = "preference-list-item";
-        ratingPref.textContent = `Price-range: ${userPreferences.rating}`;
+        ratingPref.textContent = `Ideal Rating: ${userPreferences.rating}`;
         prefList.appendChild(ratingPref);
     }
     // userPreferences.dietary is a String
@@ -105,6 +113,8 @@ async function loadUserInfo() {
         atmoPref.textContent = `Restaurant Theme / Atmosphere: ${userPreferences.atmosphere}`;
         prefList.appendChild(atmoPref);
     }
+    console.log("Loaded all user preferences successfully.");
+    return;
 }
 
 // ====================================================================================
@@ -174,6 +184,9 @@ async function updatePreferences( event ) {
     }
 
     // Update the preferences display list:
+    loadUserPreferences();
+
+    return;
 }
 
 // ====================================================================================

@@ -40,7 +40,7 @@ if (searchForm) {
       if (!response.ok) throw new Error("Failed to fetch restaurants");
 
       const results = await response.json();
-
+      
       const filtered = results.filter((r) => {
         // Normalize rating to a number (handles "4.3★" strings)
         let numericRating = NaN;
@@ -49,7 +49,8 @@ if (searchForm) {
         } else if (typeof r.rating === "number") {
           numericRating = r.rating;
         }
-
+      
+        // Build a big searchable blob including location
         const searchableText = `
           ${r.name || ""} 
           ${r.info || ""} 
@@ -57,41 +58,51 @@ if (searchForm) {
           ${r.price || ""} 
           ${r.rating || ""} 
           ${r.diet || ""} 
+          ${r.location || ""} 
         `.toLowerCase();
-
-        // 1. Text search
-        // - if no query => allow all (filters still apply)
-        // - if query === "food" => also allow all (generic search)
+      
+        // Split the main query into tokens so EVERY word/letter chunk must match
+        const queryTokens = query
+          .split(/\s+/)
+          .filter(Boolean); // remove empty strings
+      
         const matchesText =
           !query ||
           query === "food" ||
-          searchableText.includes(query);
-
-        // 2. Location: for now treat as extra keyword filter
-        // (later you can add a location field in the DB and use it directly)
+          queryTokens.every((token) => searchableText.includes(token));
+      
+        // Location: use the real r.location, with multi-word support too
+        const locationTokens = locationInput
+          .split(/\s+/)
+          .filter(Boolean);
+      
         const matchesLocation =
-          !locationInput || searchableText.includes(locationInput);
-
-        // 3. Price filter
+          !locationInput ||
+          (r.location &&
+            locationTokens.every((token) =>
+              r.location.toLowerCase().includes(token)
+            ));
+      
+        // Price filter
         const matchesPrice =
           !priceFilter || r.price === priceFilter;
-
-        // 4. Dietary restrictions
+      
+        // Dietary restrictions
         const matchesDietary =
           !dietaryFilter ||
           (r.diet && r.diet.toLowerCase() === dietaryFilter.toLowerCase());
-
-        // 5. Atmosphere filter
+      
+        // Atmosphere filter
         const matchesAtmosphere =
           !atmosphereFilter ||
           (r.atmosphere &&
             r.atmosphere.toLowerCase() === atmosphereFilter.toLowerCase());
-
-        // 6. Rating filter: "4" means 4★ and above
+      
+        // Rating filter: "4" means 4★ and above
         const matchesRating =
           !ratingFilter ||
           (!isNaN(numericRating) && numericRating >= parseFloat(ratingFilter));
-
+      
         return (
           matchesText &&
           matchesLocation &&
@@ -100,7 +111,7 @@ if (searchForm) {
           matchesAtmosphere &&
           matchesRating
         );
-      });
+      });      
 
       if (filtered.length === 0) {
         resultList.innerHTML = `<p>No restaurants found for "${query || "your filters"}".</p>`;

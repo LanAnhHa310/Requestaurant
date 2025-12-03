@@ -19,7 +19,8 @@ const restaurants = [
     price: "$$$",
     atmosphere: "luxury",
     info: "Locally owned farm-to-table restaurant known for elegant dining and seasonal flavors.",
-    diet: "gluten-free"
+    diet: "gluten-free",
+    location: "Downtown Spokane, WA"
   },
   {
     name: "Osprey Restaurant & Bar",
@@ -28,7 +29,8 @@ const restaurants = [
     price: "$$",
     atmosphere: "casual",
     info: "Riverside dining with burgers, steaks, and cocktails, featuring scenic Spokane River views.",
-    diet: "gluten-free"
+    diet: "gluten-free",
+    location: "Spokane Riverfront, Spokane, WA"
   },
   {
     name: "Wooden City Spokane",
@@ -37,7 +39,8 @@ const restaurants = [
     price: "$$",
     atmosphere: "casual",
     info: "Downtown spot for wood-fired pizza, American comfort food, and signature cocktails.",
-    diet: "vegetarian"
+    diet: "vegetarian",
+    location: "Downtown Spokane, WA"
   },
   {
     name: "Clinkerdagger",
@@ -46,7 +49,8 @@ const restaurants = [
     price: "$$$$",
     atmosphere: "romantic",
     info: "Iconic steakhouse overlooking Spokane Falls, ideal for celebrations and date nights.",
-    diet: "gluten-free"
+    diet: "gluten-free",
+    location: "Spokane Falls Overlook, Spokane, WA"
   },
   {
     name: "Italia Trattoria",
@@ -55,7 +59,8 @@ const restaurants = [
     price: "$$$",
     atmosphere: "romantic",
     info: "Modern Italian cuisine in Browne’s Addition with handmade pasta and curated wines.",
-    diet: "vegetarian"
+    diet: "vegetarian",
+    location: "Browne’s Addition, Spokane, WA"
   },
   {
     name: "Safari Room Fresh Grill & Bar",
@@ -64,7 +69,8 @@ const restaurants = [
     price: "$$",
     atmosphere: "family",
     info: "Lively grill and bar inside the Davenport Tower serving steaks, sandwiches, and breakfast.",
-    diet: "gluten-free"
+    diet: "gluten-free",
+    location: "Downtown Spokane, WA"
   },
   {
     name: "Texas Roadhouse Spokane",
@@ -73,7 +79,8 @@ const restaurants = [
     price: "$",
     atmosphere: "casual",
     info: "Bustling steakhouse known for hand-cut steaks, fresh rolls, and a fun roadhouse vibe.",
-    diet: "halal"
+    diet: "halal",
+    location: "North Spokane, WA"
   },
   {
     name: "The Flying Goat",
@@ -82,7 +89,8 @@ const restaurants = [
     price: "$$",
     atmosphere: "casual",
     info: "Neighborhood pizzeria offering creative wood-fired pies and craft beer in a cozy setting.",
-    diet: "vegetarian"
+    diet: "vegetarian",
+    location: "Audubon/Downriver, Spokane, WA"
   },
   {
     name: "The Elk Public House",
@@ -91,7 +99,8 @@ const restaurants = [
     price: "$$",
     atmosphere: "casual",
     info: "Classic Browne’s Addition pub known for comfort food, sandwiches, and a laid-back patio.",
-    diet: "gluten-free"
+    diet: "gluten-free",
+    location: "Browne’s Addition, Spokane, WA"
   },
   {
     name: "Chaotic Baking & Coffee",
@@ -100,7 +109,8 @@ const restaurants = [
     price: "$",
     atmosphere: "casual",
     info: "Cozy Spokane bakery and coffee shop offering pastries, espresso drinks, and quick bites.",
-    diet: "vegetarian"
+    diet: "vegetarian",
+    location: "North Monroe District, Spokane, WA"
   },
   {
     name: "Sushi.com",
@@ -109,7 +119,8 @@ const restaurants = [
     price: "$$",
     atmosphere: "casual",
     info: "Popular downtown spot for sushi rolls, sashimi, and Japanese comfort dishes.",
-    diet: "gluten-free"
+    diet: "gluten-free",
+    location: "Downtown Spokane, WA"
   },
   {
     name: "Inland Pacific Kitchen",
@@ -118,7 +129,8 @@ const restaurants = [
     price: "$$$",
     atmosphere: "luxury",
     info: "Inventive seasonal menu with Pacific Northwest ingredients and a modern dining room.",
-    diet: "gluten-free"
+    diet: "gluten-free",
+    location: "Downtown Spokane, WA"
   },
   {
     name: "Durkin’s Liquor Bar",
@@ -127,7 +139,8 @@ const restaurants = [
     price: "$$",
     atmosphere: "romantic",
     info: "Stylish downtown restaurant and bar serving elevated comfort food and craft cocktails.",
-    diet: "kosher"
+    diet: "kosher",
+    location: "Downtown Spokane, WA"
   },
   {
     name: "Frank’s Diner",
@@ -136,7 +149,8 @@ const restaurants = [
     price: "$",
     atmosphere: "family",
     info: "Historic railcar diner serving hearty American breakfasts and classic comfort favorites.",
-    diet: "gluten-free"
+    diet: "gluten-free",
+    location: "North Spokane, WA"
   },
   {
     name: "The Onion Taphouse & Grill",
@@ -145,7 +159,8 @@ const restaurants = [
     price: "$$",
     atmosphere: "family",
     info: "Family-friendly taphouse with burgers, wings, and a wide selection of regional beers.",
-    diet: "vegetarian"
+    diet: "vegetarian",
+    location: "Downtown Spokane, WA"
   },
   {
     name: "Mary Lou’s Milk Bottle",
@@ -154,7 +169,8 @@ const restaurants = [
     price: "$",
     atmosphere: "family",
     info: "Retro-style diner famous for milkshakes, burgers, and nostalgic Spokane charm.",
-    diet: "vegetarian"
+    diet: "vegetarian",
+    location: "Garland District, Spokane, WA"
   },
   {
     name: "The Satellite Diner & Lounge",
@@ -163,7 +179,8 @@ const restaurants = [
     price: "$",
     atmosphere: "casual",
     info: "Late-night favorite serving diner classics, cocktails, and hearty breakfasts.",
-    diet: "gluten-free"
+    diet: "gluten-free",
+    location: "Downtown Spokane, WA"
   },
   {
     name: "The Yards Bruncheon",
@@ -172,7 +189,8 @@ const restaurants = [
     price: "$$",
     atmosphere: "casual",
     info: "Brunch-focused eatery in Kendall Yards featuring inventive breakfast and lunch dishes.",
-    diet: "vegetarian"
+    diet: "vegetarian",
+    location: "Kendall Yards, Spokane, WA"
   },
   {
     name: "Casper Fry",
@@ -181,7 +199,8 @@ const restaurants = [
     price: "$$",
     atmosphere: "casual",
     info: "Southern-inspired kitchen with fried chicken, grits, and cocktails in a rustic setting.",
-    diet: "halal"
+    diet: "halal",
+    location: "South Perry District, Spokane, WA"
   },
   {
     name: "Iron Goat Brewing Co.",
@@ -190,7 +209,8 @@ const restaurants = [
     price: "$",
     atmosphere: "casual",
     info: "Brewpub offering house-made beers, pizzas, and small plates in a relaxed taproom.",
-    diet: "vegetarian"
+    diet: "vegetarian",
+    location: "Downtown/West End, Spokane, WA"
   },
   {
     name: "No-Li Brewhouse",
@@ -199,7 +219,8 @@ const restaurants = [
     price: "$$",
     atmosphere: "casual",
     info: "Independent brewery with riverfront patio seating and a menu of pub favorites.",
-    diet: "gluten-free"
+    diet: "gluten-free",
+    location: "Spokane Riverfront, Spokane, WA"
   },
   {
     name: "Zona Blanca Ceviche Bar",
@@ -208,7 +229,8 @@ const restaurants = [
     price: "$$",
     atmosphere: "casual",
     info: "Trendy ceviche and seafood bar offering bold flavors and creative cocktails.",
-    diet: "gluten-free"
+    diet: "gluten-free",
+    location: "Downtown Spokane, WA"
   },
   {
     name: "RüT Bar & Kitchen",
@@ -217,7 +239,8 @@ const restaurants = [
     price: "$$",
     atmosphere: "casual",
     info: "Plant-based restaurant featuring creative vegan comfort food and a full bar.",
-    diet: "vegan"
+    diet: "vegan",
+    location: "South Hill, Spokane, WA"
   },
   {
     name: "Mizuna Restaurant & Wine Bar",
@@ -226,7 +249,8 @@ const restaurants = [
     price: "$$$",
     atmosphere: "romantic",
     info: "Cozy downtown restaurant with upscale seasonal dishes and vegetarian-friendly options.",
-    diet: "vegetarian"
+    diet: "vegetarian",
+    location: "Downtown Spokane, WA"
   },
   {
     name: "Pho Van Spokane",
@@ -235,7 +259,8 @@ const restaurants = [
     price: "$",
     atmosphere: "casual",
     info: "Vietnamese restaurant serving pho, vermicelli bowls, and other traditional dishes.",
-    diet: "gluten-free"
+    diet: "gluten-free",
+    location: "Sprague Avenue, Spokane, WA"
   },
   {
     name: "Domini Sandwiches",
@@ -244,7 +269,8 @@ const restaurants = [
     price: "$",
     atmosphere: "casual",
     info: "Simple counter-service deli known for huge sandwiches and no-frills atmosphere.",
-    diet: "gluten-free"
+    diet: "gluten-free",
+    location: "Downtown Spokane, WA"
   },
   {
     name: "Veraci Pizza Spokane",
@@ -253,7 +279,8 @@ const restaurants = [
     price: "$$",
     atmosphere: "family",
     info: "Wood-fired pizza with thin crusts and fresh toppings, great for families and groups.",
-    diet: "vegetarian"
+    diet: "vegetarian",
+    location: "North Spokane, WA"
   },
   {
     name: "Ferraro’s Italian Restaurant & Wine Bar",
@@ -262,7 +289,8 @@ const restaurants = [
     price: "$$",
     atmosphere: "romantic",
     info: "Neighborhood Italian restaurant offering pasta, pizza, and an extensive wine list.",
-    diet: "vegetarian"
+    diet: "vegetarian",
+    location: "North Spokane, WA"
   },
   {
     name: "Ruins Spokane",
@@ -271,7 +299,8 @@ const restaurants = [
     price: "$$",
     atmosphere: "casual",
     info: "Eclectic rotating menu with global flavors, small plates, and an intimate vibe.",
-    diet: "gluten-free"
+    diet: "gluten-free",
+    location: "Downtown Spokane, WA"
   },
   {
     name: "The Palm Court Grill",
@@ -280,7 +309,8 @@ const restaurants = [
     price: "$$$",
     atmosphere: "luxury",
     info: "Elegant dining room inside the Historic Davenport serving steaks, seafood, and fine wines.",
-    diet: "kosher"
+    diet: "kosher",
+    location: "Downtown Spokane, WA"
   }
 ];
 

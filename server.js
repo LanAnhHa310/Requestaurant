@@ -158,29 +158,61 @@ app.get("/api/reviews/user/:userName", async (req, res) => {
 // POST a new review
 app.post("/api/reviews", async (req, res) => {
   try {
-    const newReview = new Review({
-      rating: req.body.rating,
-      text: req.body.text,
-      restaurantName: req.body.restaurantName,
-      userName: req.body.userName, // user tracking
-      // Store restaurant details for profile display
-      restaurantImage: req.body.restaurantImage,
-      restaurantPrice: req.body.restaurantPrice,
-      restaurantAtmosphere: req.body.restaurantAtmosphere,
-      restaurantRating: req.body.restaurantRating,
-      restaurantInfo: req.body.restaurantInfo
+    const {
+      rating,
+      text,
+      restaurantName,
+      userName,
+      restaurantImage,
+      restaurantPrice,
+      restaurantAtmosphere,
+      restaurantRating,
+      restaurantInfo
+    } = req.body;
+
+    // Basic validation
+    if (!rating || !text || !restaurantName || !userName) {
+      return res.status(400).json({ error: "Missing required review fields." });
+    }
+
+    // Check if this user already reviewed this restaurant
+    const existing = await Review.findOne({
+      userName,
+      restaurantName
     });
+
+    if (existing) {
+      return res
+        .status(409) // Conflict
+        .json({ error: "You have already submitted a review for this restaurant." });
+    }
+
+    // If no existing review, create a new one
+    const newReview = new Review({
+      rating,
+      text,
+      restaurantName,
+      userName,
+      restaurantImage,
+      restaurantPrice,
+      restaurantAtmosphere,
+      restaurantRating,
+      restaurantInfo
+    });
+
     await newReview.save();
     console.log(`Saved review for ${newReview.restaurantName} by ${newReview.userName}`);
-    return res.status(201).json({ 
-      message: "Review submitted", 
-      review: newReview 
+
+    return res.status(201).json({
+      message: "Review submitted",
+      review: newReview
     });
   } catch (err) {
     console.error("Error saving review:", err.message);
     return res.status(400).json({ error: err.message });
   }
 });
+
 
 // PUT update a review (user can only update their own reviews)
 app.put("/api/reviews/:reviewId", async (req, res) => {
@@ -247,28 +279,6 @@ app.delete("/api/reviews/:reviewId", async (req, res) => {
   }
 });
 
-
-// app.post( "/profile", async (req, res) => {
-  
-//   console.log("Retreiving user information...");
-
-//   // Get user data:
-//   try {
-
-//     // Look for databse username that matches the request localStorage username.
-//     const foundUser = await User.findOne({ userName: req.body.searchName });
-
-//     // Return final response:
-//     return res.status(201).json({ message: "User found", foundUser });
-
-//   } catch (err) {
-//     // Failed to find user in DB:
-//     return res.status(400).send(err.message);
-//   }
-  
-  
-// });
-
 app.get("/api/profile/:userName", async (req, res) => {
 
   try {
@@ -281,6 +291,7 @@ app.get("/api/profile/:userName", async (req, res) => {
     console.error("ERROR in user database:", err.message);
     return res.status(500).json({ error:"Failed to fetch user" });
   }
+  
 });
 
 
@@ -343,6 +354,66 @@ app.get("/api/profile-preferences/:userName", async (req, res) => {
   } catch (err) {
     console.error("ERROR in preferences database:", err.message);
     return res.status(500).json({ error:"Failed to fetch user preferences" });
+  }
+});
+
+// -------- Bookmark Routes --------
+// Add a bookmark to the user
+app.post("/api/bookmark", async (req, res) => {
+  console.log("HIT api/bookmark");
+  try {
+    // When user bookmarks, the browser sends the resquested info and req.body stores that
+    const { username, restaurant } = req.body;
+
+    // Find matching user in the database, otherwise signal error
+    const user = await User.findOne({
+      userName: username
+    });
+
+    if(!user) return res.status(404).json({
+      error: "User not found"
+    });
+
+    // Check if the restaurant is already saved
+    const exists = user.bookmarks.some(b => b.name === restaurant.name)
+    if(exists) return res.json({
+      message: "Already bookmarked"
+    });
+
+    user.bookmarks.push(restaurant);
+    await user.save();
+
+    return res.json({
+      message: "Bookmarked successfully", bookmarks: user.bookmarks
+    });
+  } catch(err) {
+    console.error(err);
+    res.status(500).json({
+      error: "Bookmark failed"
+    });
+  }
+});
+
+// Fetch all bookmarks for a user
+app.get("/api/bookmark/:username", async( req, res ) => {
+  console.log("HIT /api/bookmarks for", req.params.username);
+  try{
+    const user = await User.findOne({ 
+      userName: req.params.username 
+    });
+
+    if (!user) return res.status(404).json({ 
+      error: "User not found" 
+    });
+
+     // Return bookmarks array (or empty array if none)
+     return res.json(user.bookmarks || []);
+
+  } catch(err) {
+    console.error(err);
+    res.status(500).json({ 
+      error: "Failed to load bookmarks" 
+    });
   }
 });
 

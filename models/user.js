@@ -6,6 +6,17 @@ const User = db.model( "User", {
   userName: { type: String, required: true },
   password: { type: String, required: true },
   email: { type: String, required: true },
+  bookmarks: [
+    {
+      name: String,
+      image: String,
+      price: String,
+      rating: String,
+      atmosphere: String,
+      diet: String,
+      info: String
+    }
+  ]
 });
 
 // Export User model to other files:

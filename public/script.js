@@ -22,7 +22,7 @@ let currentRestaurant = null;
 if (searchForm) {
   searchForm.addEventListener("submit", async (event) => {
     event.preventDefault();
-    const query = document.getElementById("q").value.trim().toLowerCase();
+    const query = document.getElementById("q").value.trim().toLowerCase(); // <- Grabs first searchform input.
     resultList.innerHTML = "<p>Loading restaurants...</p>";
 
     if (!query) {

@@ -10,8 +10,10 @@ window.addEventListener( "DOMContentLoaded", loadedHandler );
 
 function loadedHandler() {
 
-    // Update profile with newest user information:
+    // Load profile with newest user information:
     loadUserInfo();
+    // Load user preferences:
+    loadUserPreferences();
 
     // Apply updatePreferences() event handler to preferenceMenu:
     let addPreferenceBtn = document.getElementById("add-preference-btn");
@@ -79,7 +81,12 @@ async function loadUserPreferences() {
     const userPreferences = await prefResponse.json();
 
     // Place user preferences into preferences list:
-    prefList = document.getElementById("current-preferences");
+    const prefList = document.getElementById("current-preferences");
+
+    // Clear previous preference entries:
+    while ( prefList.firstChild ) {
+        prefList.removeChild(prefList.lastChild);
+    }
 
     // Check each preference for an entry to display:
 
@@ -113,7 +120,7 @@ async function loadUserPreferences() {
         atmoPref.textContent = `Restaurant Theme / Atmosphere: ${userPreferences.atmosphere}`;
         prefList.appendChild(atmoPref);
     }
-    console.log("Loaded all user preferences successfully.");
+    console.log("Loaded user preferences successfully.");
     return;
 }
 

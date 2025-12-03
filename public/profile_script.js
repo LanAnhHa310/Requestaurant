@@ -89,9 +89,10 @@ async function loadUserPreferences() {
     }
 
     // Check each preference for an entry to display:
+    // "No preference"-DB entries should not be displayed!
 
     // userPreferences.price is a String
-    if ( userPreferences && userPreferences.price != null ) {
+    if ( (userPreferences.price != "") && (userPreferences.price != null) ) {
         let pricePref = document.createElement("li");
         pricePref.className = "preference-list-item";
         pricePref.textContent = `Price Range: ${userPreferences.price}`;
@@ -99,7 +100,7 @@ async function loadUserPreferences() {
         prefList.appendChild(pricePref);
     }
     // userPreferences.rating is a Number, so just check for null
-    if ( userPreferences && userPreferences.rating != null ) {
+    if ( (userPreferences.rating != "") && (userPreferences.rating != null) ) {
         // fixed issue with type
         let ratingPref = document.createElement("li");
         ratingPref.className = "preference-list-item";
@@ -107,14 +108,14 @@ async function loadUserPreferences() {
         prefList.appendChild(ratingPref);
     }
     // userPreferences.dietary is a String
-    if ( userPreferences && userPreferences.dietary != null ) {
+    if ( (userPreferences.dietary != "") && (userPreferences.dietary != null) ) {
         let dietaryPref = document.createElement("li");
         dietaryPref.className = "preference-list-item";
         dietaryPref.textContent = `Dietary exceptions: ${userPreferences.dietary}`;
         prefList.appendChild(dietaryPref);
     }
     // userPreferences.atmosphere is a String
-    if ( userPreferences && userPreferences.atmosphere != null ) {
+    if ( (userPreferences.atmosphere != "") && (userPreferences.atmosphere != null) ) {
         let atmoPref = document.createElement("li");
         atmoPref.className = "preference-list-item";
         atmoPref.textContent = `Restaurant Theme / Atmosphere: ${userPreferences.atmosphere}`;

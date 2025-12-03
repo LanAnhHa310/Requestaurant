@@ -122,29 +122,42 @@ async function updatePreferences( event ) {
     console.log(`User retrieved from local storage: ${user}`);
 
     // Take the information sent to the preferences menu:
-    let dietOption = document.getElementById("dietary-options");
-    //let prefInput = document.getElementById("preference-input");
-    console.log(`dietary preference option value: ${dietOption.value}`); //TEST
 
-    // Check for valid option:
-    if ( ( dietOption.value == null ) ) {
+    let priceOption = document.getElementById("price-options");
+    let ratingOption = document.getElementById("rating-options");
+    let locationInput = document.getElementById("location-input");
+    let dietOption = document.getElementById("dietary-options");
+    let themeOption = document.getElementById("atmosphere-options");
+    
+    // Check for valid inputs:
+    if ( priceOption.value == null ) {
+        console.log("Preference menu: Invalid price input: No preference selected");
+        return;
+    }
+    if ( ratingOption.value == null ) {
+        console.log("Preference menu: Invalid rating input: No preference selected");
+        return;
+    }
+    if ( (locationInput.value == null) || (locationInput.value == "") ){
+        console.log("Preference menu: Invalid location input: No preference selected");
+        return;
+    }
+    if ( dietOption.value == null ) {
         console.log("Preference menu: Invalid diet input: No preference selected");
+        return;
+    }
+    if ( themeOption.value == null ) {
+        console.log("Preference menu: Invalid atmosphere input: No preference selected");
         return;
     }
 
     const newPreferences = {
         userName: user,
-        price: "$123.00",
-        rating: 4,
+        price: priceOption.value,
+        rating: ratingOption.value,
         dietary: dietOption.value,
-        atmosphere: "family",
+        atmosphere: themeOption.value,
     };
-
-    // // Check for valid location input:
-    // if ( ( prefInput.value == null ) || ( prefInput == "" ) ) {
-    //     console.log("Preference menu: Invalid input: preference not specified")
-    // }
-    // console.log( `input value: ${prefInput.value}`);
 
     // Upload new preference to the DB.
     const updateResponse = await fetch(`/api/profile-preferences/update/${user}`, {
@@ -154,7 +167,6 @@ async function updatePreferences( event ) {
     });
 
     //if (!updateResponse.ok) throw new Error("Failed to update preferences.");
-
     if(!updateResponse.ok) {
         const msg = await updateResponse.text().catch(() => "");
         alert(`Could not update preferences: ${msg || updateResponse.status}`);

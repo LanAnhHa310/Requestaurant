@@ -275,16 +275,21 @@ if(reviewForm) {
           restaurantInfo: currentRestaurant.info
         })
       });
-
-      if(!response.ok) throw new Error("Failed to submit review")
-
+      
+      if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        // Show specific duplicate-review message if present
+        alert(err.error || "Failed to submit review.");
+        return;
+      }
+      
       const result = await response.json();
       console.log("Review saved:", result);
-
+      
       //Reload reviews and reset form
-      await loadReviews(currentRestaurant.name); //passing the correct string
+      await loadReviews(currentRestaurant.name);
       reviewForm.reset();
-      alert("Review submitted successfully!");
+      alert("Review submitted successfully!");      
     } catch (err) {
       console.error("Review submission error:", err);
       alert("Failed to submit review. Please try again.")

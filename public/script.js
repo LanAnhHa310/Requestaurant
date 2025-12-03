@@ -19,44 +19,101 @@ let currentRestaurant = null;
 // ==================== SEARCH FUNCTIONALITY ====================
 
 // Handle search - now fetches from database instead of hardcoded array
+// ==================== SEARCH FUNCTIONALITY ====================
+
+// Handle search - fetch from DB then filter based on form inputs
 if (searchForm) {
   searchForm.addEventListener("submit", async (event) => {
     event.preventDefault();
+
     const query = document.getElementById("q").value.trim().toLowerCase();
+    const priceFilter = document.getElementById("price")?.value || "";
+    const ratingFilter = document.getElementById("rating")?.value || "";      // "4", "3", "2"
+    const locationInput = document.getElementById("location")?.value.trim().toLowerCase() || "";
+    const dietaryFilter = document.getElementById("dietary")?.value || "";    // "vegan", "vegetarian", ...
+    const atmosphereFilter = document.getElementById("atmosphere")?.value || "";
+
     resultList.innerHTML = "<p>Loading restaurants...</p>";
 
-    if (!query) {
-      alert("Please enter a search term!");
-      return;
-    }
-
     try {
-      // Fetch restaurants from database via API
       const response = await fetch("/api/restaurants");
       if (!response.ok) throw new Error("Failed to fetch restaurants");
-      
+
       const results = await response.json();
 
-      // Filter results based on search query
       const filtered = results.filter((r) => {
+        // Normalize rating to a number (handles "4.3★" strings)
+        let numericRating = NaN;
+        if (typeof r.rating === "string") {
+          numericRating = parseFloat(r.rating.replace("★", "").trim());
+        } else if (typeof r.rating === "number") {
+          numericRating = r.rating;
+        }
+
         const searchableText = `
-          ${r.name} ${r.info} ${r.atmosphere} ${r.price} ${r.rating}
+          ${r.name || ""} 
+          ${r.info || ""} 
+          ${r.atmosphere || ""} 
+          ${r.price || ""} 
+          ${r.rating || ""} 
+          ${r.diet || ""} 
         `.toLowerCase();
-        return searchableText.includes(query);
+
+        // 1. Text search
+        // - if no query => allow all (filters still apply)
+        // - if query === "food" => also allow all (generic search)
+        const matchesText =
+          !query ||
+          query === "food" ||
+          searchableText.includes(query);
+
+        // 2. Location: for now treat as extra keyword filter
+        // (later you can add a location field in the DB and use it directly)
+        const matchesLocation =
+          !locationInput || searchableText.includes(locationInput);
+
+        // 3. Price filter
+        const matchesPrice =
+          !priceFilter || r.price === priceFilter;
+
+        // 4. Dietary restrictions
+        const matchesDietary =
+          !dietaryFilter ||
+          (r.diet && r.diet.toLowerCase() === dietaryFilter.toLowerCase());
+
+        // 5. Atmosphere filter
+        const matchesAtmosphere =
+          !atmosphereFilter ||
+          (r.atmosphere &&
+            r.atmosphere.toLowerCase() === atmosphereFilter.toLowerCase());
+
+        // 6. Rating filter: "4" means 4★ and above
+        const matchesRating =
+          !ratingFilter ||
+          (!isNaN(numericRating) && numericRating >= parseFloat(ratingFilter));
+
+        return (
+          matchesText &&
+          matchesLocation &&
+          matchesPrice &&
+          matchesDietary &&
+          matchesAtmosphere &&
+          matchesRating
+        );
       });
 
-      // Display results
       if (filtered.length === 0) {
-        resultList.innerHTML = `<p>No restaurants found for "${query}".</p>`;
+        resultList.innerHTML = `<p>No restaurants found for "${query || "your filters"}".</p>`;
         return;
       }
 
-      resultList.innerHTML = ""; // Clear loading message
+      resultList.innerHTML = "";
       filtered.forEach((r) => {
-        const imgSrc = r.image && r.image.trim() !== ""
-          ? r.image
-          : "https://placehold.co/200x200?text=Restaurant";
-      
+        const imgSrc =
+          r.image && r.image.trim() !== ""
+            ? r.image
+            : "https://placehold.co/200x200?text=Restaurant";
+
         const card = document.createElement("div");
         card.className = "restaurant-card";
         card.innerHTML = `
@@ -65,6 +122,7 @@ if (searchForm) {
             <h4>${r.name}</h4>
             <p>${r.price} • ${r.atmosphere} • ${r.rating}</p>
             <p>${r.info}</p>
+            <p class="diet-tag">${r.diet ? `Diet: ${r.diet}` : ""}</p>
           </div>
         `;
         card.addEventListener("click", () => openPopup(r));
@@ -170,7 +228,7 @@ function checkLoginStatusForReviews() {
     }
     if (submitButton) submitButton.disabled = false;
   }
-}
+}111
 
 if(closePopup) {
   closePopup.addEventListener("click", () => {

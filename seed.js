@@ -11,7 +11,6 @@ mongoose.connection.on("connected", () => {
 });
 
 // Restaurant data to seed
-// Restaurant data to seed
 const restaurants = [
   {
     name: "Wild Sage American Bistro",

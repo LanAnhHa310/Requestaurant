@@ -13,6 +13,7 @@ const User = db.model( "User", {
       price: String,
       rating: String,
       atmosphere: String,
+      diet: String,
       info: String
     }
   ]

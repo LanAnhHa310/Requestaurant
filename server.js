@@ -291,6 +291,7 @@ app.get("/api/profile/:userName", async (req, res) => {
     console.error("ERROR in user database:", err.message);
     return res.status(500).json({ error:"Failed to fetch user" });
   }
+  
 });
 
 

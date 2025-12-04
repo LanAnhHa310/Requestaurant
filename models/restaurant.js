@@ -11,6 +11,7 @@ const Restaurant = db.model("Restaurant", {
     atmosphere: { type: String, required: true }, // e.g., "casual", "romantic"
     info: { type: String, required: true }, // Description of the restaurant
     diet: { type: String, required: true }, // dietary needs
+    location: {type: String, require: true }, // location
     // Automatically timestamp when restaurant was added
     createdAt: { type: Date, default: Date.now }
 });

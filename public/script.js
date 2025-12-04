@@ -173,9 +173,27 @@ async function searchWithPreferences( event ) {
 // Open popup and load reviews from database
 async function openPopup(r) {
   popupImg.src = r.image;
-  // -------------------------------------------------------- ADD MAP STUFF HERE.
-  restaurantMap.src = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d42847.50962620832!2d-116.16377163392185!3d47.8401871!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x53610ee1aef238dd%3A0x6ec008ec2cac0ff2!2sNowhere%20Creek!5e0!3m2!1sen!2sus!4v1764804180574!5m2!1sen!2sus";
-  restaurantAddress.textContent = "Address: Middle of nowhere, really.";
+  // // -------------------------------------------------------- ADD MAP STUFF HERE.
+  // restaurantMap.src = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d42847.50962620832!2d-116.16377163392185!3d47.8401871!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x53610ee1aef238dd%3A0x6ec008ec2cac0ff2!2sNowhere%20Creek!5e0!3m2!1sen!2sus!4v1764804180574!5m2!1sen!2sus";
+  // restaurantAddress.textContent = "Address: Middle of nowhere, really.";
+
+  // Build a query like "Wild Sage American Bistro Downtown Spokane, WA"
+  if (restaurantMap) {
+    const mapQuery = `${r.name || ""} ${r.location || ""}`.trim();
+
+    // Use Google Maps "q" + output=embed (no API key needed for this style)
+    const mapUrl = `https://www.google.com/maps?q=${encodeURIComponent(
+      mapQuery
+    )}&output=embed`;
+    restaurantMap.src = mapUrl;
+  }
+
+  if (restaurantAddress) {
+    restaurantAddress.textContent = r.location
+      ? `Location: ${r.location}`
+      : "Location: Not available";
+  }
+  // ============================
 
   restaurantName.textContent = r.name;
   restaurantInfo.textContent = r.info;
@@ -236,7 +254,7 @@ function checkLoginStatusForReviews() {
     }
     if (submitButton) submitButton.disabled = false;
   }
-}111
+}
 
 if(closePopup) {
   closePopup.addEventListener("click", () => {
@@ -443,7 +461,10 @@ window.addEventListener("DOMContentLoaded", () => {
 
   // Get the ID of the button with auto-fills the search form with user preferences
   const addPrefsButton = document.getElementById("prefLoadBtn");
-  addPrefsButton.addEventListener("click", searchWithPreferences);
+  // addPrefsButton.addEventListener("click", searchWithPreferences);
+  if (addPrefsButton) {
+    addPrefsButton.addEventListener("click", searchWithPreferences);
+  }
   
   // Load saved logged in info
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";

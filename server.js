@@ -112,6 +112,7 @@ app.post("/api/restaurants", async (req, res) => {
       rating: req.body.rating,
       price: req.body.price,
       atmosphere: req.body.atmosphere,
+      location: req.body.location,
       info: req.body.info
     });
     await newRestaurant.save();

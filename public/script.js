@@ -185,8 +185,24 @@ async function searchWithPreferences( event ) {
 async function openPopup(r) {
   popupImg.src = r.image;
   // -------------------------------------------------------- ADD MAP STUFF HERE.
-  restaurantMap.src = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d42847.50962620832!2d-116.16377163392185!3d47.8401871!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x53610ee1aef238dd%3A0x6ec008ec2cac0ff2!2sNowhere%20Creek!5e0!3m2!1sen!2sus!4v1764804180574!5m2!1sen!2sus";
-  restaurantAddress.textContent = "Address: Middle of nowhere, really.";
+  // restaurantMap.src = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d42847.50962620832!2d-116.16377163392185!3d47.8401871!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x53610ee1aef238dd%3A0x6ec008ec2cac0ff2!2sNowhere%20Creek!5e0!3m2!1sen!2sus!4v1764804180574!5m2!1sen!2sus";
+  // restaurantAddress.textContent = "Address: Middle of nowhere, really.";
+  // Build a Google Maps embed URL from the restaurant's location.
+  // Use both name + location to make the search more accurate.
+  if (r.location) {
+    const mapQuery = encodeURIComponent(`${r.name}, ${r.location}`);
+
+    // This works for an <iframe> embed without needing an API key
+    restaurantMap.src = `https://www.google.com/maps?q=${mapQuery}&output=embed`;
+
+    // Show a human-readable address under the map
+    restaurantAddress.textContent = `Address: ${r.location}`;
+    restaurantAddress.classList.remove("hidden");
+  } else {
+    // If there is no location, hide the map + address
+    restaurantMap.classList.add("hidden");
+    restaurantAddress.classList.add("hidden");
+  }
 
   // Toggle map display / address when clicking on "Show Location" button
   let popupToggleBtn = document.getElementById("mapToggleBtn");

@@ -178,14 +178,17 @@ async function openPopup(r) {
   restaurantAddress.textContent = "Address: Middle of nowhere, really.";
 
   // Toggle map display / address when clicking on "Show Location" button
-  document.getElementById("mapToggleBtn").onclick = () => {
+  let popupToggleBtn = document.getElementById("mapToggleBtn");
+  popupToggleBtn.onclick = () => {
     popupImg.classList.toggle("hidden");
-    // Check if performance mode is enabled:
-    // If not, show regular map.
     restaurantMap.classList.toggle("hidden");
-    // If true, show address text.
-    restaurantAddress.classList.toggle("hidden");
   };
+  // Check if performance mode is enabled:
+  if (localStorage.getItem("performance") === "on") {
+    restaurantMap.classList.add("hidden");
+    popupToggleBtn.classList.add("hidden");
+    restaurantAddress.classList.toggle("hidden");
+  }
 
   restaurantName.textContent = r.name;
   restaurantInfo.textContent = r.info;
@@ -404,17 +407,17 @@ async function loadReviews(name) {
 window.addEventListener("DOMContentLoaded", () => {
   console.log("JS loaded");
 
-  //Dark mode and accessbility and performance
+  // Dark mode and accessbility and performance:
   const darkToggleBtn = document.getElementById("dark-mode");
   const accessToggleBtn = document.getElementById("disability-mode");
   const performToggleBtn = document.getElementById("performance-mode");
 
-  // Load saved preferences
+  // Load saved preferences:
   const savedTheme = localStorage.getItem("theme");
   const savedAccessibility = localStorage.getItem("accessibility");
   const savedPerform = localStorage.getItem("performance");
 
-  // Apply to every page
+  // Apply to every page:
   if (savedTheme === "dark") document.body.classList.add("dark-mode");
   if (savedAccessibility === "on") document.body.classList.add("disability-mode");
   if (savedPerform === "on") document.body.classList.add("performance-mode");

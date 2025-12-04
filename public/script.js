@@ -6,6 +6,10 @@ const resultList = document.getElementById("result-grid");
 const popup = document.getElementById("restaurant-popup");
 const closePopup = document.getElementById("close-popup");
 const popupImg = document.getElementById("popup-image");
+
+const restaurantMap = document.getElementById("restaurant-map"); // Holds the popup Iframe map.
+const restaurantAddress = document.getElementById("restaurant-address"); // Holds the restaurant address.
+
 const restaurantName = document.getElementById("restaurant-name");
 const restaurantInfo = document.getElementById("restaurant-info");
 const restaurantRating = document.getElementById("restaurant-rating");
@@ -180,6 +184,23 @@ async function searchWithPreferences( event ) {
 // Open popup and load reviews from database
 async function openPopup(r) {
   popupImg.src = r.image;
+  // -------------------------------------------------------- ADD MAP STUFF HERE.
+  restaurantMap.src = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d42847.50962620832!2d-116.16377163392185!3d47.8401871!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x53610ee1aef238dd%3A0x6ec008ec2cac0ff2!2sNowhere%20Creek!5e0!3m2!1sen!2sus!4v1764804180574!5m2!1sen!2sus";
+  restaurantAddress.textContent = "Address: Middle of nowhere, really.";
+
+  // Toggle map display / address when clicking on "Show Location" button
+  let popupToggleBtn = document.getElementById("mapToggleBtn");
+  popupToggleBtn.onclick = () => {
+    popupImg.classList.toggle("hidden");
+    restaurantMap.classList.toggle("hidden");
+  };
+  // Check if performance mode is enabled:
+  if (localStorage.getItem("performance") === "on") {
+    restaurantMap.classList.add("hidden");
+    popupToggleBtn.classList.add("hidden");
+    restaurantAddress.classList.toggle("hidden");
+  }
+
   restaurantName.textContent = r.name;
   restaurantInfo.textContent = r.info;
   restaurantRating.textContent = `${r.price} • ${r.atmosphere} • ${r.rating}`;
@@ -397,17 +418,17 @@ async function loadReviews(name) {
 window.addEventListener("DOMContentLoaded", () => {
   console.log("JS loaded");
 
-  //Dark mode and accessbility and performance
+  // Dark mode and accessbility and performance:
   const darkToggleBtn = document.getElementById("dark-mode");
   const accessToggleBtn = document.getElementById("disability-mode");
   const performToggleBtn = document.getElementById("performance-mode");
 
-  // Load saved preferences
+  // Load saved preferences:
   const savedTheme = localStorage.getItem("theme");
   const savedAccessibility = localStorage.getItem("accessibility");
   const savedPerform = localStorage.getItem("performance");
 
-  // Apply to every page
+  // Apply to every page:
   if (savedTheme === "dark") document.body.classList.add("dark-mode");
   if (savedAccessibility === "on") document.body.classList.add("disability-mode");
   if (savedPerform === "on") document.body.classList.add("performance-mode");
@@ -443,6 +464,7 @@ window.addEventListener("DOMContentLoaded", () => {
   // Login state
   const createBtn = document.getElementById("create-btn");
   const profileBtn = document.getElementById("profile-btn");
+  const prefSearchBtn = document.getElementById("prefLoadBtn");
 
   // Get the ID of the button with auto-fills the search form with user preferences
   const addPrefsButton = document.getElementById("prefLoadBtn");
@@ -462,6 +484,8 @@ window.addEventListener("DOMContentLoaded", () => {
       profileBtn.classList.remove("hidden");
       profileBtn.textContent = `Your Profile`;
     }
+    // Toggle search-by-preference button:
+    if( prefSearchBtn ) profileBtn.classList.remove("hidden");
   } else {
     // User logged out
     console.log("User not logged in");
@@ -469,6 +493,8 @@ window.addEventListener("DOMContentLoaded", () => {
     if(createBtn) createBtn.classList.remove("hidden");
     // Hide "Profile" button
     if(profileBtn) profileBtn.classList.add("hidden");
+    // Hide search-by-preferences button
+    if( prefSearchBtn ) prefSearchBtn.classList.add("hidden");
   }
 
   // Also check login status for review form if popup is already open

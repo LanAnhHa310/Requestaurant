@@ -5,6 +5,7 @@ const db = require("../db");
 const Restaurant = db.model("Restaurant", {
     name: { type: String, required: true, unique: true }, // Unique ensures no duplicate restaurants
     image: { type: String, default: "https://placehold.co/300x300?text=Restaurant" },
+    //map: { type: String, default: "https://placehold.co/300x300?text=Restaurant-Map"}, // Holds Gmaps addrs.
     rating: { type: String, required: true }, // e.g., "4.8★"
     price: { type: String, required: true }, // e.g., "$", "$$", "$$$"
     atmosphere: { type: String, required: true }, // e.g., "casual", "romantic"

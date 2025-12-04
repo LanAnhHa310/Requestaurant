@@ -209,6 +209,12 @@ app.post("/api/reviews", async (req, res) => {
     });
   } catch (err) {
     console.error("Error saving review:", err.message);
+    if (err.code === 11000) {
+      // Duplicate (userName, restaurantName) according to the unique index
+      return res.status(409).json({
+        error: "You have already submitted a review for this restaurant."
+      });
+    }
     return res.status(400).json({ error: err.message });
   }
 });

@@ -25,4 +25,7 @@ const Review = db.model("Review", {
     updatedAt: { type: Date, default: Date.now }
 });
 
+// One review per (userName, restaurantName)
+Review.schema.index({ userName: 1, restaurantName: 1 }, { unique: true });
+
 module.exports = Review;

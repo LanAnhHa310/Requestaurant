@@ -118,17 +118,6 @@ app.get("/api/restaurants", async (req, res) => {
 // POST a new restaurant (for adding restaurants to DB)
 app.post("/api/restaurants", async (req, res) => {
   try {
-
-    // // Sanitize body before use:
-    // const cleanData = sanitize(req.body);
-    // const { username, password, email } = cleanData;
-
-    // //Check clean data types:
-    // if ( (typeof username !== "string") || (typeof password !== "string") || (typeof email !== "string") ) {
-    //   console.warn("Non-string registration data rejected", username);
-    //   return res.status(400).json({ error: "Non-string registration data rejected" });
-    // }
-
     // Sanitize body before use:
     const cleanData = sanitize(req.body);
     const { name, image, rating, price, atmosphere, info } = cleanData;
@@ -147,7 +136,7 @@ app.post("/api/restaurants", async (req, res) => {
       atmosphere: atmosphere,
       info: info
     });
-    
+
     await newRestaurant.save();
     console.log(`Saved restaurant: ${newRestaurant.name}`);
     return res.status(201).json({ 
@@ -192,6 +181,18 @@ app.get("/api/reviews/user/:userName", async (req, res) => {
 // POST a new review
 app.post("/api/reviews", async (req, res) => {
   try {
+
+    // // Sanitize body before use:
+    // const cleanData = sanitize(req.body);
+    // const { username, password, email } = cleanData;
+
+    // //Check clean data types:
+    // if ( (typeof username !== "string") || (typeof password !== "string") || (typeof email !== "string") ) {
+    //   console.warn("Non-string registration data rejected", username);
+    //   return res.status(400).json({ error: "Non-string registration data rejected" });
+    // }
+
+    const cleanData = sanitize(req.body);
     const {
       rating,
       text,
@@ -202,7 +203,7 @@ app.post("/api/reviews", async (req, res) => {
       restaurantAtmosphere,
       restaurantRating,
       restaurantInfo
-    } = req.body;
+    } = cleanData;
 
     // Basic validation
     if (!rating || !text || !restaurantName || !userName) {

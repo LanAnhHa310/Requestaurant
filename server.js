@@ -246,17 +246,6 @@ app.post("/api/reviews", async (req, res) => {
 // PUT update a review (user can only update their own reviews)
 app.put("/api/reviews/:reviewId", async (req, res) => {
   try {
-
-    // // Sanitize body before use:
-    // const cleanData = sanitize(req.body);
-    // const { username, password, email } = cleanData;
-
-    // //Check clean data types:
-    // if ( (typeof username !== "string") || (typeof password !== "string") || (typeof email !== "string") ) {
-    //   console.warn("Non-string registration data rejected", username);
-    //   return res.status(400).json({ error: "Non-string registration data rejected" });
-    // }
-
     const cleanData = sanitize(req.body);
     const cleanParams = sanitize(req.params);
     const { userName } = cleanData; // User making the request
@@ -299,8 +288,26 @@ app.put("/api/reviews/:reviewId", async (req, res) => {
 // DELETE a review (user can only delete their own reviews)
 app.delete("/api/reviews/:reviewId", async (req, res) => {
   try {
-    const reviewId = req.params.reviewId;
-    const userName = req.query.userName; // User making the request
+
+    // // Sanitize body before use:
+    // const cleanData = sanitize(req.body);
+    // const { username, password, email } = cleanData;
+
+    // //Check clean data types:
+    // if ( (typeof username !== "string") || (typeof password !== "string") || (typeof email !== "string") ) {
+    //   console.warn("Non-string registration data rejected", username);
+    //   return res.status(400).json({ error: "Non-string registration data rejected" });
+    // }
+
+    const cleanData = sanitize(req.query);
+    const cleanParams = sanitize(req.params);
+    const { userName } = cleanData; // User making the request
+    const { reviewId } = cleanParams;
+
+    if ( (typeof reviewId !== "string") || (typeof userName !== "string") ) {
+      console.warn("Non-string review data rejected", userName);
+      return res.status(400).json({ error: "Non-string review data rejected" });
+    }
     
     // Find the review first to verify ownership
     const review = await Review.findById(reviewId);

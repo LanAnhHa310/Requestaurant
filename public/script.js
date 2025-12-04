@@ -184,6 +184,7 @@ async function openPopup(r) {
     // If not, show regular map.
     restaurantMap.classList.toggle("hidden");
     // If true, show address text.
+    restaurantAddress.classList.toggle("hidden");
   };
 
   restaurantName.textContent = r.name;

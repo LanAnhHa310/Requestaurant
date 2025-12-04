@@ -453,10 +453,10 @@ window.addEventListener("DOMContentLoaded", () => {
   // Login state
   const createBtn = document.getElementById("create-btn");
   const profileBtn = document.getElementById("profile-btn");
+  const prefSearchBtn = document.getElementById("prefLoadBtn");
 
   // Get the ID of the button with auto-fills the search form with user preferences
-  const addPrefsButton = document.getElementById("prefLoadBtn");
-  addPrefsButton.addEventListener("click", searchWithPreferences);
+  prefSearchBtn.addEventListener("click", searchWithPreferences);
   
   // Load saved logged in info
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
@@ -469,6 +469,8 @@ window.addEventListener("DOMContentLoaded", () => {
       profileBtn.classList.remove("hidden");
       profileBtn.textContent = `Your Profile`;
     }
+    // Toggle search-by-preference button:
+    if( prefSearchBtn ) profileBtn.classList.remove("hidden");
   } else {
     // User logged out
     console.log("User not logged in");
@@ -476,6 +478,8 @@ window.addEventListener("DOMContentLoaded", () => {
     if(createBtn) createBtn.classList.remove("hidden");
     // Hide "Profile" button
     if(profileBtn) profileBtn.classList.add("hidden");
+    // Hide search-by-preferences button
+    if( prefSearchBtn ) prefSearchBtn.classList.add("hidden");
   }
 
   // Also check login status for review form if popup is already open

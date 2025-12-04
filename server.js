@@ -2,7 +2,10 @@
 const express = require("express");
 
 // provides utilities for working with file and directory paths.
-var path = require('path'); 
+var path = require('path');
+
+// Ensure data is simewhat sanitized:
+var sanitize = require('mongo-sanitize');
 
 // Use user model exported from models directory ( connects to the db ).
 const User = require("./models/user");
@@ -51,26 +54,35 @@ app.get("/register", (req, res) => {
 });
 
 app.post("/register", async (req,res) => {
-
-  // Create new user DB entry from register webpage data:
-  const newUser = new User({
-    userName: req.body.username,
-    password: req.body.password, // Needs to be hashed / secured later if possible!
-    email: req.body.email,
-  });
-  
-  // Generate empty preferences list for user:
-  const userPreferences = new Preferences({
-    userName: req.body.username, // Username must match User DB entry / localstorage username for search purposes.
-    price: "",
-    rating: "",
-    location: "",
-    dietary: "",
-    atmosphere: "",
-  });
-
-  //Add to the database:
   try {
+    // Sanitize body before use:
+    const cleanData = sanitize(req.body);
+    const { username, password, email } = cleanData;
+
+    //Check clean data types:
+    if ( (typeof username !== "string") || (typeof password !== "string") || (typeof email !== "string") ) {
+      console.warn("Non-string registration data rejected", username);
+      return res.status(400).json({ error: "Non-string registration data rejected" });
+    }
+
+    // Create new user DB entry from register webpage data:
+    const newUser = new User({
+      userName: username,
+      password: password,
+      email: email,
+    });
+    
+    // Generate empty preferences list for user:
+    const userPreferences = new Preferences({
+      userName: username, // Username must match User DB entry / localstorage username for search purposes.
+      price: "",
+      rating: "",
+      location: "",
+      dietary: "",
+      atmosphere: "",
+    });
+
+    //Add to the database:
     // Add new user:
     await newUser.save();
     // Generate empty preferences list for user:
@@ -106,15 +118,25 @@ app.get("/api/restaurants", async (req, res) => {
 // POST a new restaurant (for adding restaurants to DB)
 app.post("/api/restaurants", async (req, res) => {
   try {
+    // Sanitize body before use:
+    const cleanData = sanitize(req.body);
+    const { name, image, rating, price, atmosphere, info } = cleanData;
+
+    if ( (typeof name !== string) || (typeof image !== string) || (typeof rating !== string) ||
+      (typeof price !== string) || (typeof atmosphere !== string) || (typeof info !== string) ) {
+      console.warn("Non-string restaurant data rejected", name);
+      return res.status(400).json({ error: "Non-string registration data rejected" });
+    }
+
     const newRestaurant = new Restaurant({
-      name: req.body.name,
-      image: req.body.image,
-      rating: req.body.rating,
-      price: req.body.price,
-      atmosphere: req.body.atmosphere,
-      location: req.body.location,
-      info: req.body.info
+      name: name,
+      image: image,
+      rating: rating,
+      price: price,
+      atmosphere: atmosphere,
+      info: info
     });
+
     await newRestaurant.save();
     console.log(`Saved restaurant: ${newRestaurant.name}`);
     return res.status(201).json({ 
@@ -159,6 +181,7 @@ app.get("/api/reviews/user/:userName", async (req, res) => {
 // POST a new review
 app.post("/api/reviews", async (req, res) => {
   try {
+    const cleanData = sanitize(req.body);
     const {
       rating,
       text,
@@ -169,7 +192,7 @@ app.post("/api/reviews", async (req, res) => {
       restaurantAtmosphere,
       restaurantRating,
       restaurantInfo
-    } = req.body;
+    } = cleanData;
 
     // Basic validation
     if (!rating || !text || !restaurantName || !userName) {
@@ -220,12 +243,18 @@ app.post("/api/reviews", async (req, res) => {
   }
 });
 
-
 // PUT update a review (user can only update their own reviews)
 app.put("/api/reviews/:reviewId", async (req, res) => {
   try {
-    const reviewId = req.params.reviewId;
-    const userName = req.body.userName; // User making the request
+    const cleanData = sanitize(req.body);
+    const cleanParams = sanitize(req.params);
+    const { userName } = cleanData; // User making the request
+    const { reviewId } = cleanParams;
+
+    if ( (typeof reviewId !== "string") || (typeof userName !== "string") ) {
+      console.warn("Non-string review data rejected", userName);
+      return res.status(400).json({ error: "Non-string review data rejected" });
+    }
   
     // Find the review first to verify ownership
     const review = await Review.findById(reviewId);
@@ -259,8 +288,15 @@ app.put("/api/reviews/:reviewId", async (req, res) => {
 // DELETE a review (user can only delete their own reviews)
 app.delete("/api/reviews/:reviewId", async (req, res) => {
   try {
-    const reviewId = req.params.reviewId;
-    const userName = req.query.userName; // User making the request
+    const cleanData = sanitize(req.query);
+    const cleanParams = sanitize(req.params);
+    const { userName } = cleanData; // User making the request
+    const { reviewId } = cleanParams;
+
+    if ( (typeof reviewId !== "string") || (typeof userName !== "string") ) {
+      console.warn("Non-string review data rejected", userName);
+      return res.status(400).json({ error: "Non-string review data rejected" });
+    }
     
     // Find the review first to verify ownership
     const review = await Review.findById(reviewId);
@@ -303,17 +339,23 @@ app.get("/api/profile/:userName", async (req, res) => {
 
 
 /**
- * 
+ * /api/profile-preferences/update - Updates the user
+ * preferences with new preferences.
  */
 app.put("/api/profile-preferences/update/:userName", async (req, res) => {
   
   console.log("HIT /api/profile-preferences/update with", req.params.userName);
   try {
+    const cleanData = sanitize(req.body);
+    const { userName } = cleanData;
 
-    const userName = req.body.userName; // User making the request
+    if ( typeof userName !== "string" ) {
+      console.warn("Non-string preference username rejected", userName);
+      return res.status(400).json({ error: "Non-string preference username rejected" });
+    }
 
     // Check preferences database for exisitng preference entry:
-    const userPreferences = await Preferences.findOne({ userName: req.params.userName });
+    const userPreferences = await Preferences.findOne({ userName: userName });
     if (!userPreferences) {
       return res.status(404).json({ error: "Preferences not found" });
     }
@@ -369,8 +411,15 @@ app.get("/api/profile-preferences/:userName", async (req, res) => {
 app.post("/api/bookmark", async (req, res) => {
   console.log("HIT api/bookmark");
   try {
-    // When user bookmarks, the browser sends the resquested info and req.body stores that
-    const { username, restaurant } = req.body;
+    const cleanData = sanitize(req.body);
+
+    // When user bookmarks, the browser sends the resquested info and req.body stores that:
+    const { username, restaurant } = cleanData;
+
+    if ( typeof username !== "string" ) {
+      console.warn("invalid username data rejected", username);
+      return res.status(400).json({ error: "Invalid username data rejected" });
+    }
 
     // Find matching user in the database, otherwise signal error
     const user = await User.findOne({

@@ -2,7 +2,10 @@
 const express = require("express");
 
 // provides utilities for working with file and directory paths.
-var path = require('path'); 
+var path = require('path');
+
+// Ensure data is simewhat sanitized:
+var sanitize = require('mongo-sanitize');
 
 // Use user model exported from models directory ( connects to the db ).
 const User = require("./models/user");
@@ -51,26 +54,39 @@ app.get("/register", (req, res) => {
 });
 
 app.post("/register", async (req,res) => {
-
-  // Create new user DB entry from register webpage data:
-  const newUser = new User({
-    userName: req.body.username,
-    password: req.body.password, // Needs to be hashed / secured later if possible!
-    email: req.body.email,
-  });
-  
-  // Generate empty preferences list for user:
-  const userPreferences = new Preferences({
-    userName: req.body.username, // Username must match User DB entry / localstorage username for search purposes.
-    price: "",
-    rating: "",
-    location: "",
-    dietary: "",
-    atmosphere: "",
-  });
-
-  //Add to the database:
   try {
+    // Sanitize body before use:
+    const cleanData = sanitize(req.body);
+    const { username, password, email } = cleanData;
+
+    //Check clean data types:
+    if ( (typeof username !== "string") || (typeof password !== "string") || (typeof email !== "string") ) {
+      console.warn("Non-string registration data rejected", username);
+      return res.status(400).json({ error: "Non-string registration data rejected" });
+    }
+
+    // Create new user DB entry from register webpage data:
+    const newUser = new User({
+      //userName: req.body.username,
+      username: username,
+      //password: req.body.password, // Needs to be hashed / secured later if possible!
+      password: password,
+      //email: req.body.email,
+      email: email,
+    });
+    
+    // Generate empty preferences list for user:
+    const userPreferences = new Preferences({
+      //userName: req.body.username, // Username must match User DB entry / localstorage username for search purposes.
+      username: username,
+      price: "",
+      rating: "",
+      location: "",
+      dietary: "",
+      atmosphere: "",
+    });
+
+    //Add to the database:
     // Add new user:
     await newUser.save();
     // Generate empty preferences list for user:

@@ -346,17 +346,6 @@ app.put("/api/profile-preferences/update/:userName", async (req, res) => {
   
   console.log("HIT /api/profile-preferences/update with", req.params.userName);
   try {
-
-    // // Sanitize body before use:
-    // const cleanData = sanitize(req.body);
-    // const { username, password, email } = cleanData;
-
-    // //Check clean data types:
-    // if ( (typeof username !== "string") || (typeof password !== "string") || (typeof email !== "string") ) {
-    //   console.warn("Non-string registration data rejected", username);
-    //   return res.status(400).json({ error: "Non-string registration data rejected" });
-    // }
-
     const cleanData = sanitize(req.body);
     const { userName } = cleanData;
 
@@ -422,8 +411,15 @@ app.get("/api/profile-preferences/:userName", async (req, res) => {
 app.post("/api/bookmark", async (req, res) => {
   console.log("HIT api/bookmark");
   try {
-    // When user bookmarks, the browser sends the resquested info and req.body stores that
-    const { username, restaurant } = req.body;
+    const cleanData = sanitize(req.body);
+
+    // When user bookmarks, the browser sends the resquested info and req.body stores that:
+    const { username, restaurant } = cleanData;
+
+    if ( typeof username !== "string" ) {
+      console.warn("invalid username data rejected", username);
+      return res.status(400).json({ error: "Invalid username data rejected" });
+    }
 
     // Find matching user in the database, otherwise signal error
     const user = await User.findOne({

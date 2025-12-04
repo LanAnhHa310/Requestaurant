@@ -414,14 +414,8 @@ body.dark-mode .nav-btn:hover {
   max-width: 90%;
   text-align: left;
   position: relative;
-}
-
-.popup-image {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 10px;
-  margin-bottom: 15px;
+  max-height: 80vh; 
+  overflow-y: auto;  
 }
 
 .popup-map {
@@ -438,6 +432,16 @@ body.dark-mode .nav-btn:hover {
   top: 10px;
   font-size: 1.5rem;
   cursor: pointer;
+  z-index: 10;   /* <— key line so it's above the iframe */
+}
+
+
+.popup-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 15px;
 }
 
 /* Style log in button */

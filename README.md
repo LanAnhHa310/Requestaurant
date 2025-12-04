@@ -42,7 +42,7 @@ Run the file locally:
    # Or if installed via Homebrew
    brew services start mongodb-community
 ```
-- Seed the database** (populate with sample restaurants):
+- Seed the database** (populate with sample restaurants), if you database file is seed.js:
 ```bash
    node seed.js
 ```
@@ -53,39 +53,25 @@ Run the file locally:
 - Open your browser: Navigate to `http://localhost:3000`
 
 What you can do for front end simulation
-1. Search and filter restaurant:
-- In homepage.html, enter a query and set filters (price, rating, diet, atmosphere), then click Search.
-- Results update instantly from a hard-coded dataset (no database yet).
-2. View detail and add one review
-- Click a restaurant card to open the details popup (modal).
-- Add a rating and review → Submit.
-3. Toggle dark mode
-- Go to settings.html → turn Dark Mode on/off.
-- Preference is saved in localStorage and persists on reload.
-4. Toggle accessbility
-- In settings.html, enable Accessibility (larger text, higher contrast, visible focus).
-- Works together with Dark Mode.
-5. Toggle perfomance mode
-- In settings.html, enable Simplified view to reduce heavy images for faster loading.
-6. Profile & Bookmark
-- Use register.html to simulate account creation (sets localStorage.logInUser).
-- Bookmark a restaurant from its card or popup; view in profile.html.
+1. Users must be able to switch between light and dark mode.
+2. Users must be able to enable performance mode for a simplified, faster-loading view.
+3. Users must be able to enable accessibility mode for improved visibility.
+4. Users must be able to view a responsive interface that adjusts to different screen sizes.
+5. Users must be able to open restaurant details in a popup window.
+6. Users must be able to view a restaurant’s location through an embedded Google Map.
+7. Users must be able to submit only one review per restaurant per account.
 
 What you can do for back end:
-1. Create an Account
-2. Search for Restaurants
-3. View Restaurant Details & Reviews
-4. Submit a Review
-5. Manage Your Reviews
-6. Customize Settings
-7. View Your Preferences
+1. Users must be able to create an account(username, email, password → stored in MongoDB).
+2. Users must be able to save personal preferences (diet, price range, etc.)
+3. Users must be able to search restaurants from MongoDB using filters.
+4. Users must be able to submit, edit, and delete your own reviews.
+6. Users must be able to save/bookmark restaurants.
 
 ## Contributing
-We use a simple branch-based flow with two active dev branches: jaxon and anh.
+We use a simple branch-based flow with active dev branches: jaxon and anh.
 Only push directly to main for quick, low-risk fixes (docs/typos).
-Each developer works on their own branch:
-- Jaxon: jaxon
-- Anh: anh
+Both developers publish their work to a branch before merging to main.
 Direct commits to main allowed only for safe, quick fixes (e.g., README typo, small CSS tweak).
 
 ## Credits

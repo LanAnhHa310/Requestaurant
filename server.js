@@ -288,17 +288,6 @@ app.put("/api/reviews/:reviewId", async (req, res) => {
 // DELETE a review (user can only delete their own reviews)
 app.delete("/api/reviews/:reviewId", async (req, res) => {
   try {
-
-    // // Sanitize body before use:
-    // const cleanData = sanitize(req.body);
-    // const { username, password, email } = cleanData;
-
-    // //Check clean data types:
-    // if ( (typeof username !== "string") || (typeof password !== "string") || (typeof email !== "string") ) {
-    //   console.warn("Non-string registration data rejected", username);
-    //   return res.status(400).json({ error: "Non-string registration data rejected" });
-    // }
-
     const cleanData = sanitize(req.query);
     const cleanParams = sanitize(req.params);
     const { userName } = cleanData; // User making the request
@@ -350,17 +339,34 @@ app.get("/api/profile/:userName", async (req, res) => {
 
 
 /**
- * 
+ * /api/profile-preferences/update - Updates the user
+ * preferences with new preferences.
  */
 app.put("/api/profile-preferences/update/:userName", async (req, res) => {
   
   console.log("HIT /api/profile-preferences/update with", req.params.userName);
   try {
 
-    const userName = req.body.userName; // User making the request
+    // // Sanitize body before use:
+    // const cleanData = sanitize(req.body);
+    // const { username, password, email } = cleanData;
+
+    // //Check clean data types:
+    // if ( (typeof username !== "string") || (typeof password !== "string") || (typeof email !== "string") ) {
+    //   console.warn("Non-string registration data rejected", username);
+    //   return res.status(400).json({ error: "Non-string registration data rejected" });
+    // }
+
+    const cleanData = sanitize(req.body);
+    const { userName } = cleanData;
+
+    if ( typeof userName !== "string" ) {
+      console.warn("Non-string preference username rejected", userName);
+      return res.status(400).json({ error: "Non-string preference username rejected" });
+    }
 
     // Check preferences database for exisitng preference entry:
-    const userPreferences = await Preferences.findOne({ userName: req.params.userName });
+    const userPreferences = await Preferences.findOne({ userName: userName });
     if (!userPreferences) {
       return res.status(404).json({ error: "Preferences not found" });
     }

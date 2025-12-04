@@ -260,7 +260,7 @@ function checkLoginStatusForReviews() {
     }
     if (submitButton) submitButton.disabled = false;
   }
-}111
+}
 
 if(closePopup) {
   closePopup.addEventListener("click", () => {

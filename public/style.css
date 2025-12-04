@@ -424,7 +424,7 @@ body.dark-mode .nav-btn:hover {
 }
 
 .popup-map {
-  width: 100px;
+  width: 100%; /*expand the width to the width of the popup*/
   height: 200px;
   object-fit: cover;
   /* width: "600"; */

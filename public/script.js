@@ -377,18 +377,46 @@ async function loadReviews(name) {
   reviewsList.innerHTML = "<p>Loading reviews....</p>";
 
   try {
-    // GET reviews from database
     const response = await fetch(`/api/reviews/${encodeURIComponent(name)}`);
     if(!response.ok) throw new Error("Failed to fetch reviews");
 
     const reviews = await response.json();
+
+    // Check if current user already reviewed
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser") || "{}");
+    const reviewFormSection = document.getElementById("review-form");
+
+    if (isLoggedIn && loggedInUser.username && reviewFormSection) {
+      const alreadyReviewed = reviews.some(
+        (r) => r.userName === loggedInUser.username
+      );
+
+      if (alreadyReviewed) {
+        // Disable form
+        reviewFormSection.querySelector("#review-rating").disabled = true;
+        reviewFormSection.querySelector("#review-text").disabled = true;
+        const btn = reviewFormSection.querySelector('button[type="submit"]');
+        if (btn) btn.disabled = true;
+
+        // Add a little note
+        let note = document.getElementById("already-reviewed-note");
+        if (!note) {
+          note = document.createElement("p");
+          note.id = "already-reviewed-note";
+          note.style.color = "#888";
+          note.textContent = "You’ve already reviewed this restaurant. You can edit or delete your review from your profile.";
+          reviewFormSection.parentNode.insertBefore(note, reviewFormSection);
+        }
+      }
+    }
 
     if (!reviews || reviews.length === 0) {
       reviewsList.innerHTML = "<p>No reviews yet. Be the first to leave one!</p>";
       return;
     }
 
-    reviewsList.innerHTML = ""; // Clear loading message
+    reviewsList.innerHTML = "";
     reviews.forEach((r) => {
       const li = document.createElement("li");
       li.textContent = `${r.rating}★ - ${r.text}`;
@@ -399,6 +427,7 @@ async function loadReviews(name) {
     reviewsList.innerHTML = "<p>Error loading reviews.</p>";
   }
 }
+
 
 window.addEventListener("DOMContentLoaded", () => {
   console.log("JS loaded");

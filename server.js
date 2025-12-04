@@ -67,18 +67,14 @@ app.post("/register", async (req,res) => {
 
     // Create new user DB entry from register webpage data:
     const newUser = new User({
-      //userName: req.body.username,
       userName: username,
-      //password: req.body.password, // Needs to be hashed / secured later if possible!
       password: password,
-      //email: req.body.email,
       email: email,
     });
     
     // Generate empty preferences list for user:
     const userPreferences = new Preferences({
-      //userName: req.body.username, // Username must match User DB entry / localstorage username for search purposes.
-      userName: username,
+      userName: username, // Username must match User DB entry / localstorage username for search purposes.
       price: "",
       rating: "",
       location: "",
@@ -122,14 +118,36 @@ app.get("/api/restaurants", async (req, res) => {
 // POST a new restaurant (for adding restaurants to DB)
 app.post("/api/restaurants", async (req, res) => {
   try {
+
+    // // Sanitize body before use:
+    // const cleanData = sanitize(req.body);
+    // const { username, password, email } = cleanData;
+
+    // //Check clean data types:
+    // if ( (typeof username !== "string") || (typeof password !== "string") || (typeof email !== "string") ) {
+    //   console.warn("Non-string registration data rejected", username);
+    //   return res.status(400).json({ error: "Non-string registration data rejected" });
+    // }
+
+    // Sanitize body before use:
+    const cleanData = sanitize(req.body);
+    const { name, image, rating, price, atmosphere, info } = cleanData;
+
+    if ( (typeof name !== string) || (typeof image !== string) || (typeof rating !== string) ||
+      (typeof price !== string) || (typeof atmosphere !== string) || (typeof info !== string) ) {
+      console.warn("Non-string restaurant data rejected", name);
+      return res.status(400).json({ error: "Non-string registration data rejected" });
+    }
+
     const newRestaurant = new Restaurant({
-      name: req.body.name,
-      image: req.body.image,
-      rating: req.body.rating,
-      price: req.body.price,
-      atmosphere: req.body.atmosphere,
-      info: req.body.info
+      name: name,
+      image: image,
+      rating: rating,
+      price: price,
+      atmosphere: atmosphere,
+      info: info
     });
+    
     await newRestaurant.save();
     console.log(`Saved restaurant: ${newRestaurant.name}`);
     return res.status(201).json({ 

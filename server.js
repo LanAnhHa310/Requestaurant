@@ -68,7 +68,7 @@ app.post("/register", async (req,res) => {
     // Create new user DB entry from register webpage data:
     const newUser = new User({
       //userName: req.body.username,
-      username: username,
+      userName: username,
       //password: req.body.password, // Needs to be hashed / secured later if possible!
       password: password,
       //email: req.body.email,
@@ -78,7 +78,7 @@ app.post("/register", async (req,res) => {
     // Generate empty preferences list for user:
     const userPreferences = new Preferences({
       //userName: req.body.username, // Username must match User DB entry / localstorage username for search purposes.
-      username: username,
+      userName: username,
       price: "",
       rating: "",
       location: "",

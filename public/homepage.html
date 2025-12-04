@@ -91,8 +91,9 @@
         <!-- Display restaurant image: -->
         <img id="popup-image" src="" alt="Restaurant image" class="popup-image" />
         <!-- Display restuarant location ( I-frame ) -->
-        <iframe id="restaurant-map" src="" class="restaurant-map"></iframe>
-        <p id="restaurant-address">Address:</p>
+        <iframe id="restaurant-map" src="" class="popup-map popup hidden"></iframe>
+        <p id="restaurant-address" class="popup hidden">Address:</p>
+        <button id="mapToggleBtn" type="button">Toggle Map</button>
         <!-- Display restaurant information: price, rating, etc. -->
         <h2 id="restaurant-name"></h2>
         <p id="restaurant-info"></p>

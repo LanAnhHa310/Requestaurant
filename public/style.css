@@ -423,6 +423,16 @@ body.dark-mode .nav-btn:hover {
   margin-bottom: 15px;
 }
 
+.popup-map {
+  width: 100px;
+  height: 200px;
+  object-fit: cover;
+  /* width: "600"; */
+  /* height: "450"; */
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
 #close-popup {
   position: absolute;
   right: 15px;

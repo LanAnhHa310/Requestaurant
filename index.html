@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPSC 332 Final Project</title>
+    <style>
+        .container {
+            text-align: center;
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            const dateElement = document.getElementById("date");
+            const fixedDate = new Date("2025-12-09T00:00:00");
+    
+            dateElement.innerHTML = fixedDate.toDateString();
+            dateElement.setAttribute("datetime", fixedDate.toISOString().split('T')[0]);
+        };
+    </script>
+</head>
+
+<body>
+    <header class="container">
+        <h1>CPSC 332 Final Project Presentation</h1>
+        <h2>Requestaurant</h2>
+        <h3>Anh Ha, Jaxon Froderberg</h3>
+        <time id="date" aria-live="polite" datetime="2024-12-06T13:53">
+            Tue Dec 9 2025
+        </time>
+        <p>We are programming a restaurant review and suggestions site that will help indecisive diners choose dining venues.</p>
+    </header>
+
+    <main>
+        <section aria-labelledby="functional-requirements">
+            <h2 id="functional-requirements">Functional Requirements:</h2>
+            <ol>
+                <li>
+                    <p><a href="http://localhost:3000">Users must be able to search restaurants by price range, rating, location, dietary restrictions, atmosphere, etc., and have the database supply results that match.</a></p>
+                </li>
+                <li>
+                    <p><a href="http://localhost:3000">Users must be able to select search result-restaurants and view the restaurant's information (menu, photos, etc. ) in a popup.</a></p>
+                </li>
+                <li>
+                    <p><a href="http://localhost:3000">Users must be able to view the physical location of the selected restaurant via an extension of the google maps website, which displays the map and marker of the restaurant location within our webpage.</a></p>
+                </li>
+                <li>
+                    <p><a href="http://localhost:3000">Users must be able to view responsive interfaces that automatically adjust layout, elements, and contents to fit different mobile device screens.</a></p>
+                </li>
+                <li>
+                    <p><a href="http://localhost:3000/settings.html">Users must be able to toggle between light and dark mode themes on the website</a></p>
+                </li>
+                <li>
+                    <p><a href="http://localhost:3000/settings.html">Users must be able to enable a simplified view that reduces image-heavy content to improve page loading speed and minimize memory usage.</a></p>
+                </li>
+                <li>
+                    <p><a href="http://localhost:3000/settings.html">Users must be able to enable a disability mode that adjusts colors, contrast, and fonts to support common forms of color blindness or impaired visibility.</a></p>
+                </li>
+                <li>
+                    <p><a href="http://localhost:3000/register.html">Users must be able to create an account by generating a username, password, and email, which will then be transferred to a database in the backend.</a></p>
+                </li>
+                <li>
+                    <p><a href="http://localhost:3000/profile.html">Users must be able to input their personal preferences as extra data in their account about what kind of restaurants they want to visit, and then load that information into the search page (dietary restrictions, preferred price ranges, etc.)</a></p>
+                </li>
+                <li>
+                    <p><a href="http://localhost:3000">Users must be able to create, read, update, and delete their own reviews once they have created an account.</a></p>
+                </li>
+                <li>
+                    <p><a href="http://localhost:3000">Users must be able to submit only one unique review per registered account of each restaurant to prevent “review bombing”.</a></p>
+                </li>
+                <li>
+                    <p><a href="http://localhost:3000">Users should be able to save restaurants that they liked or would like to visit in the future in their account (bookmarking ).</a></p>
+                </li>
+            </ol>
+        </section>
+    </main>
+</body>
+
+</html>

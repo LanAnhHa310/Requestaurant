@@ -6,6 +6,11 @@ Requestaurant is a web-based application designed with the sole function of help
 To do this, requestaurant allows users to enter a wide variety of search parameters ranging from location to menu price average.
 The application will then seach it's database for the best possible matches and display them to the user to choose from.
 
+Team project developed with classmates.
+
+Original course repository:
+https://github.com/GU-Web-Dev-2025/final-project-requestaurant
+
 ## Table of Contents
 - [Installation](#installation)
 - [Usage](#usage)
